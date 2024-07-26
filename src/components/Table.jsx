@@ -5,7 +5,7 @@ import {
   Form,
   Button,
 } from "react-bootstrap";
-import { FaCheck, FaTimes, FaEdit } from "react-icons/fa";
+import { FaCheck, FaTimes, FaEdit, FaEye } from "react-icons/fa";
 import "../styles/components/Table.css";
 
 const Table = ({
@@ -16,6 +16,8 @@ const Table = ({
   setRowsPerPage,
   setCurrentPage,
   changeArticleStatus,
+  onEdit,
+  onView,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -74,7 +76,6 @@ const Table = ({
               <th>Origin URL</th>
               <th>Created At</th>
               <th>Impact Score</th>
-              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -83,12 +84,8 @@ const Table = ({
               filteredData.map((item) => (
                 <tr key={item.articleID}>
                   <td>{item.articleID}</td>
-                  <td className="text-truncate" style={{ maxWidth: "150px" }}>
-                    {item.title}
-                  </td>
-                  <td className="text-truncate" style={{ maxWidth: "150px" }}>
-                    {item.summary}
-                  </td>
+                  <td style={{ maxWidth: "150px" }}>{item.title}</td>
+                  <td style={{ maxWidth: "150px" }}>{item.summary}</td>
                   <td>{new Date(item.addedAt).toLocaleString()}</td>
                   <td className="text-truncate" style={{ maxWidth: "150px" }}>
                     <a
@@ -103,7 +100,6 @@ const Table = ({
                   </td>
                   <td>{new Date(item.createdAt).toLocaleString()}</td>
                   <td>{item.impScore}</td>
-                  <td>{item.status}</td>
                   <td>
                     <div className="d-flex justify-content-around">
                       <Button
@@ -122,7 +118,20 @@ const Table = ({
                       >
                         <FaTimes />
                       </Button>
-                      <Button variant="warning" size="sm" className="mx-1">
+                      <Button
+                        variant="info"
+                        size="sm"
+                        className="mx-1"
+                        onClick={() => onView(item)}
+                      >
+                        <FaEye />
+                      </Button>
+                      <Button
+                        variant="warning"
+                        size="sm"
+                        className="mx-1"
+                        onClick={() => onEdit(item)}
+                      >
                         <FaEdit />
                       </Button>
                     </div>

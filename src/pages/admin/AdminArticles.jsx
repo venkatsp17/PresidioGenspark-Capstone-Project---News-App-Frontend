@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Table from "../../components/Table";
 import { useAuth } from "../../services/auth";
 import axios from "axios";
+import EditArticleModal from "../../components/EditArticleModal";
+import CategoryDropdown from "../../components/CategoryDropDown";
 
-const AdminArticles = ({ status }) => {
+const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
   const { user } = useAuth();
   const [articles, setArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,6 +13,13 @@ const AdminArticles = ({ status }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMode, setModalMode] = useState("edit");
+
+  useEffect(() => {
+    setCurrentPage(1); // Reset to page 1 when status changes
+  }, [status, setCurrentPage]);
 
   const fetchArticles = async (pageNumber, pageSize) => {
     setLoading(true);
@@ -52,6 +61,23 @@ const AdminArticles = ({ status }) => {
     fetchArticles(currentPage, rowsPerPage);
   }, [user.token, currentPage, rowsPerPage, status]);
 
+  const handleEdit = (article) => {
+    setSelectedArticle(article);
+    setModalMode("edit");
+    setShowModal(true);
+  };
+
+  const handleView = (article) => {
+    setSelectedArticle(article);
+    setModalMode("view");
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    setSelectedArticle(null);
+  };
+
   const changeArticleStatus = async (articleId, articleStatus) => {
     setError(null);
     try {
@@ -78,12 +104,20 @@ const AdminArticles = ({ status }) => {
     }
   };
 
+  const StatusAvailable = {
+    0: "Pending",
+    1: "Edited",
+    2: "Approved",
+    3: "Rejected",
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
-      AdminArticles
+      <h2 className="mt-2 text-muted">{StatusAvailable[status]} Articles</h2>
+      <CategoryDropdown />
       <Table
         data={articles}
         totalPages={totalPages}
@@ -92,6 +126,16 @@ const AdminArticles = ({ status }) => {
         setRowsPerPage={setRowsPerPage}
         setCurrentPage={setCurrentPage}
         changeArticleStatus={changeArticleStatus}
+        onEdit={handleEdit}
+        onView={handleView}
+      />
+      <EditArticleModal
+        show={showModal}
+        handleClose={handleClose}
+        article={selectedArticle}
+        fetchArticles={() => fetchArticles(currentPage, rowsPerPage)}
+        user={user}
+        mode={modalMode}
       />
     </div>
   );

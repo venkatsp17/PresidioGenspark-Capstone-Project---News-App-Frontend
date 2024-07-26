@@ -31,13 +31,13 @@ const Sidebar = () => {
             Articles
           </a>
           {isArticlesOpen && (
-            <ul className="list-unstyled ps-3">
+            <ul className="list-unstyled ps-3 ms-5">
               <li>
                 <Link
                   to="/admin/articles"
                   className="text-white text-decoration-none"
                 >
-                  Pending Articles
+                  Pending
                 </Link>
               </li>
               <li>
@@ -45,7 +45,7 @@ const Sidebar = () => {
                   to="/admin/articles/edited"
                   className="text-white text-decoration-none"
                 >
-                  Edited Articles
+                  Edited
                 </Link>
               </li>
               <li>
@@ -53,7 +53,7 @@ const Sidebar = () => {
                   to="/admin/articles/approved"
                   className="text-white text-decoration-none"
                 >
-                  Approved Articles
+                  Approved
                 </Link>
               </li>
               <li>
@@ -61,7 +61,7 @@ const Sidebar = () => {
                   to="/admin/articles/rejected"
                   className="text-white text-decoration-none"
                 >
-                  Rejected Articles
+                  Rejected
                 </Link>
               </li>
             </ul>
