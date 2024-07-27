@@ -31,10 +31,6 @@ const Table = ({
     setCurrentPage(1); // Reset to first page when rows per page changes
   };
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
   const filteredData = data.filter((item) =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -44,7 +40,7 @@ const Table = ({
   };
 
   return (
-    <div className="container mt-4 d-flex-column justify-content-center">
+    <div className="container d-flex-column justify-content-center">
       {/* Table Header */}
       <div className="mb-3 d-flex justify-content-between align-items-center">
         <Form.Control
@@ -148,27 +144,6 @@ const Table = ({
           </tbody>
         </BootstrapTable>
       </div>
-
-      {/* Pagination */}
-      <Pagination className="mt-3">
-        <Pagination.Prev
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        />
-        {[...Array(totalPages).keys()].map((page) => (
-          <Pagination.Item
-            key={page + 1}
-            active={page + 1 === currentPage}
-            onClick={() => handlePageChange(page + 1)}
-          >
-            {page + 1}
-          </Pagination.Item>
-        ))}
-        <Pagination.Next
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        />
-      </Pagination>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { useAuth } from "../../services/auth";
 import axios from "axios";
 import EditArticleModal from "../../components/EditArticleModal";
 import CategoryDropdown from "../../components/CategoryDropDown";
+import { Table as BootstrapTable, Pagination } from "react-bootstrap";
 
 const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
   const { user } = useAuth();
@@ -16,6 +17,11 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalMode, setModalMode] = useState("edit");
+  const [selectedCategory, setSelectedCategory] = useState({
+    id: 28,
+    name: "Top Stories",
+    description: "topstories",
+  });
 
   useEffect(() => {
     setCurrentPage(1); // Reset to page 1 when status changes
@@ -29,6 +35,7 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
         `https://localhost:7285/api/Article/topstories`,
         {
           params: {
+            categoryID: selectedCategory.id,
             pageno: pageNumber,
             pagesize: pageSize,
             status: status,
@@ -59,7 +66,7 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
 
   useEffect(() => {
     fetchArticles(currentPage, rowsPerPage);
-  }, [user.token, currentPage, rowsPerPage, status]);
+  }, [user.token, currentPage, rowsPerPage, status, selectedCategory]);
 
   const handleEdit = (article) => {
     setSelectedArticle(article);
@@ -76,6 +83,10 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
   const handleClose = () => {
     setShowModal(false);
     setSelectedArticle(null);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   const changeArticleStatus = async (articleId, articleStatus) => {
@@ -110,33 +121,89 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
     2: "Approved",
     3: "Rejected",
   };
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading)
+    return (
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-3 text-muted">Please wait, loading data...</p>
+        </div>
+      </div>
+    );
 
   return (
     <div>
       <h2 className="mt-2 text-muted">{StatusAvailable[status]} Articles</h2>
-      <CategoryDropdown />
-      <Table
-        data={articles}
-        totalPages={totalPages}
-        currentPage={currentPage}
-        rowsPerPage={rowsPerPage}
-        setRowsPerPage={setRowsPerPage}
-        setCurrentPage={setCurrentPage}
-        changeArticleStatus={changeArticleStatus}
-        onEdit={handleEdit}
-        onView={handleView}
-      />
-      <EditArticleModal
-        show={showModal}
-        handleClose={handleClose}
-        article={selectedArticle}
-        fetchArticles={() => fetchArticles(currentPage, rowsPerPage)}
-        user={user}
-        mode={modalMode}
-      />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <CategoryDropdown
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
+        {/* Pagination */}
+        <Pagination className="mt-1 me-3">
+          <Pagination.Prev
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          />
+          {[...Array(totalPages).keys()].map((page) => (
+            <Pagination.Item
+              key={page + 1}
+              active={page + 1 === currentPage}
+              onClick={() => handlePageChange(page + 1)}
+            >
+              {page + 1}
+            </Pagination.Item>
+          ))}
+          <Pagination.Next
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          />
+        </Pagination>
+      </div>
+
+      {error ? (
+        <div class="container d-flex justify-content-center align-items-center h-100">
+          <div class="text-center">
+            <div class="fs-1 mb-3">😞</div>
+            <div class="fs-4 text-muted">No Data Available</div>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+      {error || loading ? (
+        <></>
+      ) : (
+        <>
+          <Table
+            data={articles}
+            totalPages={totalPages}
+            currentPage={currentPage}
+            rowsPerPage={rowsPerPage}
+            setRowsPerPage={setRowsPerPage}
+            setCurrentPage={setCurrentPage}
+            changeArticleStatus={changeArticleStatus}
+            onEdit={handleEdit}
+            onView={handleView}
+          />
+          <EditArticleModal
+            show={showModal}
+            handleClose={handleClose}
+            article={selectedArticle}
+            fetchArticles={() => fetchArticles(currentPage, rowsPerPage)}
+            user={user}
+            mode={modalMode}
+          />
+        </>
+      )}
     </div>
   );
 };

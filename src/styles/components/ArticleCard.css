@@ -1,0 +1,26 @@
+.article-card {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.image-column {
+  flex: 0 0 50%; /* Adjust the width as needed */
+  max-width: 50%;
+}
+
+.image-column .card-img-top {
+  width: 100%;
+  height: auto; /* Ensure the image maintains its aspect ratio */
+}
+
+.content-column {
+  flex: 1;
+  padding: 16px; /* Add some padding around the content */
+}
+
+.focused {
+  border-color: #007bff; /* Example focused border color */
+}

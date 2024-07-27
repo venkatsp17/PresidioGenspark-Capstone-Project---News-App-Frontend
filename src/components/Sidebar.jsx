@@ -8,81 +8,75 @@ import {
   faChartBar,
   faFileAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import "../styles/components/Sidebar.css";
 
 const Sidebar = () => {
   const [isArticlesOpen, setIsArticlesOpen] = useState(false);
 
   return (
-    <nav className="d-flex flex-column bg-dark text-white p-3 vh-100">
+    <nav className="sidebar">
       <ul className="nav flex-column">
-        <li className="nav-item">
-          <Link to="/admin/" className="nav-link text-white">
-            <FontAwesomeIcon icon={faTachometerAlt} className="me-2" />
-            Dashboard
+        <li className="nav-item mt-5">
+          <Link to="/admin/" className="nav-link nav-linkcolour">
+            <FontAwesomeIcon icon={faTachometerAlt} className="icon" />
+            <span className="text">Dashboard</span>
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item mt-2">
           <a
             href="#!"
-            className={`nav-link text-white ${isArticlesOpen ? "active" : ""}`}
-            onClick={() => setIsArticlesOpen(!isArticlesOpen)}
+            className={`nav-linkcolour nav-link ${
+              isArticlesOpen ? "active" : ""
+            }`}
+            onMouseEnter={() => setIsArticlesOpen(true)}
+            onMouseLeave={() => setIsArticlesOpen(false)}
           >
-            <FontAwesomeIcon icon={faNewspaper} className="me-2" />
-            Articles
+            <FontAwesomeIcon icon={faNewspaper} className="icon" />
+            <span className="text">Articles</span>
           </a>
-          {isArticlesOpen && (
-            <ul className="list-unstyled ps-3 ms-5">
-              <li>
-                <Link
-                  to="/admin/articles"
-                  className="text-white text-decoration-none"
-                >
-                  Pending
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/articles/edited"
-                  className="text-white text-decoration-none"
-                >
-                  Edited
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/articles/approved"
-                  className="text-white text-decoration-none"
-                >
-                  Approved
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/articles/rejected"
-                  className="text-white text-decoration-none"
-                >
-                  Rejected
-                </Link>
-              </li>
-            </ul>
-          )}
+          <ul
+            className={`submenu ${isArticlesOpen ? "show" : ""}`}
+            onMouseEnter={() => setIsArticlesOpen(true)}
+            onMouseLeave={() => setIsArticlesOpen(false)}
+          >
+            <li>
+              <Link to="/admin/articles" className="submenu-item">
+                Pending
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/articles/edited" className="submenu-item">
+                Edited
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/articles/approved" className="submenu-item">
+                Approved
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/articles/rejected" className="submenu-item">
+                Rejected
+              </Link>
+            </li>
+          </ul>
         </li>
-        <li className="nav-item">
-          <Link to="/admin/settings" className="nav-link text-white">
-            <FontAwesomeIcon icon={faCog} className="me-2" />
-            Settings
+        <li className="nav-item mt-2">
+          <Link to="/admin/settings" className="nav-link nav-linkcolour">
+            <FontAwesomeIcon icon={faCog} className="icon" />
+            <span className="text">Settings</span>
           </Link>
         </li>
-        <li className="nav-item">
-          <Link to="/admin/analytics" className="nav-link text-white">
-            <FontAwesomeIcon icon={faChartBar} className="me-2" />
-            Analytics
+        <li className="nav-item mt-2">
+          <Link to="/admin/analytics" className="nav-link nav-linkcolour">
+            <FontAwesomeIcon icon={faChartBar} className="icon" />
+            <span className="text">Analytics</span>
           </Link>
         </li>
-        <li className="nav-item">
-          <Link to="/admin/reports" className="nav-link text-white">
-            <FontAwesomeIcon icon={faFileAlt} className="me-2" />
-            Reports
+        <li className="nav-item mt-2">
+          <Link to="/admin/reports" className="nav-link nav-linkcolour">
+            <FontAwesomeIcon icon={faFileAlt} className="icon" />
+            <span className="text">Reports</span>
           </Link>
         </li>
       </ul>

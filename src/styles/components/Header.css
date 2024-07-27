@@ -1,0 +1,12 @@
+/* Header.css */
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+}
+
+.dropdown-menu.show {
+  display: block;
+}

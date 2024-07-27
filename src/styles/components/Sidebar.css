@@ -1,0 +1,89 @@
+/* Sidebar styling */
+.sidebar {
+  width: 50px;
+  transition: width 0.3s, overflow 0.3s;
+  background-color: #343a40;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.sidebar:hover {
+  width: 150px;
+}
+
+.nav-linkcolour {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  margin-top: 20px;
+  height: 45px;
+  transition: background-color 0.3s;
+}
+
+.nav-linkcolour:hover {
+  background-color: #495057;
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.text {
+  display: inline-block;
+  opacity: 0;
+  transition: opacity 0.1s ease-in; /* Faster transition */
+}
+
+.sidebar:hover .text {
+  opacity: 1;
+  transition: opacity 1.5s ease-out; /* Slower transition */
+}
+
+/* Submenu styling */
+.submenu {
+  list-style: none;
+  padding-left: 0;
+  display: none;
+  position: relative; /* Changed to relative */
+  background-color: #495057;
+  border-radius: 0 0.5rem 0.5rem 0;
+  width: 200px;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.submenu.show {
+  display: block;
+  max-height: 300px; /* Adjust according to your needs */
+  opacity: 1;
+}
+
+.submenu-item {
+  margin-left: 25px;
+  display: block;
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.submenu-item:hover {
+  background-color: #6c757d;
+  text-decoration: none;
+}
+
+/* Parent nav-item styling */
+.nav-item {
+  position: relative; /* Ensure the submenu is positioned relative to this */
+  margin-bottom: 10px; /* Space between items */
+}
+
+.nav-link:hover {
+  text-decoration: none;
+}

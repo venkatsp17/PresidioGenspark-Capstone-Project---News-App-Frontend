@@ -3,10 +3,9 @@ import axios from "axios";
 import { Dropdown } from "react-bootstrap";
 import { useAuth } from "../services/auth";
 
-const CategoryDropdown = () => {
+const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
   const { user } = useAuth();
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     // Fetch categories from the API
@@ -41,7 +40,7 @@ const CategoryDropdown = () => {
         {selectedCategory ? selectedCategory.name : "Select Category"}
       </Dropdown.Toggle>
 
-      <Dropdown.Menu>
+      <Dropdown.Menu style={{ maxHeight: "400px", overflowY: "auto" }}>
         {categories.map((category) => (
           <Dropdown.Item
             key={category.id}
