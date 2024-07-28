@@ -1,0 +1,80 @@
+.custom-modal-dialog {
+  max-width: 100vw; /* Make the modal full width */
+  width: 90vw !important; /* Adjust as needed */
+}
+
+.custom-modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: none;
+  background-color: #f1f1f1;
+}
+
+.header-image {
+  width: 100px; /* Adjust the size as needed */
+  height: 100px;
+}
+
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1rem;
+}
+
+.welcome-message {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.info-text {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.info-text a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.info-text a:hover {
+  text-decoration: underline;
+}
+
+.basic-info,
+.contact-info {
+  margin-bottom: 2rem;
+}
+
+.basic-info h3,
+.contact-info h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.table th {
+  width: 150px;
+  font-weight: normal;
+}
+
+.table td {
+  font-size: 1rem;
+}
+
+.profile-pic {
+  width: 50px;
+  height: 50px;
+}
+
+.avatar-placeholder {
+  width: 100px;
+  height: 100px;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 2.5rem;
+  font-weight: bold;
+}

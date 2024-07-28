@@ -16,14 +16,7 @@ const AppRoutes = () => (
     <Router>
       <RouterRoutes>
         <Route path="/login" element={<TabSwitcher />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <HomePage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<HomePage />} />
         <Route
           path="/admin/*"
           element={

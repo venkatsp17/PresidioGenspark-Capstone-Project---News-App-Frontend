@@ -40,9 +40,9 @@ const Table = ({
   };
 
   return (
-    <div className="container d-flex-column justify-content-center">
+    <div className="container d-flex-column justify-content-center ">
       {/* Table Header */}
-      <div className="mb-3 d-flex justify-content-between align-items-center">
+      <div className="mb-2 d-flex justify-content-between align-items-center">
         <Form.Control
           type="text"
           placeholder="Search..."
