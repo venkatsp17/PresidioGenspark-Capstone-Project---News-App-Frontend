@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  Button,
-  Image,
-  Container,
-  Row,
-  Col,
-  ToggleButton,
-} from "react-bootstrap";
+import { Modal, Button, Container, Row, Col } from "react-bootstrap";
 import "../styles/components/ProfileModal.css"; // Import custom CSS
 import { useAuth } from "../services/auth";
 import { Navigate } from "react-router-dom";
@@ -117,7 +109,7 @@ const ProfileModal = ({ show, handleClose }) => {
       </Modal>
     </>
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/" />
   );
 };
 

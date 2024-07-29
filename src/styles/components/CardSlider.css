@@ -49,14 +49,3 @@
 .card-body-responsive {
   max-height: 300px;
 }
-
-@media (max-width: 750px) {
-  .card-body-responsive {
-    height: auto;
-    max-height: auto;
-  }
-  .card-body-responsive .card-text {
-    max-height: 150px;
-    overflow: hidden;
-  }
-}

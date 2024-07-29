@@ -9,6 +9,7 @@ import "../styles/user/Home.css";
 import { useAuth } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import ProfileModal from "../components/ProfileModal";
+import CommentModal from "../components/CommentModal";
 
 const HomePage = () => {
   const [articles, setArticles] = useState([]);
@@ -41,6 +42,7 @@ const HomePage = () => {
   const fetchArticles = async (page) => {
     setLoading(true);
     setError(null);
+
     try {
       const response = await axios.get(
         "https://localhost:7285/api/Article/userpaginatedarticles",
@@ -49,6 +51,10 @@ const HomePage = () => {
             categoryID: selectedCategory.id,
             pageno: page,
             pagesize: articlesPerPage,
+          },
+          headers: {
+            Authorization: `Bearer ${user ? user.token : ""}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -66,7 +72,7 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchArticles(currentPage);
-  }, [currentPage, selectedCategory]);
+  }, [currentPage, selectedCategory, user]);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -78,6 +84,10 @@ const HomePage = () => {
   }, []);
 
   const [show, setShow] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const [articleDataComment, setarticleDataComment] = useState(null);
+  const handleClose1 = () => setShowComments(false);
+  const handleShow1 = () => setShowComments(true);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -183,6 +193,8 @@ const HomePage = () => {
               <CustomCard
                 key={articleData.articleID}
                 articleData={articleData}
+                setarticleDataComment={setarticleDataComment}
+                handleShow1={handleShow1}
               />
             ))
           )}
@@ -206,6 +218,15 @@ const HomePage = () => {
         </Row>
       </div>
       <ProfileModal show={show} handleClose={handleClose} />
+      {articleDataComment ? (
+        <CommentModal
+          show={showComments}
+          onHide={handleClose1}
+          articleData={articleDataComment}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };
