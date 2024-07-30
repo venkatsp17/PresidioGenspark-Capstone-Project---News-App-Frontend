@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import "../styles/components/Header.css";
-import { useAuth } from "../services/auth";
+import "../../styles/components/Header.css";
+import { useAuth } from "../../services/auth";
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);

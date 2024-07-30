@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Offcanvas, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Offcanvas, ListGroup, ListGroupItem, Button } from "react-bootstrap";
 import { useAuth } from "../services/auth";
 import axios from "axios";
 import { FaRegBookmark } from "react-icons/fa";
 
-const LeftMenu = ({ show, handleClose, setSelectedCategory }) => {
+const LeftMenu = ({
+  show,
+  handleClose,
+  setSelectedCategory,
+  setShowBoomarks,
+}) => {
   const { user } = useAuth();
   const [categories, setCategories] = useState([]);
 
@@ -41,9 +46,21 @@ const LeftMenu = ({ show, handleClose, setSelectedCategory }) => {
           <Offcanvas.Title>Menu</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Header>
-          <Offcanvas.Title>
-            My Bookmarks <FaRegBookmark size={20} className="me-2" />
-          </Offcanvas.Title>
+          {user ? (
+            <Offcanvas.Title>
+              <Button
+                onClick={() => {
+                  setShowBoomarks(true);
+                }}
+                className="button-default"
+              >
+                {" "}
+                My Bookmarks <FaRegBookmark size={20} className="me-2" />
+              </Button>
+            </Offcanvas.Title>
+          ) : (
+            <></>
+          )}
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ListGroup>

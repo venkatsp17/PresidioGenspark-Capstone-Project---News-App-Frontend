@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import {
   FaBookmark,
@@ -7,10 +7,27 @@ import {
   FaRegBookmark,
 } from "react-icons/fa";
 import { useAuth } from "../services/auth";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const CustomCard = ({ articleData, setarticleDataComment, handleShow1 }) => {
-  const [isSaved, setIsSaved] = useState(false);
+const CustomCard = ({
+  articleData,
+  setarticleDataComment,
+  handleShow1,
+  setshareData,
+  handleShareModalShow,
+}) => {
+  const [isSaved, setIsSaved] = useState(articleData.isSaved);
+  const [commentCount, SetCommentCount] = useState(articleData.commentCount);
+  const [saveCount, SetSaveCount] = useState(articleData.saveCount);
   const { user } = useAuth();
+
+  useEffect(() => {
+    console.log(articleData);
+    setIsSaved(articleData.isSaved);
+    SetCommentCount(articleData.commentCount);
+    SetSaveCount(articleData.saveCount);
+  }, [articleData]);
 
   const shortenURL = (url) => {
     const maxLength = 30;
@@ -20,8 +37,38 @@ const CustomCard = ({ articleData, setarticleDataComment, handleShow1 }) => {
     return `${url.substring(0, maxLength)}...`;
   };
 
+  async function SaveUnSaveAricle(articleData) {
+    try {
+      const response = await axios.put(
+        "https://localhost:7285/api/SavedArticle/savearticle",
+        null,
+        {
+          params: {
+            articleid: articleData.articleID,
+            userid: parseInt(user.userID, 10),
+          },
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = response.data;
+      if (isSaved) {
+        toast.success("Article UnSaved!");
+      } else {
+        toast.success("Article Saved!");
+      }
+      setIsSaved(!isSaved);
+    } catch (error) {
+      toast.error("Article not saved!");
+      console.error("Error fetching articles:", error);
+    } finally {
+    }
+  }
+
   const handleSaveToggle = () => {
-    setIsSaved(!isSaved);
+    SaveUnSaveAricle(articleData);
   };
 
   const handleCommentToggle = () => {
@@ -29,8 +76,13 @@ const CustomCard = ({ articleData, setarticleDataComment, handleShow1 }) => {
     handleShow1();
   };
 
+  const handleShareToggle = () => {
+    setshareData(articleData);
+    handleShareModalShow();
+  };
+
   return (
-    <Card className="mb-3 mx-auto" style={{ maxWidth: "80%" }}>
+    <Card className="mb-3 mx-auto max-width-card">
       <Row className="g-0">
         <Col
           xs={12}
@@ -70,6 +122,23 @@ const CustomCard = ({ articleData, setarticleDataComment, handleShow1 }) => {
                 read more at {shortenURL(articleData.originURL)}
               </a>
             </Card.Text>
+            <Card.Text className="d-flex w-100 justify-content-between">
+              {" "}
+              <b>
+                <small className="text-muted ms-2 mx-1">
+                  {saveCount} saved this article
+                </small>
+              </b>
+              <b>
+                <small className="text-muted ms-2 mx-1">
+                  {commentCount == 0
+                    ? "Be first one to comment"
+                    : commentCount == 1
+                    ? `${commentCount} comment`
+                    : `${commentCount} comments`}
+                </small>
+              </b>
+            </Card.Text>
             {user ? (
               <Row className="mt-3">
                 <Col
@@ -81,25 +150,27 @@ const CustomCard = ({ articleData, setarticleDataComment, handleShow1 }) => {
                   <span className="text-muted">Comment</span>
                 </Col>
                 <Col xs="auto" className="d-flex align-items-center">
+                  <FaShareSquare
+                    color="blue"
+                    size={20}
+                    className="me-2"
+                    onClick={handleShareToggle}
+                  />
+                  <span className="text-muted">Share</span>
+                </Col>
+                <Col xs="auto" className="d-flex align-items-center">
                   <Button
                     variant="link"
                     onClick={handleSaveToggle}
                     className="p-0"
                   >
                     {isSaved ? (
-                      <FaBookmark size={20} className="me-2" />
+                      <FaBookmark size={20} className="" />
                     ) : (
-                      <FaRegBookmark size={20} className="me-2" />
+                      <FaRegBookmark size={20} className="" />
                     )}
                   </Button>
                   <span className="text-muted">Save</span>
-                </Col>
-                <Col xs="auto" className="d-flex align-items-center">
-                  <FaShareSquare color="blue" size={20} className="me-2" />
-                  <span className="text-muted">Share</span>
-                  <span className="text-muted ms-2">
-                    ({articleData.shareCount})
-                  </span>
                 </Col>
               </Row>
             ) : (

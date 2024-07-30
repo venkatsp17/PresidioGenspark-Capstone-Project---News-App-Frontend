@@ -62,3 +62,16 @@ h1 {
   color: #fff;
   border: none;
 }
+
+/* Default style for larger screens */
+.max-width-card {
+  max-width: 70% !important;
+  margin: 0 auto;
+}
+
+/* Style for mobile screens */
+@media (max-width: 768px) {
+  .max-width-card {
+    max-width: 100% !important;
+  }
+}

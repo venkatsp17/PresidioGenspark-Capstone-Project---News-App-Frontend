@@ -4,11 +4,11 @@ import {
   Route,
   Routes as RouterRoutes,
 } from "react-router-dom";
-import HomePage from "../pages/Home";
+import HomePage from "../pages/User/Home";
 import ProtectedRoute from "../routes/ProtectedRoute";
 import { AuthProvider } from "../services/auth";
 import AdminRoute from "./AdminRoute";
-import AdminHome from "../pages/admin/AdminHome";
+import AdminHome from "../pages/Admin/AdminHome";
 import TabSwitcher from "../pages/TabSwitcher";
 
 const AppRoutes = () => (

@@ -59,9 +59,9 @@ const CommentModal = ({ show, onHide, articleData }) => {
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, []);
 
-  useEffect(() => {
-    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, [comments]);
+  // useEffect(() => {
+  //   scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  // }, [comments]);
 
   useEffect(() => {
     fetchComments();

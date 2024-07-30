@@ -2,16 +2,22 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Row, Button, Pagination } from "react-bootstrap";
 import { FaBars, FaUser } from "react-icons/fa";
-import LeftMenu from "../components/LeftMenu";
-import RightMenu from "../components/RightMenu";
-import CustomCard from "../components/CustomCard";
-import "../styles/user/Home.css";
-import { useAuth } from "../services/auth";
+import LeftMenu from "../../components/LeftMenu";
+import RightMenu from "../../components/RightMenu";
+import CustomCard from "../../components/CustomCard";
+import "../../styles/user/Home.css";
+import { useAuth } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
-import ProfileModal from "../components/ProfileModal";
-import CommentModal from "../components/CommentModal";
+import ProfileModal from "../../components/ProfileModal";
+import CommentModal from "../../components/CommentModal";
+import { jwtDecode } from "jwt-decode";
+import BookMarksModal from "../../components/User/BookMarksModal";
+import signalRService from "../../services/signalrService";
+import ShareLinkModal from "../../components/User/ShareModal";
 
 const HomePage = () => {
+  //Use States
+  const { logout, user } = useAuth();
   const [articles, setArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -29,7 +35,78 @@ const HomePage = () => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  const { logout, user } = useAuth();
+  const articleIDsRef = useRef(new Set());
+  const [show, setShow] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const [showbookmarks, setShowBoomarks] = useState(false);
+  const [showshare, setShowshare] = useState(false);
+  const [articleDataComment, setarticleDataComment] = useState(null);
+  const [shareData, setshareData] = useState(null);
+
+  //Use Effects
+  useEffect(() => {
+    if (user) {
+      const token = user.token;
+      try {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+        if (decodedToken.exp < currentTime) {
+          logout();
+        }
+      } catch (error) {
+        logout();
+      }
+    }
+  }, [user, logout]);
+
+  useEffect(() => {
+    fetchArticles(currentPage);
+    console.log(articles);
+  }, [currentPage, selectedCategory, user]);
+
+  useEffect(() => {
+    signalRService.start().then(() => {
+      articles.forEach((article) => {
+        signalRService.joinGroup(article.articleID);
+      });
+    });
+
+    const commentCountListener = (articleID, newCommentCount) => {
+      setArticles((prevArticles) =>
+        prevArticles.map((article) =>
+          article.articleID.toString() === articleID.toString()
+            ? { ...article, commentCount: newCommentCount }
+            : article
+        )
+      );
+    };
+
+    const saveCountListener = (articleID, savecount) => {
+      setArticles((prevArticles) =>
+        prevArticles.map((article) =>
+          article.articleID.toString() === articleID.toString()
+            ? { ...article, saveCount: savecount }
+            : article
+        )
+      );
+    };
+
+    signalRService.onUpdateCommentCount(commentCountListener);
+    signalRService.onSaveArticleCount(saveCountListener);
+
+    return () => {
+      articles.forEach((article) => {
+        signalRService.leaveGroup(article.articleID);
+      });
+    };
+  }, [articles]);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -38,6 +115,13 @@ const HomePage = () => {
   };
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+  const handleClose1 = () => setShowComments(false);
+  const handleShow1 = () => setShowComments(true);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleShareModalClose = () => setShowshare(false);
+  const handleShareModalShow = () => setShowshare(true);
 
   const fetchArticles = async (page) => {
     setLoading(true);
@@ -51,6 +135,7 @@ const HomePage = () => {
             categoryID: selectedCategory.id,
             pageno: page,
             pagesize: articlesPerPage,
+            userid: user ? parseInt(user.userID) : 0,
           },
           headers: {
             Authorization: `Bearer ${user ? user.token : ""}`,
@@ -59,9 +144,9 @@ const HomePage = () => {
         }
       );
       const data = response.data;
-      console.log(response.data);
       setArticles(data.articles);
       setTotalPages(data.totalpages);
+      joinArticleGroups(data.articles);
     } catch (error) {
       setError(error.message);
       console.error("Error fetching articles:", error);
@@ -70,27 +155,24 @@ const HomePage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchArticles(currentPage);
-  }, [currentPage, selectedCategory, user]);
+  const joinArticleGroups = (articles) => {
+    const newArticleIDs = new Set(articles.map((article) => article.articleID));
+    const currentArticleIDs = articleIDsRef.current;
 
-  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+    currentArticleIDs.forEach((articleID) => {
+      if (!newArticleIDs.has(articleID)) {
+        signalRService.leaveGroup(articleID);
+      }
+    });
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+    newArticleIDs.forEach((articleID) => {
+      if (!currentArticleIDs.has(articleID)) {
+        signalRService.joinGroup(articleID);
+      }
+    });
 
-  const [show, setShow] = useState(false);
-  const [showComments, setShowComments] = useState(false);
-  const [articleDataComment, setarticleDataComment] = useState(null);
-  const handleClose1 = () => setShowComments(false);
-  const handleShow1 = () => setShowComments(true);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+    articleIDsRef.current = newArticleIDs;
+  };
 
   return (
     <>
@@ -138,6 +220,7 @@ const HomePage = () => {
       </div>
       <div className="vh-100 w-100 m-0 p-3 d-flex flex-column align-items-center">
         <LeftMenu
+          setShowBoomarks={setShowBoomarks}
           show={showLeftMenu}
           handleClose={() => setShowLeftMenu(false)}
           setSelectedCategory={setSelectedCategory}
@@ -195,6 +278,8 @@ const HomePage = () => {
                 articleData={articleData}
                 setarticleDataComment={setarticleDataComment}
                 handleShow1={handleShow1}
+                setshareData={setshareData}
+                handleShareModalShow={handleShareModalShow}
               />
             ))
           )}
@@ -223,6 +308,22 @@ const HomePage = () => {
           show={showComments}
           onHide={handleClose1}
           articleData={articleDataComment}
+        />
+      ) : (
+        <></>
+      )}
+      <BookMarksModal
+        showbookmarks={showbookmarks}
+        setShowBoomarks={setShowBoomarks}
+      />
+      {shareData ? (
+        <ShareLinkModal
+          show={showshare}
+          handleClose={handleShareModalClose}
+          shareUrl={shareData.originURL}
+          title={shareData.title}
+          content={shareData.content}
+          sharedata={shareData}
         />
       ) : (
         <></>

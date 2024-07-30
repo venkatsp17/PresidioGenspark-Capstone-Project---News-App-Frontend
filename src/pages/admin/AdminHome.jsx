@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
-import Sidebar from "../../components/Sidebar";
-import Header from "../../components/Header";
+import Sidebar from "../../components/Admin/Sidebar";
+import Header from "../../components/Admin/Header";
 import { Route, Routes as RouterRoutes, useLocation } from "react-router-dom";
 import AdminArticles from "./AdminArticles";
 import AdminDashboard from "./AdminDashboard";

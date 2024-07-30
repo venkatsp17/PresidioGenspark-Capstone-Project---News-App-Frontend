@@ -61,6 +61,14 @@ class SignalRService {
     this.connection.on("ReceiveComment", callback);
   }
 
+  onUpdateCommentCount(handler) {
+    this.connection.on("UpdateCommentCount", handler);
+  }
+
+  onSaveArticleCount(handler) {
+    this.connection.on("UpdateSaveArticleCount", handler);
+  }
+
   onDisconnected() {
     console.log("SignalR connection closed. Attempting to reconnect...");
     setTimeout(() => this.start(), 5000);

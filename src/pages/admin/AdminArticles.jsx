@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Table from "../../components/Table";
+import Table from "../../components/Admin/Table";
 import { useAuth } from "../../services/auth";
 import axios from "axios";
-import EditArticleModal from "../../components/EditArticleModal";
-import CategoryDropdown from "../../components/CategoryDropDown";
+import EditArticleModal from "../../components/Admin/EditArticleModal";
+import CategoryDropdown from "../../components/Admin/CategoryDropDown";
 import { Table as BootstrapTable, Pagination } from "react-bootstrap";
 
 const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {

@@ -8,7 +8,7 @@ import {
   faChartBar,
   faFileAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import "../styles/components/Sidebar.css";
+import "../../styles/components/Sidebar.css";
 
 const Sidebar = () => {
   const [isArticlesOpen, setIsArticlesOpen] = useState(false);
