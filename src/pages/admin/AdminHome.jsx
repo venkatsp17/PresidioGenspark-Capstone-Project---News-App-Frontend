@@ -4,10 +4,17 @@ import Header from "../../components/Admin/Header";
 import { Route, Routes as RouterRoutes, useLocation } from "react-router-dom";
 import AdminArticles from "./AdminArticles";
 import AdminDashboard from "./AdminDashboard";
+import ProfileModal from "../../components/ProfileModal";
 
 const AdminHome = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
+
+  const [showProfileModalAdmin, setshowProfileModalAdmin] = useState(false);
+
+  const handleshowProfileModalAdmin = () => setshowProfileModalAdmin(true);
+
+  const handlecloseProfileModalAdmin = () => setshowProfileModalAdmin(false);
 
   useEffect(() => {
     setCurrentPage(1); // Reset to page 1 when the route changes
@@ -16,7 +23,7 @@ const AdminHome = () => {
     <div className="d-flex">
       <Sidebar />
       <div className="flex-grow-1">
-        <Header />
+        <Header handleshowProfileModalAdmin={handleshowProfileModalAdmin} />
         <div className="container-fluid">
           <RouterRoutes>
             <Route path="" element={<AdminDashboard />} />
@@ -63,6 +70,10 @@ const AdminHome = () => {
           </RouterRoutes>
         </div>
       </div>
+      <ProfileModal
+        show={showProfileModalAdmin}
+        handleClose={handlecloseProfileModalAdmin}
+      />
     </div>
   );
 };

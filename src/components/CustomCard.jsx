@@ -9,6 +9,8 @@ import {
 import { useAuth } from "../services/auth";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useTheme } from "../services/ThemeContext";
+import { useSavedArticles } from "../services/SaveArticleContext";
 
 const CustomCard = ({
   articleData,
@@ -16,18 +18,23 @@ const CustomCard = ({
   handleShow1,
   setshareData,
   handleShareModalShow,
+  callFromComment,
+  fromModal,
 }) => {
-  const [isSaved, setIsSaved] = useState(articleData.isSaved);
+  const { getArticleByID, toggleSaveArticle, savedArticles } =
+    useSavedArticles();
+  const [isSaved, setIsSaved] = useState(getArticleByID(articleData.articleID));
   const [commentCount, SetCommentCount] = useState(articleData.commentCount);
   const [saveCount, SetSaveCount] = useState(articleData.saveCount);
+  const [shareCount, SetShareCount] = useState(articleData.shareCount);
   const { user } = useAuth();
 
   useEffect(() => {
-    console.log(articleData);
-    setIsSaved(articleData.isSaved);
     SetCommentCount(articleData.commentCount);
     SetSaveCount(articleData.saveCount);
-  }, [articleData]);
+    SetShareCount(articleData.shareCount);
+    setIsSaved(getArticleByID(articleData.articleID));
+  }, [articleData, savedArticles]);
 
   const shortenURL = (url) => {
     const maxLength = 30;
@@ -54,12 +61,12 @@ const CustomCard = ({
         }
       );
       const data = response.data;
+      toggleSaveArticle(articleData.articleID);
       if (isSaved) {
         toast.success("Article UnSaved!");
       } else {
         toast.success("Article Saved!");
       }
-      setIsSaved(!isSaved);
     } catch (error) {
       toast.error("Article not saved!");
       console.error("Error fetching articles:", error);
@@ -72,8 +79,10 @@ const CustomCard = ({
   };
 
   const handleCommentToggle = () => {
-    setarticleDataComment(articleData);
-    handleShow1();
+    if (!callFromComment) {
+      setarticleDataComment(articleData);
+      handleShow1();
+    }
   };
 
   const handleShareToggle = () => {
@@ -81,8 +90,14 @@ const CustomCard = ({
     handleShareModalShow();
   };
 
+  const { bgtheme, texttheme } = useTheme();
+
   return (
-    <Card className="mb-3 mx-auto max-width-card">
+    <Card
+      className={`mb-3 mx-auto max-width-card border border-${texttheme} bg-${bgtheme} ${
+        fromModal ? "card-modal432" : ""
+      }`}
+    >
       <Row className="g-0">
         <Col
           xs={12}
@@ -98,18 +113,26 @@ const CustomCard = ({
         </Col>
         <Col xs={12} md={12}>
           <Card.Body>
-            <Card.Title style={{ fontSize: "1.2em", fontWeight: "bold" }}>
+            <Card.Title
+              className={`text-${texttheme}`}
+              style={{ fontSize: "1.2em", fontWeight: "bold" }}
+            >
               {articleData.title}
             </Card.Title>
             <Card.Subtitle
-              className="mb-2 text-muted"
+              className={`mb-2 text-${
+                bgtheme == "dark" ? "white-50" : "muted"
+              }`}
               style={{ fontSize: "0.9em" }}
             >
               short by {articleData.author} /{" "}
-              {new Date(articleData.addedAt).toLocaleTimeString()} on{" "}
-              {new Date(articleData.addedAt).toLocaleDateString()}
+              {new Date(articleData.createdAt).toLocaleTimeString()} on{" "}
+              {new Date(articleData.createdAt).toLocaleDateString()}
             </Card.Subtitle>
-            <Card.Text style={{ fontSize: "0.9em" }}>
+            <Card.Text
+              className={`text-${texttheme}`}
+              style={{ fontSize: "0.9em" }}
+            >
               {articleData.content}
             </Card.Text>
             <Card.Text style={{ fontSize: "0.7em" }}>
@@ -119,26 +142,49 @@ const CustomCard = ({
                 rel="noopener noreferrer"
                 className="text-wrap"
               >
-                read more at {shortenURL(articleData.originURL)}
+                <span className={`text-${texttheme} me-1`}>read more at</span>
+                {"   "}
+                {shortenURL(articleData.originURL)}
               </a>
             </Card.Text>
-            <Card.Text className="d-flex w-100 justify-content-between">
-              {" "}
-              <b>
-                <small className="text-muted ms-2 mx-1">
-                  {saveCount} saved this article
-                </small>
-              </b>
-              <b>
-                <small className="text-muted ms-2 mx-1">
-                  {commentCount == 0
-                    ? "Be first one to comment"
-                    : commentCount == 1
-                    ? `${commentCount} comment`
-                    : `${commentCount} comments`}
-                </small>
-              </b>
-            </Card.Text>
+            {user ? (
+              <Card.Text className="d-flex w-100 justify-content-between">
+                {" "}
+                <b>
+                  <small
+                    className={`text-${
+                      bgtheme == "dark" ? "white-50" : "muted"
+                    } ms-2 mx-1`}
+                  >
+                    {saveCount} saved this article
+                  </small>
+                </b>
+                <div>
+                  <b>
+                    <small
+                      className={`text-${
+                        bgtheme == "dark" ? "white-50" : "muted"
+                      } ms-2 mx-1`}
+                    >
+                      {commentCount == 0
+                        ? "Be first one to comment"
+                        : commentCount == 1
+                        ? `${commentCount} comment`
+                        : `${commentCount} comments`}
+                    </small>
+                    <small
+                      className={`text-${
+                        bgtheme == "dark" ? "white-50" : "muted"
+                      } ms-2 mx-1`}
+                    >
+                      {shareCount + " shared"}
+                    </small>
+                  </b>
+                </div>
+              </Card.Text>
+            ) : (
+              <></>
+            )}
             {user ? (
               <Row className="mt-3">
                 <Col
@@ -147,7 +193,13 @@ const CustomCard = ({
                   onClick={handleCommentToggle}
                 >
                   <FaComment color="blue" size={20} className="me-2" />
-                  <span className="text-muted">Comment</span>
+                  <span
+                    className={`text-${
+                      bgtheme == "dark" ? "white-50" : "muted"
+                    } ms-2 mx-1`}
+                  >
+                    Comment
+                  </span>
                 </Col>
                 <Col xs="auto" className="d-flex align-items-center">
                   <FaShareSquare
@@ -156,7 +208,13 @@ const CustomCard = ({
                     className="me-2"
                     onClick={handleShareToggle}
                   />
-                  <span className="text-muted">Share</span>
+                  <span
+                    className={`text-${
+                      bgtheme == "dark" ? "white-50" : "muted"
+                    } ms-2 mx-1`}
+                  >
+                    Share
+                  </span>
                 </Col>
                 <Col xs="auto" className="d-flex align-items-center">
                   <Button
@@ -170,7 +228,13 @@ const CustomCard = ({
                       <FaRegBookmark size={20} className="" />
                     )}
                   </Button>
-                  <span className="text-muted">Save</span>
+                  <span
+                    className={`text-${
+                      bgtheme == "dark" ? "white-50" : "muted"
+                    } ms-2 mx-1`}
+                  >
+                    Save
+                  </span>
                 </Col>
               </Row>
             ) : (

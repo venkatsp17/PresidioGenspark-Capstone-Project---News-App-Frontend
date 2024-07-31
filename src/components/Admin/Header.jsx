@@ -4,7 +4,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/components/Header.css";
 import { useAuth } from "../../services/auth";
 
-const Header = () => {
+const Header = ({ handleshowProfileModalAdmin }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -40,7 +40,12 @@ const Header = () => {
           </button>
           {showDropdown && (
             <div className="dropdown-menu dropdown-menu-end show">
-              <button className="dropdown-item">Profile</button>
+              <button
+                className="dropdown-item"
+                onClick={handleshowProfileModalAdmin}
+              >
+                Profile
+              </button>
               <button className="dropdown-item" onClick={logout}>
                 Logout
               </button>

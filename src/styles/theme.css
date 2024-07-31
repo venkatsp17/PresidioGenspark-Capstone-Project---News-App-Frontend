@@ -1,0 +1,87 @@
+:root {
+  --background-color-light: #ffffff;
+  --text-color-light: #000000;
+  --background-color-dark: #333333;
+  --text-color-dark: #ffffff;
+  --text-size-default: 16px;
+  --text-size-large: 20px;
+}
+
+[data-theme="light"] {
+  background-color: var(--background-color-light) !important;
+  color: var(--text-color-light) !important;
+}
+
+[data-theme="dark"] {
+  background-color: var(--background-color-dark) !important;
+  color: var(--text-color-dark) !important;
+}
+
+[data-text-size="default"] {
+  font-size: var(--text-size-default) !important;
+}
+
+[data-text-size="large"] {
+  font-size: var(--text-size-large) !important;
+}
+
+/* Default Light Mode Pagination */
+.pagination-white .page-link {
+  color: #007bff;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+.pagination-white .page-item.active .page-link {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.pagination-white .page-item.disabled .page-link {
+  color: #6c757d;
+  pointer-events: none;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+/* Dark Mode Pagination */
+.pagination-dark .page-link {
+  color: #fff;
+  background-color: #343a40;
+  border: 1px solid #454d55;
+}
+
+.pagination-dark .page-item.active .page-link {
+  color: #343a40;
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+.pagination-dark .page-item.disabled .page-link {
+  color: #6c757d;
+  pointer-events: none;
+  background-color: #343a40;
+  border: 1px solid #454d55;
+}
+
+.custom-table.dark-mode th,
+.custom-table.dark-mode td {
+  border: 1px solid white;
+}
+
+.custom-table.light-mode {
+  background-color: white;
+  color: black;
+}
+
+.custom-table.light-mode th,
+.custom-table.light-mode td {
+  border: 1px solid black;
+}
+
+.custom-table input {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+}

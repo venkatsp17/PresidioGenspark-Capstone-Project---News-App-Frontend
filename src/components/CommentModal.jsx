@@ -1,12 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useDebugValue } from "react";
 import { Modal, Button, Row, Col, Form, Card, Image } from "react-bootstrap";
 import { useAuth } from "../services/auth";
 import signalRService from "../services/signalrService";
 import axios from "axios";
+import CustomCard from "./CustomCard";
+import { useTheme } from "../services/ThemeContext";
 
-const CommentModal = ({ show, onHide, articleData }) => {
+const CommentModal = ({
+  show,
+  onHide,
+  articleDataComment,
+  setshareData,
+  handleShareModalShow,
+}) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [articleData, setarticleData] = useState(articleDataComment);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -14,15 +23,72 @@ const CommentModal = ({ show, onHide, articleData }) => {
     setNewComment(e.target.value);
   };
 
-  const { user } = useAuth();
+  useEffect(() => {
+    setarticleData(articleDataComment);
+  }, [articleDataComment]);
 
-  const shortenURL = (url) => {
-    const maxLength = 30;
-    if (url.length <= maxLength) {
-      return url;
-    }
-    return `${url.substring(0, maxLength)}...`;
-  };
+  useEffect(() => {
+    signalRService.start().then(() => {
+      signalRService.joinGroup(articleData.articleID);
+    });
+
+    const commentCountListener = (articleID, newCommentCount) => {
+      setarticleData((prevArticle) =>
+        prevArticle.articleID.toString() === articleID.toString()
+          ? { ...prevArticle, commentCount: newCommentCount }
+          : prevArticle
+      );
+      // if (
+      //   articleDataComment &&
+      //   articleDataComment.articleID.toString() === articleID.toString()
+      // ) {
+      //   setarticleDataComment((prev) => ({
+      //     ...prev,
+      //     commentCount: newCommentCount,
+      //   }));
+      // }
+    };
+
+    const saveCountListener = (articleID, savecount) => {
+      setarticleData((article) =>
+        article.articleID.toString() === articleID.toString()
+          ? { ...article, saveCount: savecount }
+          : article
+      );
+      // if (
+      //   articleDataComment &&
+      //   articleDataComment.articleID.toString() === articleID.toString()
+      // ) {
+      //   console.log("in");
+      //   setarticleDataComment((prev) => ({ ...prev, saveCount: savecount }));
+      // }
+    };
+
+    const shareCountListener = (articleID, sharecount) => {
+      setarticleData((prevArticle) =>
+        prevArticle.articleID.toString() === articleID.toString()
+          ? { ...prevArticle, shareCount: sharecount }
+          : prevArticle
+      );
+      // if (
+      //   articleDataComment &&
+      //   articleDataComment.articleID.toString() === articleID.toString()
+      // ) {
+      //   console.log("share");
+      //   setarticleDataComment((prev) => ({ ...prev, shareCount: sharecount }));
+      // }
+    };
+
+    signalRService.onUpdateCommentCount(commentCountListener);
+    signalRService.onSaveArticleCount(saveCountListener);
+    signalRService.onShareCount(shareCountListener);
+
+    return () => {
+      signalRService.leaveGroup(articleData.articleID);
+    };
+  }, [articleData]);
+
+  const { user } = useAuth();
 
   const scrollRef = useRef(null);
   const commentListenerRef = useRef(null);
@@ -54,10 +120,6 @@ const CommentModal = ({ show, onHide, articleData }) => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, []);
 
   // useEffect(() => {
   //   scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -123,66 +185,27 @@ const CommentModal = ({ show, onHide, articleData }) => {
     return date.toLocaleDateString(undefined, options);
   };
 
+  const { bgtheme, texttheme } = useTheme();
+
   return (
     <Modal show={show} onHide={onHide} size="lg">
-      <Modal.Header closeButton>
+      <Modal.Header closeButton className={`bg-${bgtheme} text-${texttheme}`}>
         <Modal.Title></Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className={`bg-${bgtheme} text-${texttheme}`}>
         <Row>
-          {/* Article Section */}
-          <Col md={7}>
-            <Card className="mb-3 mx-auto" style={{ maxWidth: "80%" }}>
-              <Row className="g-0">
-                <Col
-                  xs={12}
-                  md={12}
-                  className="d-flex justify-content-center align-items-center"
-                >
-                  <Card.Img
-                    src={articleData.imgURL}
-                    className="img-fluid h-100 rounded-start"
-                    alt="Article Image"
-                    style={{ maxHeight: "200px", objectFit: "cover" }}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={12} md={12}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{ fontSize: "1.2em", fontWeight: "bold" }}
-                    >
-                      {articleData.title}
-                    </Card.Title>
-                    <Card.Subtitle
-                      className="mb-2 text-muted"
-                      style={{ fontSize: "0.9em" }}
-                    >
-                      short by {articleData.author} /{" "}
-                      {new Date(articleData.addedAt).toLocaleTimeString()} on{" "}
-                      {new Date(articleData.addedAt).toLocaleDateString()}
-                    </Card.Subtitle>
-                    <Card.Text style={{ fontSize: "0.9em" }}>
-                      {articleData.content}
-                    </Card.Text>
-                    <Card.Text style={{ fontSize: "0.7em" }}>
-                      <a
-                        href={articleData.originURL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-wrap"
-                      >
-                        read more at {shortenURL(articleData.originURL)}
-                      </a>
-                    </Card.Text>
-                  </Card.Body>
-                </Col>
-              </Row>
-            </Card>
+          <Col md={7} className="m-0 p-0">
+            <CustomCard
+              key={articleData.articleID}
+              articleData={articleData}
+              setshareData={setshareData}
+              handleShareModalShow={handleShareModalShow}
+              callFromComment={true}
+              fromModal={true}
+            />
           </Col>
           {/* Comment Section */}
-          <Col md={5}>
+          <Col md={5} className="m-0 p-1">
             <h5 className="mb-4">Comments</h5>
             <div
               ref={scrollRef}
@@ -199,7 +222,12 @@ const CommentModal = ({ show, onHide, articleData }) => {
                 >
                   <strong>{comment.userName}</strong>
                   <p className="mx-1 my-0">{comment.content}</p>
-                  <small className="text-muted" style={{ fontSize: "0.7em" }}>
+                  <small
+                    className={`text-${
+                      bgtheme == "dark" ? "white-50" : "muted"
+                    }`}
+                    style={{ fontSize: "0.7em" }}
+                  >
                     {formatTimestamp(comment.timestamp)}
                   </small>
                 </div>
@@ -213,7 +241,9 @@ const CommentModal = ({ show, onHide, articleData }) => {
                   value={newComment}
                   onChange={handleCommentChange}
                   placeholder="Add a comment..."
-                  className="border-rounded-1"
+                  className={`bg-${bgtheme} text-${
+                    bgtheme == "dark" ? "white-50" : "muted"
+                  } border-rounded-1`}
                   style={{ resize: "none" }}
                 />
               </Form.Group>

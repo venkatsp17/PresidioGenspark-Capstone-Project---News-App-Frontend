@@ -3,6 +3,7 @@ import { Offcanvas, ListGroup, ListGroupItem, Button } from "react-bootstrap";
 import { useAuth } from "../services/auth";
 import axios from "axios";
 import { FaRegBookmark } from "react-icons/fa";
+import { useTheme } from "../services/ThemeContext";
 
 const LeftMenu = ({
   show,
@@ -12,6 +13,8 @@ const LeftMenu = ({
 }) => {
   const { user } = useAuth();
   const [categories, setCategories] = useState([]);
+
+  const { bgtheme, texttheme } = useTheme();
 
   useEffect(() => {
     // Fetch categories from the API
@@ -41,9 +44,16 @@ const LeftMenu = ({
   };
   return (
     <>
-      <Offcanvas show={show} onHide={handleClose} placement="start">
+      <Offcanvas
+        show={show}
+        onHide={handleClose}
+        placement="start"
+        className={`bg-${bgtheme}`}
+      >
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Menu</Offcanvas.Title>
+          <Offcanvas.Title className={`text-${texttheme}`}>
+            Menu
+          </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Header>
           {user ? (
@@ -52,7 +62,7 @@ const LeftMenu = ({
                 onClick={() => {
                   setShowBoomarks(true);
                 }}
-                className="button-default"
+                className={`button-default text-${texttheme}`}
               >
                 {" "}
                 My Bookmarks <FaRegBookmark size={20} className="me-2" />
@@ -63,9 +73,10 @@ const LeftMenu = ({
           )}
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <ListGroup>
+          <ListGroup className={`bg-${bgtheme}`}>
             {categories.map((category) => (
               <ListGroup.Item
+                className={`bg-${bgtheme} text-${texttheme}`}
                 key={category.id}
                 onClick={() => handleSelect(category)}
                 action

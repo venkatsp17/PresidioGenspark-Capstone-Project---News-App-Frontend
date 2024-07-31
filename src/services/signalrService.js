@@ -22,10 +22,10 @@ class SignalRService {
     try {
       if (this.connection.state === signalR.HubConnectionState.Disconnected) {
         await this.connection.start();
-        console.log("SignalR Connected.");
+        // console.log("SignalR Connected.");
       }
     } catch (err) {
-      console.error("SignalR Connection Error: ", err);
+      // console.error("SignalR Connection Error: ", err);
       setTimeout(() => this.start(), 5000);
     }
   }
@@ -35,12 +35,12 @@ class SignalRService {
       try {
         // console.log(typeof articleId);
         await this.connection.invoke("JoinGroup", articleId.toString());
-        console.log("Group Connected.", articleId);
+        // console.log("Group Connected.", articleId);
       } catch (err) {
         console.error("Error joining group: ", err);
       }
     } else {
-      console.log("Connection not in Connected state.");
+      // console.log("Connection not in Connected state.");
     }
   }
 
@@ -48,12 +48,12 @@ class SignalRService {
     if (this.connection.state === signalR.HubConnectionState.Connected) {
       try {
         await this.connection.invoke("LeaveGroup", articleId.toString());
-        console.log("Group Left .");
+        // console.log("Group Left .");
       } catch (err) {
         console.error("Error leaving group: ", err);
       }
     } else {
-      console.log("Connection not in Connected state.");
+      // console.log("Connection not in Connected state.");
     }
   }
 
@@ -69,17 +69,21 @@ class SignalRService {
     this.connection.on("UpdateSaveArticleCount", handler);
   }
 
+  onShareCount(handler) {
+    this.connection.on("UpdateShareCount", handler);
+  }
+
   onDisconnected() {
-    console.log("SignalR connection closed. Attempting to reconnect...");
+    // console.log("SignalR connection closed. Attempting to reconnect...");
     setTimeout(() => this.start(), 5000);
   }
 
   onReconnecting() {
-    console.log("SignalR reconnecting...");
+    // console.log("SignalR reconnecting...");
   }
 
   onReconnected() {
-    console.log("SignalR reconnected.");
+    // console.log("SignalR reconnected.");
   }
 }
 

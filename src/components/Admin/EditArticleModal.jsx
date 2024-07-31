@@ -77,50 +77,56 @@ const EditArticleModal = ({
       <Modal.Body>
         <Form>
           <Row>
-            {Object.keys(articleDetails).map((key, index) => (
-              <Col md={6} key={key}>
-                <Form.Group controlId={key}>
-                  <Form.Label style={{ textTransform: "capitalize" }}>
-                    <strong>{key}</strong>
-                  </Form.Label>
-                  {key === "content" ? (
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      name={key}
-                      value={articleDetails[key]}
-                      onChange={handleChange}
-                      disabled={
-                        mode === "view" ||
-                        key === "ArticleID" ||
-                        key === "AddedAt" ||
-                        key === "CreatedAt"
-                      }
-                    />
-                  ) : (
-                    <Form.Control
-                      type="text"
-                      name={key}
-                      value={
-                        key === "status"
-                          ? StatusAvailable[articleDetails[key]]
-                          : articleDetails[key]
-                      }
-                      onChange={handleChange}
-                      disabled={
-                        mode === "view" ||
-                        key === "articleID" ||
-                        key === "createdAt" ||
-                        key === "impScore" ||
-                        key === "addedAt" ||
-                        key === "shareCount" ||
-                        key === "status"
-                      }
-                    />
-                  )}
-                </Form.Group>
-              </Col>
-            ))}
+            {Object.keys(articleDetails).map((key) => {
+              if (key === "isSaved") return null; // Don't render anything for isSaved key
+
+              return (
+                <Col md={6} key={key}>
+                  <Form.Group controlId={key}>
+                    <Form.Label style={{ textTransform: "capitalize" }}>
+                      <strong>{key}</strong>
+                    </Form.Label>
+                    {key === "content" ? (
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        name={key}
+                        value={articleDetails[key]}
+                        onChange={handleChange}
+                        disabled={
+                          mode === "view" ||
+                          key === "ArticleID" ||
+                          key === "AddedAt" ||
+                          key === "CreatedAt"
+                        }
+                      />
+                    ) : (
+                      <Form.Control
+                        type="text"
+                        name={key}
+                        value={
+                          key === "status"
+                            ? StatusAvailable[articleDetails[key]]
+                            : articleDetails[key]
+                        }
+                        onChange={handleChange}
+                        disabled={
+                          mode === "view" ||
+                          key === "articleID" ||
+                          key === "createdAt" ||
+                          key === "impScore" ||
+                          key === "addedAt" ||
+                          key === "shareCount" ||
+                          key === "status" ||
+                          key === "saveCount" ||
+                          key === "commentCount"
+                        }
+                      />
+                    )}
+                  </Form.Group>
+                </Col>
+              );
+            })}
           </Row>
         </Form>
       </Modal.Body>

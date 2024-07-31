@@ -14,6 +14,8 @@ import CustomCard from "../CustomCard";
 import { Navigate } from "react-router-dom";
 import signalRService from "../../services/signalrService";
 import { jwtDecode } from "jwt-decode";
+import ShareLinkModal from "./ShareModal";
+import { useTheme } from "../../services/ThemeContext";
 
 const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
   const { user, logout } = useAuth();
@@ -24,6 +26,8 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const articlesPerPage = 10;
+  const [showshare, setShowshare] = useState(false);
+  const [shareData, setshareData] = useState(null);
 
   const [query, setQuery] = useState("");
 
@@ -31,6 +35,17 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
     e.preventDefault();
     setQuery(e.target.value);
   };
+
+  const handleShareModalClose = () => setShowshare(false);
+  const handleShareModalShow = () => setShowshare(true);
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+
+  const [showComments, setShowComments] = useState(false);
+  const [articleDataComment, setarticleDataComment] = useState(null);
+  const handleClose1 = () => setShowComments(false);
+  const handleShow1 = () => setShowComments(true);
+
+  const handleClose = () => setShowBoomarks(false);
 
   useEffect(() => {
     if (user) {
@@ -68,7 +83,7 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
         }
       );
       const data = response.data;
-      console.log(response.data);
+      // console.log(response.data);
       setArticles(data.articles);
       setTotalPages(data.totalpages);
 
@@ -86,7 +101,7 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
 
   useEffect(() => {
     fetchArticles(currentPage);
-  }, [currentPage, user, query, showbookmarks]);
+  }, [currentPage, user, query, showbookmarks, showComments]);
 
   useEffect(() => {
     signalRService.start().then(() => {
@@ -105,7 +120,29 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
       );
     };
 
+    const saveCountListener = (articleID, savecount) => {
+      setArticles((prevArticles) =>
+        prevArticles.map((article) =>
+          article.articleID.toString() === articleID.toString()
+            ? { ...article, saveCount: savecount }
+            : article
+        )
+      );
+    };
+
+    const shareCountListener = (articleID, sharecount) => {
+      setArticles((prevArticles) =>
+        prevArticles.map((article) =>
+          article.articleID.toString() === articleID.toString()
+            ? { ...article, shareCount: sharecount }
+            : article
+        )
+      );
+    };
+
     signalRService.onUpdateCommentCount(commentCountListener);
+    signalRService.onSaveArticleCount(saveCountListener);
+    signalRService.onShareCount(shareCountListener);
 
     return () => {
       articles.forEach((article) => {
@@ -114,14 +151,7 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
     };
   }, [articles]);
 
-  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
-  const [showComments, setShowComments] = useState(false);
-  const [articleDataComment, setarticleDataComment] = useState(null);
-  const handleClose1 = () => setShowComments(false);
-  const handleShow1 = () => setShowComments(true);
-
-  const handleClose = () => setShowBoomarks(false);
+  const { bgtheme, texttheme } = useTheme();
 
   return user ? (
     <>
@@ -129,16 +159,18 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
         <Modal.Dialog fullscreen>
           <Modal.Header
             closeButton
-            className="custom-modal-header"
+            className={`custom-modal-header bg-${bgtheme} text-${texttheme}`}
           ></Modal.Header>
-          <Modal.Body>
+          <Modal.Body
+            className={`custom-modal-header bg-${bgtheme} text-${texttheme}`}
+          >
             <div className="vh-100 w-100 m-0 p-3 d-flex flex-column align-items-center">
               <Row>
-                <Form className="d-flex" onSubmit={handleSearch}>
+                <Form className="d-flex mt-4" onSubmit={handleSearch}>
                   <FormControl
                     type="search"
                     placeholder="Search"
-                    className="me-2"
+                    className={`custom-modal-header bg-${bgtheme} text-${texttheme} me-2`}
                     aria-label="Search"
                     value={query}
                     onChange={handleSearch}
@@ -150,7 +182,7 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
               </Row>
               <Row className="w-100 d-flex justify-content-center mt-5">
                 {!(error || loading) && articles.length > 0 ? (
-                  <Pagination className="mt-5">
+                  <Pagination className={`pagination-${bgtheme} mt-5`}>
                     {[...Array(totalPages).keys()].map((number) => (
                       <Pagination.Item
                         key={number}
@@ -167,15 +199,16 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
               </Row>
               <Row className="w-100 d-flex flex-column align-items-center mt-2">
                 {loading ? (
-                  <div className="d-flex justify-content-center align-items-center h-100 w-100">
-                    <div className="text-center">
-                      <div
-                        className="spinner-border text-primary"
-                        role="status"
-                      >
-                        <span className="visually-hidden">Loading...</span>
+                  <div class="d-flex justify-content-center align-items-center vh-100 w-100">
+                    <div class="text-center">
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                       </div>
-                      <p className="mt-3 text-muted">
+                      <p
+                        class={`text-${
+                          bgtheme == "dark" ? "white-50" : "muted"
+                        } mt-3`}
+                      >
                         Please wait, loading data...
                       </p>
                     </div>
@@ -184,10 +217,16 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
                   <></>
                 )}
                 {error ? (
-                  <div className="container d-flex justify-content-center align-items-center h-100">
-                    <div className="text-center">
-                      <div className="fs-1 mb-3">😞</div>
-                      <div className="fs-4 text-muted">No Data Available</div>
+                  <div class="container d-flex justify-content-center align-items-center vh-100">
+                    <div class="text-center">
+                      <div class="fs-1 mb-3">😞</div>
+                      <div
+                        class={`fs-4 text-${
+                          bgtheme == "dark" ? "white-50" : "muted"
+                        } mt-3`}
+                      >
+                        Sorry, come back later
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -202,6 +241,10 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
                       articleData={articleData}
                       setarticleDataComment={setarticleDataComment}
                       handleShow1={handleShow1}
+                      setshareData={setshareData}
+                      handleShareModalShow={handleShareModalShow}
+                      callFromComment={false}
+                      fromModal={true}
                     />
                   ))
                 ) : (
@@ -215,7 +258,7 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
               </Row>
               <Row className="w-100 d-flex justify-content-center">
                 {!(error || loading) && articles.length > 0 ? (
-                  <Pagination>
+                  <Pagination className={`pagination-${bgtheme} mt-5`}>
                     {[...Array(totalPages).keys()].map((number) => (
                       <Pagination.Item
                         key={number}
@@ -238,7 +281,21 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
         <CommentModal
           show={showComments}
           onHide={handleClose1}
-          articleData={articleDataComment}
+          articleDataComment={articleDataComment}
+          setshareData={setshareData}
+          handleShareModalShow={handleShareModalShow}
+        />
+      ) : (
+        <></>
+      )}
+      {shareData ? (
+        <ShareLinkModal
+          show={showshare}
+          handleClose={handleShareModalClose}
+          shareUrl={shareData.originURL}
+          title={shareData.title}
+          content={shareData.content}
+          sharedata={shareData}
         />
       ) : (
         <></>

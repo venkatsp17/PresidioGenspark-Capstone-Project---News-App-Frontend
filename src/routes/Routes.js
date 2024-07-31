@@ -10,13 +10,23 @@ import { AuthProvider } from "../services/auth";
 import AdminRoute from "./AdminRoute";
 import AdminHome from "../pages/Admin/AdminHome";
 import TabSwitcher from "../pages/TabSwitcher";
+import { SavedArticlesProvider } from "../services/SaveArticleContext";
 
 const AppRoutes = () => (
   <AuthProvider>
     <Router>
       <RouterRoutes>
         <Route path="/login" element={<TabSwitcher />} />
-        <Route path="/" element={<HomePage />} />
+
+        <Route
+          path="/"
+          element={
+            <SavedArticlesProvider>
+              <HomePage />
+            </SavedArticlesProvider>
+          }
+        />
+
         <Route
           path="/admin/*"
           element={

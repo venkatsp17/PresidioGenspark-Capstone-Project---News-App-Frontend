@@ -9,14 +9,10 @@ import {
   WhatsappIcon,
   InstapaperShareButton,
 } from "react-share";
-import {
-  FaMeta,
-  FaSquareXTwitter,
-  FaSquareWhatsapp,
-  FaInstagram,
-} from "react-icons/fa6";
+import { FaMeta, FaSquareXTwitter, FaSquareWhatsapp } from "react-icons/fa6";
 
 import axios from "axios";
+import { useAuth } from "../../services/auth";
 
 const ShareLinkModal = ({
   show,
@@ -26,15 +22,27 @@ const ShareLinkModal = ({
   content,
   sharedata,
 }) => {
+  const { user } = useAuth();
   const handleShare = async (platform) => {
     const shareData = {
       articleId: sharedata.articleID.toString(),
       platform: platform,
       timestamp: new Date().toISOString(),
+      userid: user ? user.userID : 0,
     };
 
     try {
-      await axios.post("https://yourapi.com/api/ShareData", shareData);
+      const response = await axios.post(
+        "https://localhost:7285/api/Article/articlesharecount",
+        shareData,
+        {
+          headers: {
+            Authorization: `Bearer ${user ? user.token : ""}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.data);
     } catch (error) {
       console.error("Error sharing data:", error);
     }
