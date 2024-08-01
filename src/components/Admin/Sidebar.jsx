@@ -7,11 +7,17 @@ import {
   faCog,
   faChartBar,
   faFileAlt,
+  faSignOutAlt,
+  faTasks,
+  faTasksAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/components/Sidebar.css";
+import { useAuth } from "../../services/auth";
 
 const Sidebar = () => {
   const [isArticlesOpen, setIsArticlesOpen] = useState(false);
+
+  const { logout } = useAuth();
 
   return (
     <nav className="sidebar">
@@ -62,21 +68,19 @@ const Sidebar = () => {
           </ul>
         </li>
         <li className="nav-item mt-2">
-          <Link to="/admin/settings" className="nav-link nav-linkcolour">
-            <FontAwesomeIcon icon={faCog} className="icon" />
-            <span className="text">Settings</span>
+          <Link to="/admin/categories" className="nav-link nav-linkcolour">
+            <FontAwesomeIcon icon={faTasksAlt} className="icon" />
+            <span className="text">Categories</span>
           </Link>
         </li>
         <li className="nav-item mt-2">
-          <Link to="/admin/analytics" className="nav-link nav-linkcolour">
-            <FontAwesomeIcon icon={faChartBar} className="icon" />
-            <span className="text">Analytics</span>
-          </Link>
-        </li>
-        <li className="nav-item mt-2">
-          <Link to="/admin/reports" className="nav-link nav-linkcolour">
-            <FontAwesomeIcon icon={faFileAlt} className="icon" />
-            <span className="text">Reports</span>
+          <Link
+            to="/login"
+            onClick={logout}
+            className="nav-link nav-linkcolour"
+          >
+            <FontAwesomeIcon icon={faSignOutAlt} className="icon" />
+            <span className="text">Logout</span>
           </Link>
         </li>
       </ul>

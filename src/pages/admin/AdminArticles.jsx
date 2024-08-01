@@ -5,6 +5,7 @@ import axios from "axios";
 import EditArticleModal from "../../components/Admin/EditArticleModal";
 import CategoryDropdown from "../../components/Admin/CategoryDropDown";
 import { Table as BootstrapTable, Pagination } from "react-bootstrap";
+import { useTheme } from "../../services/ThemeContext";
 
 const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
   const { user } = useAuth();
@@ -121,20 +122,21 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
     2: "Approved",
     3: "Rejected",
   };
+  const { bgtheme, texttheme } = useTheme();
   if (loading)
     return (
-      <div class="d-flex justify-content-center align-items-center h-100">
-        <div class="text-center">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+      <div className="d-flex justify-content-center align-items-center h-100">
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
-          <p class="mt-3 text-muted">Please wait, loading data...</p>
+          <p className="mt-3 text-muted">Please wait, loading data...</p>
         </div>
       </div>
     );
 
   return (
-    <div>
+    <div className={`m-0 bg-${bgtheme} text-${texttheme}`}>
       <h2 className="mt-2 text-muted">{StatusAvailable[status]} Articles</h2>
       <div
         style={{
@@ -148,7 +150,7 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
           setSelectedCategory={setSelectedCategory}
         />
         {/* Pagination */}
-        <Pagination className="mt-1 me-3">
+        <Pagination className={`pagination-${bgtheme} mt-1 me-3`}>
           <Pagination.Prev
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
@@ -170,10 +172,10 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
       </div>
 
       {error ? (
-        <div class="container d-flex justify-content-center align-items-center h-100">
-          <div class="text-center">
-            <div class="fs-1 mb-3">😞</div>
-            <div class="fs-4 text-muted">No Data Available</div>
+        <div className="container d-flex justify-content-center align-items-center h-100">
+          <div className="text-center">
+            <div className="fs-1 mb-3">😞</div>
+            <div className="fs-4 text-muted">No Data Available</div>
           </div>
         </div>
       ) : (

@@ -199,13 +199,16 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
               </Row>
               <Row className="w-100 d-flex flex-column align-items-center mt-2">
                 {loading ? (
-                  <div class="d-flex justify-content-center align-items-center vh-100 w-100">
-                    <div class="text-center">
-                      <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                  <div className="d-flex justify-content-center align-items-center vh-100 w-100">
+                    <div className="text-center">
+                      <div
+                        className="spinner-border text-primary"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
                       </div>
                       <p
-                        class={`text-${
+                        className={`text-${
                           bgtheme == "dark" ? "white-50" : "muted"
                         } mt-3`}
                       >
@@ -217,11 +220,11 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
                   <></>
                 )}
                 {error ? (
-                  <div class="container d-flex justify-content-center align-items-center vh-100">
-                    <div class="text-center">
-                      <div class="fs-1 mb-3">😞</div>
+                  <div className="container d-flex justify-content-center align-items-center vh-100">
+                    <div className="text-center">
+                      <div className="fs-1 mb-3">😞</div>
                       <div
-                        class={`fs-4 text-${
+                        className={`fs-4 text-${
                           bgtheme == "dark" ? "white-50" : "muted"
                         } mt-3`}
                       >

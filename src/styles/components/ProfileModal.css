@@ -78,3 +78,30 @@
   font-size: 2.5rem;
   font-weight: bold;
 }
+
+/* ProfileModal.css */
+.preference-container {
+  padding: 20px;
+}
+
+.preference-title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+/* .preference-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+} */
+
+.preference-icon {
+  font-size: 1.5rem;
+}
+
+.preference-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: space-evenly;
+}

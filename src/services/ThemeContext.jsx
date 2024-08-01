@@ -16,6 +16,11 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("bgtheme", bgtheme);
     localStorage.setItem("texttheme", texttheme);
+    if (bgtheme == "dark") {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
   }, [bgtheme, texttheme]);
 
   useEffect(() => {

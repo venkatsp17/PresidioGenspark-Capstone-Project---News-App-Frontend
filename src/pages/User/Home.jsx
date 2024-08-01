@@ -20,6 +20,7 @@ import {
   SavedArticlesProvider,
   useSavedArticles,
 } from "../../services/SaveArticleContext";
+import TabBar from "./TabBar";
 
 const HomePage = () => {
   //Use States
@@ -50,7 +51,11 @@ const HomePage = () => {
   const [showshare, setShowshare] = useState(false);
   const [articleDataComment, setarticleDataComment] = useState(null);
   const [shareData, setshareData] = useState(null);
+  const [activeTab, setActiveTab] = useState("myfeeds");
 
+  const handleTabChange = (key) => {
+    setActiveTab(key);
+  };
   //Use Effects
   useEffect(() => {
     if (user) {
@@ -69,101 +74,103 @@ const HomePage = () => {
   }, [user, logout]);
 
   useEffect(() => {
-    fetchArticles(currentPage);
+    fetchArticles(currentPage, activeTab);
     // console.log(articles);
-  }, [currentPage, selectedCategory, user]);
+  }, [currentPage, selectedCategory, user, activeTab]);
 
   useEffect(() => {
-    signalRService.start().then(() => {
-      articles.forEach((article) => {
-        signalRService.joinGroup(article.articleID);
+    if (user) {
+      signalRService.start().then(() => {
+        articles.forEach((article) => {
+          signalRService.joinGroup(article.articleID);
+        });
       });
-    });
 
-    const commentCountListener = (articleID, newCommentCount) => {
-      settop3Articles((prevArticles) =>
-        prevArticles.map((article) =>
-          article.articleID.toString() === articleID.toString()
-            ? { ...article, commentCount: newCommentCount }
-            : article
-        )
-      );
-      setArticles((prevArticles) =>
-        prevArticles.map((article) =>
-          article.articleID.toString() === articleID.toString()
-            ? { ...article, commentCount: newCommentCount }
-            : article
-        )
-      );
-      // if (
-      //   articleDataComment &&
-      //   articleDataComment.articleID.toString() === articleID.toString()
-      // ) {
-      //   setarticleDataComment((prev) => ({
-      //     ...prev,
-      //     commentCount: newCommentCount,
-      //   }));
-      // }
-    };
+      const commentCountListener = (articleID, newCommentCount) => {
+        settop3Articles((prevArticles) =>
+          prevArticles.map((article) =>
+            article.articleID.toString() === articleID.toString()
+              ? { ...article, commentCount: newCommentCount }
+              : article
+          )
+        );
+        setArticles((prevArticles) =>
+          prevArticles.map((article) =>
+            article.articleID.toString() === articleID.toString()
+              ? { ...article, commentCount: newCommentCount }
+              : article
+          )
+        );
+        // if (
+        //   articleDataComment &&
+        //   articleDataComment.articleID.toString() === articleID.toString()
+        // ) {
+        //   setarticleDataComment((prev) => ({
+        //     ...prev,
+        //     commentCount: newCommentCount,
+        //   }));
+        // }
+      };
 
-    const saveCountListener = (articleID, savecount) => {
-      settop3Articles((prevArticles) =>
-        prevArticles.map((article) =>
-          article.articleID.toString() === articleID.toString()
-            ? { ...article, saveCount: savecount }
-            : article
-        )
-      );
-      setArticles((prevArticles) =>
-        prevArticles.map((article) =>
-          article.articleID.toString() === articleID.toString()
-            ? { ...article, saveCount: savecount }
-            : article
-        )
-      );
-      // if (
-      //   articleDataComment &&
-      //   articleDataComment.articleID.toString() === articleID.toString()
-      // ) {
-      //   console.log("in");
-      //   setarticleDataComment((prev) => ({ ...prev, saveCount: savecount }));
-      // }
-    };
+      const saveCountListener = (articleID, savecount) => {
+        settop3Articles((prevArticles) =>
+          prevArticles.map((article) =>
+            article.articleID.toString() === articleID.toString()
+              ? { ...article, saveCount: savecount }
+              : article
+          )
+        );
+        setArticles((prevArticles) =>
+          prevArticles.map((article) =>
+            article.articleID.toString() === articleID.toString()
+              ? { ...article, saveCount: savecount }
+              : article
+          )
+        );
+        // if (
+        //   articleDataComment &&
+        //   articleDataComment.articleID.toString() === articleID.toString()
+        // ) {
+        //   console.log("in");
+        //   setarticleDataComment((prev) => ({ ...prev, saveCount: savecount }));
+        // }
+      };
 
-    const shareCountListener = (articleID, sharecount) => {
-      settop3Articles((prevArticles) =>
-        prevArticles.map((article) =>
-          article.articleID.toString() === articleID.toString()
-            ? { ...article, shareCount: sharecount }
-            : article
-        )
-      );
-      setArticles((prevArticles) =>
-        prevArticles.map((article) =>
-          article.articleID.toString() === articleID.toString()
-            ? { ...article, shareCount: sharecount }
-            : article
-        )
-      );
-      // if (
-      //   articleDataComment &&
-      //   articleDataComment.articleID.toString() === articleID.toString()
-      // ) {
-      //   console.log("share");
-      //   setarticleDataComment((prev) => ({ ...prev, shareCount: sharecount }));
-      // }
-    };
+      const shareCountListener = (articleID, sharecount) => {
+        settop3Articles((prevArticles) =>
+          prevArticles.map((article) =>
+            article.articleID.toString() === articleID.toString()
+              ? { ...article, shareCount: sharecount }
+              : article
+          )
+        );
+        setArticles((prevArticles) =>
+          prevArticles.map((article) =>
+            article.articleID.toString() === articleID.toString()
+              ? { ...article, shareCount: sharecount }
+              : article
+          )
+        );
+        // if (
+        //   articleDataComment &&
+        //   articleDataComment.articleID.toString() === articleID.toString()
+        // ) {
+        //   console.log("share");
+        //   setarticleDataComment((prev) => ({ ...prev, shareCount: sharecount }));
+        // }
+      };
 
-    signalRService.onUpdateCommentCount(commentCountListener);
-    signalRService.onSaveArticleCount(saveCountListener);
-    signalRService.onShareCount(shareCountListener);
+      signalRService.onUpdateCommentCount(commentCountListener);
+      signalRService.onSaveArticleCount(saveCountListener);
+      signalRService.onShareCount(shareCountListener);
 
-    return () => {
-      articles.forEach((article) => {
-        signalRService.leaveGroup(article.articleID);
-      });
-    };
-  }, [articles]);
+      return () => {
+        articles.forEach((article) => {
+          signalRService.leaveGroup(article.articleID);
+        });
+      };
+    }
+  }, [articles, user]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -188,58 +195,87 @@ const HomePage = () => {
   const handleShareModalShow = () => setShowshare(true);
 
   const handleCommentOPen = (article) => {
-    console.log("clieked");
     setarticleDataComment(article);
     handleShow1();
   };
 
-  const fetchArticles = async (page) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
+  const fetchArticles = async (page, fetchType) => {
     setLoading(true);
     setError(null);
 
     try {
-      const [top3data, response] = await Promise.all([
-        fetchTop3Articles(),
-        axios.get("https://localhost:7285/api/Article/userpaginatedarticles", {
-          params: {
-            categoryID: selectedCategory.id,
-            pageno: page,
-            pagesize: articlesPerPage,
-            userid: user ? parseInt(user.userID) : 0,
-          },
-          headers: {
-            Authorization: `Bearer ${user ? user.token : ""}`,
-            "Content-Type": "application/json",
-          },
-        }),
-      ]);
+      let response;
+
+      if (fetchType === "myfeeds") {
+        response = await axios.get(
+          "https://localhost:7285/api/Article/userfeeds",
+          {
+            params: {
+              pageno: page,
+              pagesize: articlesPerPage,
+              userid: user ? parseInt(user.userID) : 0,
+            },
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else if (fetchType === "dailynews") {
+        response = await axios.get(
+          "https://localhost:7285/api/Article/userpaginatedarticles",
+          {
+            params: {
+              categoryID: selectedCategory.id,
+              pageno: page,
+              pagesize: articlesPerPage,
+            },
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        throw new Error("Invalid fetchType provided.");
+      }
+
       const data = response.data;
 
       setArticles(data.articles);
-      if (Array.isArray(top3data) && Array.isArray(data.articles)) {
-        const extractedarticlesData = data.articles.map((article) => ({
-          articleID: article.articleID,
-          isSaved: article.isSaved,
-        }));
-        const top3dataExtracted = top3data.map((data) => ({
-          articleID: data.articleID,
-          isSaved: data.isSaved,
-        }));
-        const combinedData = [...extractedarticlesData, ...top3dataExtracted];
-        SetSaveStatusData(combinedData);
+
+      if (user) {
+        const top3data = await fetchTop3Articles();
+        if (Array.isArray(top3data) && Array.isArray(data.articles)) {
+          const extractedArticlesData = data.articles.map((article) => ({
+            articleID: article.articleID,
+            isSaved: article.isSaved,
+          }));
+          const top3dataExtracted = top3data.map((data) => ({
+            articleID: data.articleID,
+            isSaved: data.isSaved,
+          }));
+          const combinedData = [...extractedArticlesData, ...top3dataExtracted];
+          SetSaveStatusData(combinedData);
+        }
       }
 
       setTotalPages(data.totalpages);
-      joinArticleGroups(data.articles);
+      if (user) {
+        joinArticleGroups(data.articles);
+      }
     } catch (error) {
       setError(error.message);
-      console.error("Error fetching articles:", error);
+      // console.error("Error fetching articles:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchTop3Articles = async (page) => {
+  const fetchTop3Articles = async () => {
     try {
       const response = await axios.get(
         "https://localhost:7285/api/Article/rankedarticles",
@@ -259,7 +295,7 @@ const HomePage = () => {
       settop3Articles(data);
       return data;
     } catch (error) {
-      console.error("Error fetching articles:", error);
+      // console.error("Error fetching articles:", error);
     }
   };
 
@@ -296,7 +332,9 @@ const HomePage = () => {
         }}
       >
         <div
-          className={`w-100 d-flex justify-content-between align-items-center p-3 bg-${bgtheme} text-${texttheme}`}
+          className={`w-100 d-flex justify-content-between align-items-center p-3 bg-${
+            bgtheme == "dark" ? "dark" : "primary"
+          } text-${texttheme}`}
         >
           <Button variant="default" onClick={() => setShowLeftMenu(true)}>
             <FaBars
@@ -342,8 +380,9 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+
       <div
-        className={`h-100 w-100 m-0 p-3 d-flex flex-column align-items-center bg-${bgtheme} text-${texttheme}`}
+        className={`h-100 w-100 mt-5 p-3 d-flex flex-column align-items-center bg-${bgtheme} text-${texttheme}`}
       >
         <LeftMenu
           setShowBoomarks={setShowBoomarks}
@@ -355,27 +394,41 @@ const HomePage = () => {
           show={showRightMenu}
           handleClose={() => setShowRightMenu(false)}
         />
-        <div class="container mt-5 max-width-card">
-          <h2 className={`text-${bgtheme == "dark" ? "white-50" : "muted"}`}>
-            Top #3 Ranked
-          </h2>
-          <div class="row">
-            {top3articles.map((article) => {
-              return (
-                <div
-                  class="col-md-4 col-sm-12 mb-4"
-                  onClick={() => handleCommentOPen(article)}
-                >
-                  <div class="card32">
-                    <div class="card32-title1">{article.summary}</div>
-                    <img src={article.imgURL} alt="Image" />
-                    <div class="card32-summary">{article.title}</div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+        {user ? (
+          <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
+        ) : (
+          <></>
+        )}
+        <div className="container max-width-card">
+          {user && activeTab == "dailynews" ? (
+            <h2 className={`text-${bgtheme == "dark" ? "white-50" : "muted"}`}>
+              Top #3 Ranked
+            </h2>
+          ) : (
+            <></>
+          )}
+          {user &&
+            activeTab == "dailynews" && ( // Check if user is logged in
+              <div className="row">
+                {top3articles.map((article) => {
+                  return (
+                    <div
+                      key={article.articleID}
+                      className="col-md-4 col-sm-12 mb-4"
+                      onClick={() => handleCommentOPen(article)}
+                    >
+                      <div className="card32">
+                        <div className="card32-title1">{article.summary}</div>
+                        <img src={article.imgURL} alt="Image" />
+                        <div className="card32-summary">{article.title}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
         </div>
+
         <Row className="w-100 d-flex justify-content-center">
           {!(error || loading) ? (
             <Pagination className={`mt-1 pagination-${bgtheme}`}>
@@ -395,13 +448,13 @@ const HomePage = () => {
         </Row>
         <Row className="w-100 d-flex flex-column align-items-center mt-2">
           {loading ? (
-            <div class="d-flex justify-content-center align-items-center vh-100 w-100">
-              <div class="text-center">
-                <div class="spinner-border text-primary" role="status">
-                  <span class="visually-hidden">Loading...</span>
+            <div className="d-flex justify-content-center align-items-center vh-100 w-100">
+              <div className="text-center">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
                 </div>
                 <p
-                  class={`text-${
+                  className={`text-${
                     bgtheme == "dark" ? "white-50" : "muted"
                   } mt-3`}
                 >
@@ -413,11 +466,11 @@ const HomePage = () => {
             <></>
           )}
           {error ? (
-            <div class="container d-flex justify-content-center align-items-center vh-100">
-              <div class="text-center">
-                <div class="fs-1 mb-3">😞</div>
+            <div className="container d-flex justify-content-center align-items-center vh-100">
+              <div className="text-center">
+                <div className="fs-1 mb-3">😞</div>
                 <div
-                  class={`fs-4 text-${
+                  className={`fs-4 text-${
                     bgtheme == "dark" ? "white-50" : "muted"
                   } mt-3`}
                 >
@@ -463,7 +516,7 @@ const HomePage = () => {
           )}
         </Row>
       </div>
-      <ProfileModal show={show} handleClose={handleClose} />
+      {user ? <ProfileModal show={show} handleClose={handleClose} /> : <></>}
       {articleDataComment ? (
         <CommentModal
           show={showComments}
@@ -475,10 +528,14 @@ const HomePage = () => {
       ) : (
         <></>
       )}
-      <BookMarksModal
-        showbookmarks={showbookmarks}
-        setShowBoomarks={setShowBoomarks}
-      />
+      {user ? (
+        <BookMarksModal
+          showbookmarks={showbookmarks}
+          setShowBoomarks={setShowBoomarks}
+        />
+      ) : (
+        <></>
+      )}
       {shareData ? (
         <ShareLinkModal
           show={showshare}

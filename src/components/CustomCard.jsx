@@ -159,28 +159,26 @@ const CustomCard = ({
                     {saveCount} saved this article
                   </small>
                 </b>
-                <div>
-                  <b>
-                    <small
-                      className={`text-${
-                        bgtheme == "dark" ? "white-50" : "muted"
-                      } ms-2 mx-1`}
-                    >
-                      {commentCount == 0
-                        ? "Be first one to comment"
-                        : commentCount == 1
-                        ? `${commentCount} comment`
-                        : `${commentCount} comments`}
-                    </small>
-                    <small
-                      className={`text-${
-                        bgtheme == "dark" ? "white-50" : "muted"
-                      } ms-2 mx-1`}
-                    >
-                      {shareCount + " shared"}
-                    </small>
-                  </b>
-                </div>
+                <b>
+                  <small
+                    className={`text-${
+                      bgtheme == "dark" ? "white-50" : "muted"
+                    } ms-2 mx-1`}
+                  >
+                    {commentCount == 0
+                      ? "Be first one to comment"
+                      : commentCount == 1
+                      ? `${commentCount} comment`
+                      : `${commentCount} comments`}
+                  </small>
+                  <small
+                    className={`text-${
+                      bgtheme == "dark" ? "white-50" : "muted"
+                    } ms-2 mx-1`}
+                  >
+                    {shareCount + " shared"}
+                  </small>
+                </b>
               </Card.Text>
             ) : (
               <></>

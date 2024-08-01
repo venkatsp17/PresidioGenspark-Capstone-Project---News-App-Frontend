@@ -68,7 +68,6 @@ const Login = () => {
           },
         }
       );
-      console.log(result);
       login(result.data);
       toast.success("Login successful!");
       if (result.data.role === 0) {

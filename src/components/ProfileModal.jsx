@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { Modal, Button, Container, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Modal, Button, Container, Row, Col, Table } from "react-bootstrap";
 import "../styles/components/ProfileModal.css"; // Import custom CSS
 import { useAuth } from "../services/auth";
 import { Navigate } from "react-router-dom";
 import { useTheme } from "../services/ThemeContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const ProfileModal = ({ show, handleClose }) => {
   const { user } = useAuth();
@@ -29,6 +31,91 @@ const ProfileModal = ({ show, handleClose }) => {
     setTextSize("large");
   };
 
+  const [preferences, setPreferences] = useState([]);
+  const [userPreferences, setUserPreferences] = useState({});
+
+  useEffect(() => {
+    // Fetch categories from the API
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          "https://localhost:7285/api/Category/getAllCategories",
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setPreferences(response.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    const fetchpreferences = async () => {
+      try {
+        const response = await axios.get(
+          "https://localhost:7285/api/UserPreference/getpreferences",
+          {
+            params: {
+              userid: user.userID,
+            },
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const preferences = response.data;
+        // console.log(response.data);
+        const mappedPreferences = preferences.reduce((acc, pref) => {
+          acc[pref.categoryID] = pref.preference;
+          return acc;
+        }, {});
+        setUserPreferences(mappedPreferences);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+    fetchpreferences();
+  }, []);
+
+  const PostPreferences = async () => {
+    try {
+      const response = await axios.post(
+        "https://localhost:7285/api/UserPreference/addpreferences",
+        {
+          userID: user.userID,
+          preferences: userPreferences,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      toast.success("Preferences Updated!");
+    } catch (error) {
+      toast.success("Error Updating Preferences!");
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const handlePreferenceChange = (key, value) => {
+    setUserPreferences((prev) => {
+      const newPreferences = { ...prev };
+      if (prev[key] === value) {
+        delete newPreferences[key];
+      } else {
+        newPreferences[key] = value;
+      }
+      return newPreferences;
+    });
+  };
+
   return user ? (
     <>
       <Modal show={show} onHide={handleClose} fullscreen>
@@ -37,10 +124,10 @@ const ProfileModal = ({ show, handleClose }) => {
         </Modal.Header>
         <Modal.Body className={`bg-${bgtheme} text-${texttheme}`}>
           <Container>
-            <Row className="d-flex justify-content-center text-center mb-3 mt-5">
+            <Row className="d-flex justify-content-center text-center mb-3">
               <Col
                 md={12}
-                className="d-flex justify-content-center text-center mt-5"
+                className="d-flex justify-content-center text-center"
               >
                 <div className="avatar-placeholder">{user.name[0]}</div>
               </Col>
@@ -57,11 +144,7 @@ const ProfileModal = ({ show, handleClose }) => {
                 className={`basic-info bg-${bgtheme} text-${texttheme}`}
               >
                 <h3>Basic info</h3>
-                <table
-                  className={`table custom-table ${
-                    bgtheme === "dark" ? "dark-mode" : "light-mode"
-                  } text-${texttheme}`}
-                >
+                <table className={`table table-hover  text-${texttheme}`}>
                   <tbody>
                     <tr>
                       <th className={`bg-${bgtheme} text-${texttheme}`}>
@@ -101,14 +184,10 @@ const ProfileModal = ({ show, handleClose }) => {
             </Row>
             <Row>
               <Col md={12} className="contact-info">
-                <h3>Preferences</h3>
-                <table
-                  className={`table custom-table ${
-                    bgtheme === "dark" ? "dark-mode" : "light-mode"
-                  } text-${texttheme}`}
-                >
+                <h3>Accessibility</h3>
+                <table className={`table table-hover text-${texttheme}`}>
                   <tbody>
-                    <tr>
+                    <tr key={1}>
                       <th className={`bg-${bgtheme} text-${texttheme}`}>
                         Text Size
                       </th>
@@ -129,7 +208,7 @@ const ProfileModal = ({ show, handleClose }) => {
                         </Button>
                       </td>
                     </tr>
-                    <tr>
+                    <tr key={2}>
                       <th className={`bg-${bgtheme} text-${texttheme}`}>
                         Night Mode
                       </th>
@@ -151,6 +230,61 @@ const ProfileModal = ({ show, handleClose }) => {
                     </tr>
                   </tbody>
                 </table>
+              </Col>
+              <Col md={12} className="contact-info">
+                <h3>Preferences</h3>
+                <Table bordered hover className={`table text-${texttheme}`}>
+                  <thead>
+                    <tr>
+                      <th className={`bg-${bgtheme} text-${texttheme}`}>
+                        Category
+                      </th>
+                      <th className={`bg-${bgtheme} text-${texttheme}`}>
+                        Preference
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {preferences.map((pref) =>
+                      pref.type === "NEWS_CATEGORY" ? (
+                        <tr key={pref.id}>
+                          <td className={`bg-${bgtheme} text-${texttheme}`}>
+                            {pref.name}
+                          </td>
+                          <td
+                            className={`bg-${bgtheme} text-${texttheme} preference-buttons`}
+                          >
+                            <Button
+                              variant={
+                                userPreferences[pref.id] === 0
+                                  ? "success"
+                                  : "outline-secondary"
+                              }
+                              onClick={() => handlePreferenceChange(pref.id, 0)}
+                            >
+                              👍
+                            </Button>
+                            <Button
+                              variant={
+                                userPreferences[pref.id] === 1
+                                  ? "danger"
+                                  : "outline-secondary"
+                              }
+                              onClick={() => handlePreferenceChange(pref.id, 1)}
+                            >
+                              👎
+                            </Button>
+                          </td>
+                        </tr>
+                      ) : null
+                    )}
+                  </tbody>
+                </Table>
+              </Col>
+              <Col md={12} className="d-flex justify-content-end">
+                <Button variant="primary" onClick={PostPreferences}>
+                  Save Changes
+                </Button>
               </Col>
             </Row>
           </Container>

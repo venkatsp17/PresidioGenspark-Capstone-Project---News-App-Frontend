@@ -7,6 +7,7 @@ import {
 } from "react-bootstrap";
 import { FaCheck, FaTimes, FaEdit, FaEye } from "react-icons/fa";
 import "../../styles/components/Table.css";
+import { useTheme } from "../../services/ThemeContext";
 
 const Table = ({
   data,
@@ -38,6 +39,7 @@ const Table = ({
   const handleStatusChange = (articleId, status) => {
     changeArticleStatus(articleId, status);
   };
+  const { bgtheme, texttheme } = useTheme();
 
   return (
     <div className="container d-flex-column justify-content-center ">
@@ -48,11 +50,12 @@ const Table = ({
           placeholder="Search..."
           value={searchQuery}
           onChange={handleSearchChange}
+          className={`bg-${bgtheme} text-${texttheme}`}
         />
         <Form.Select
-          className="w-auto"
           value={rowsPerPage}
           onChange={handleRowsPerPageChange}
+          className={`w-auto bg-${bgtheme} text-${texttheme}`}
         >
           <option value="10">10 rows per page</option>
           <option value="20">20 rows per page</option>
@@ -65,25 +68,46 @@ const Table = ({
         <BootstrapTable striped bordered hover responsive>
           <thead>
             <tr>
-              <th># Article ID</th>
-              <th>Title</th>
-              <th>Summary</th>
-              <th>Added At</th>
-              <th>Origin URL</th>
-              <th>Created At</th>
-              <th>Impact Score</th>
-              <th>Actions</th>
+              <th className={`bg-${bgtheme} text-${texttheme}`}>
+                # Article ID
+              </th>
+              <th className={`bg-${bgtheme} text-${texttheme}`}>Title</th>
+              <th className={`bg-${bgtheme} text-${texttheme}`}>Summary</th>
+              <th className={`bg-${bgtheme} text-${texttheme}`}>Added At</th>
+              <th className={`bg-${bgtheme} text-${texttheme}`}>Origin URL</th>
+              <th className={`bg-${bgtheme} text-${texttheme}`}>Created At</th>
+              <th className={`bg-${bgtheme} text-${texttheme}`}>
+                Impact Score
+              </th>
+              <th className={`bg-${bgtheme} text-${texttheme}`}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((item) => (
                 <tr key={item.articleID}>
-                  <td>{item.articleID}</td>
-                  <td style={{ maxWidth: "150px" }}>{item.title}</td>
-                  <td style={{ maxWidth: "150px" }}>{item.summary}</td>
-                  <td>{new Date(item.addedAt).toLocaleString()}</td>
-                  <td className="text-truncate" style={{ maxWidth: "150px" }}>
+                  <td className={`bg-${bgtheme} text-${texttheme}`}>
+                    {item.articleID}
+                  </td>
+                  <td
+                    className={`bg-${bgtheme} text-${texttheme}`}
+                    style={{ maxWidth: "150px" }}
+                  >
+                    {item.title}
+                  </td>
+                  <td
+                    className={`bg-${bgtheme} text-${texttheme}`}
+                    style={{ maxWidth: "150px" }}
+                  >
+                    {item.summary}
+                  </td>
+                  <td className={`bg-${bgtheme} text-${texttheme}`}>
+                    {new Date(item.addedAt).toLocaleString()}
+                  </td>
+                  <td
+                    className={`bg-${bgtheme} text-${texttheme} text-truncate`}
+                    style={{ maxWidth: "150px" }}
+                  >
                     <a
                       href={item.originURL}
                       target="_blank"
@@ -94,9 +118,13 @@ const Table = ({
                       {item.originURL}
                     </a>
                   </td>
-                  <td>{new Date(item.createdAt).toLocaleString()}</td>
-                  <td>{item.impScore}</td>
-                  <td>
+                  <td className={`bg-${bgtheme} text-${texttheme}`}>
+                    {new Date(item.createdAt).toLocaleString()}
+                  </td>
+                  <td className={`bg-${bgtheme} text-${texttheme}`}>
+                    {item.impScore}
+                  </td>
+                  <td className={`bg-${bgtheme} text-${texttheme}`}>
                     <div className="d-flex justify-content-around">
                       <Button
                         variant="success"

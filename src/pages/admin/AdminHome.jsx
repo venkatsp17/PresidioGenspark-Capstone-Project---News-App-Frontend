@@ -5,6 +5,8 @@ import { Route, Routes as RouterRoutes, useLocation } from "react-router-dom";
 import AdminArticles from "./AdminArticles";
 import AdminDashboard from "./AdminDashboard";
 import ProfileModal from "../../components/ProfileModal";
+import AdminCategories from "./AdminCategories";
+import { useTheme } from "../../services/ThemeContext";
 
 const AdminHome = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,12 +21,15 @@ const AdminHome = () => {
   useEffect(() => {
     setCurrentPage(1); // Reset to page 1 when the route changes
   }, [location]);
+  const { bgtheme, texttheme } = useTheme();
   return (
-    <div className="d-flex">
+    <div className="d-flex vh-100">
       <Sidebar />
-      <div className="flex-grow-1">
+      <div className="h-100 flex-grow-1 d-flex flex-column">
         <Header handleshowProfileModalAdmin={handleshowProfileModalAdmin} />
-        <div className="container-fluid">
+        <div
+          className={`h-100 container-fluid bg-${bgtheme} text-${texttheme} overflow-auto`}
+        >
           <RouterRoutes>
             <Route path="" element={<AdminDashboard />} />
             <Route
@@ -67,6 +72,7 @@ const AdminHome = () => {
                 />
               }
             />
+            <Route path="categories" element={<AdminCategories />} />
           </RouterRoutes>
         </div>
       </div>
