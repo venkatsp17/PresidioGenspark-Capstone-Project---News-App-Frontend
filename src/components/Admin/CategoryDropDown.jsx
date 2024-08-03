@@ -22,7 +22,7 @@ const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
         );
         setCategories(response.data); // Adjust according to the API response structure
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        // console.error("Error fetching categories:", error);
       }
     };
 
@@ -40,7 +40,10 @@ const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
         {selectedCategory ? selectedCategory.name : "Select Category"}
       </Dropdown.Toggle>
 
-      <Dropdown.Menu style={{ maxHeight: "400px", overflowY: "auto" }}>
+      <Dropdown.Menu
+        className="dropdown-animation"
+        style={{ maxHeight: "400px", overflowY: "auto" }}
+      >
         {categories.map((category) => (
           <Dropdown.Item
             key={category.id}

@@ -5,14 +5,12 @@ import {
   FacebookShareButton,
   TwitterShareButton,
   WhatsappShareButton,
-  TwitterIcon,
-  WhatsappIcon,
-  InstapaperShareButton,
 } from "react-share";
 import { FaMeta, FaSquareXTwitter, FaSquareWhatsapp } from "react-icons/fa6";
 
 import axios from "axios";
 import { useAuth } from "../../services/auth";
+import { useTheme } from "../../services/ThemeContext";
 
 const ShareLinkModal = ({
   show,
@@ -42,20 +40,23 @@ const ShareLinkModal = ({
           },
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
-      console.error("Error sharing data:", error);
+      // console.error("Error sharing data:", error);
     }
   };
 
+  const { bgtheme, texttheme } = useTheme();
+
   return (
     <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
+      <Modal.Header closeButton className={`bg-${bgtheme}`}>
         <Modal.Title>Share this article</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className={`bg-${bgtheme}`}>
         <div className="d-flex justify-content-evenly">
           <FacebookShareButton
+            color={"black"}
             url={shareUrl}
             quote={title}
             content={content}
@@ -64,6 +65,7 @@ const ShareLinkModal = ({
             <FaMeta size={32} round />
           </FacebookShareButton>
           <TwitterShareButton
+            color={"black"}
             url={shareUrl}
             title={title}
             content={content}
@@ -72,6 +74,7 @@ const ShareLinkModal = ({
             <FaSquareXTwitter size={32} round />
           </TwitterShareButton>
           <WhatsappShareButton
+            color={"black"}
             url={shareUrl}
             title={title}
             content={content}
@@ -81,7 +84,7 @@ const ShareLinkModal = ({
           </WhatsappShareButton>
         </div>
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer className={`bg-${bgtheme}`}>
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>

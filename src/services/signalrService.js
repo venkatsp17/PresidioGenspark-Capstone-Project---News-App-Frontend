@@ -37,7 +37,7 @@ class SignalRService {
         await this.connection.invoke("JoinGroup", articleId.toString());
         // console.log("Group Connected.", articleId);
       } catch (err) {
-        console.error("Error joining group: ", err);
+        // console.error("Error joining group: ", err);
       }
     } else {
       // console.log("Connection not in Connected state.");
@@ -50,7 +50,7 @@ class SignalRService {
         await this.connection.invoke("LeaveGroup", articleId.toString());
         // console.log("Group Left .");
       } catch (err) {
-        console.error("Error leaving group: ", err);
+        // console.error("Error leaving group: ", err);
       }
     } else {
       // console.log("Connection not in Connected state.");

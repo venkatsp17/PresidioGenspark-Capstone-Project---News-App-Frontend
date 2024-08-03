@@ -48,7 +48,7 @@ const ProfileModal = ({ show, handleClose }) => {
         );
         setPreferences(response.data);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        // console.error("Error fetching categories:", error);
       }
     };
 
@@ -74,7 +74,7 @@ const ProfileModal = ({ show, handleClose }) => {
         }, {});
         setUserPreferences(mappedPreferences);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        // console.error("Error fetching categories:", error);
       }
     };
 
@@ -100,7 +100,7 @@ const ProfileModal = ({ show, handleClose }) => {
       toast.success("Preferences Updated!");
     } catch (error) {
       toast.success("Error Updating Preferences!");
-      console.error("Error fetching categories:", error);
+      // console.error("Error fetching categories:", error);
     }
   };
 

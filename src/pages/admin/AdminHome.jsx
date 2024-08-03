@@ -7,6 +7,7 @@ import AdminDashboard from "./AdminDashboard";
 import ProfileModal from "../../components/ProfileModal";
 import AdminCategories from "./AdminCategories";
 import { useTheme } from "../../services/ThemeContext";
+import "../../styles/admin/admin.css";
 
 const AdminHome = () => {
   const [currentPage, setCurrentPage] = useState(1);

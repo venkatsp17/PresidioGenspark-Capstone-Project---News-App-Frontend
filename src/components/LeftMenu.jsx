@@ -30,7 +30,7 @@ const LeftMenu = ({
         );
         setCategories(response.data); // Adjust according to the API response structure
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        // console.error("Error fetching categories:", error);
       }
     };
 
@@ -48,7 +48,7 @@ const LeftMenu = ({
         show={show}
         onHide={handleClose}
         placement="start"
-        className={`bg-${bgtheme}`}
+        className={` bg-${bgtheme}`}
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title className={`text-${texttheme}`}>

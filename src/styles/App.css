@@ -3,3 +3,35 @@ body {
   margin: 0;
   box-sizing: border-box;
 }
+
+.card765 {
+  min-height: 150px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #007bff, #71c8f3);
+  color: white !important;
+  font-weight: bolder !important;
+  animation: fadeInUp 1s ease-out;
+}
+
+.card765-body {
+  text-align: center;
+}
+
+.card765-title {
+  font-size: 1.2em;
+}
+
+.card765-text {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

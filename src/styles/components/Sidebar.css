@@ -9,7 +9,7 @@
 }
 
 .sidebar:hover {
-  width: 180px;
+  width: 200px;
 }
 
 .nav-linkcolour {
@@ -28,7 +28,7 @@
 }
 
 .icon {
-  margin-right: 10px;
+  margin-right: 20px;
   font-size: 1.2rem;
 }
 

@@ -39,7 +39,7 @@ const Header = ({ handleshowProfileModalAdmin }) => {
             <FontAwesomeIcon icon={faUser} />
           </button>
           {showDropdown && (
-            <div className="dropdown-menu dropdown-menu-end show">
+            <div className="dropdown-menu dropdown-menu-end show dropdown-animation">
               <button
                 className="dropdown-item"
                 onClick={handleshowProfileModalAdmin}

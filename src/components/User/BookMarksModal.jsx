@@ -16,6 +16,7 @@ import signalRService from "../../services/signalrService";
 import { jwtDecode } from "jwt-decode";
 import ShareLinkModal from "./ShareModal";
 import { useTheme } from "../../services/ThemeContext";
+import { useSavedArticles } from "../../services/SaveArticleContext";
 
 const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
   const { user, logout } = useAuth();
@@ -28,6 +29,7 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
   const articlesPerPage = 10;
   const [showshare, setShowshare] = useState(false);
   const [shareData, setshareData] = useState(null);
+  const { SetSaveStatusData } = useSavedArticles();
 
   const [query, setQuery] = useState("");
 
@@ -87,13 +89,23 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
       setArticles(data.articles);
       setTotalPages(data.totalpages);
 
+      if (user) {
+        if (Array.isArray(data.articles)) {
+          const extractedArticlesData = data.articles.map((article) => ({
+            articleID: article.articleID,
+            isSaved: article.isSaved,
+          }));
+          SetSaveStatusData(extractedArticlesData);
+        }
+      }
+
       // Join groups for the articles
       data.articles.forEach((article) => {
         signalRService.joinGroup(article.articleID);
       });
     } catch (error) {
       setError(error.message);
-      console.error("Error fetching articles:", error);
+      // console.error("Error fetching articles:", error);
     } finally {
       setLoading(false);
     }
@@ -222,13 +234,13 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
                 {error ? (
                   <div className="container d-flex justify-content-center align-items-center vh-100">
                     <div className="text-center">
-                      <div className="fs-1 mb-3">😞</div>
+                      {/* <div className="fs-1 mb-3">😞</div> */}
                       <div
                         className={`fs-4 text-${
                           bgtheme == "dark" ? "white-50" : "muted"
                         } mt-3`}
                       >
-                        Sorry, come back later
+                        No Articles Saved
                       </div>
                     </div>
                   </div>

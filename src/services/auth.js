@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import React, { createContext, useState, useContext, useEffect } from "react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const AuthContext = createContext();
 
@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(atob(storedUser)));
     }
@@ -17,12 +17,13 @@ export const AuthProvider = ({ children }) => {
 
   const login = (userData) => {
     setUser(userData);
-    localStorage.setItem('user', btoa(JSON.stringify(userData)));
+    localStorage.setItem("user", btoa(JSON.stringify(userData)));
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user');
+    localStorage.clear();
+    localStorage.removeItem("user");
   };
 
   return (

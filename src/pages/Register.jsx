@@ -25,16 +25,24 @@ const Register = ({ onRegistrationSuccess }) => {
           },
         }
       );
-
-      // On success, show a success message and switch to login tab
       toast.success("Registration successful!");
-      //   console.log(result.data);
-
-      // Call the prop function to switch to the login tab
       onRegistrationSuccess();
     } catch (error) {
-      console.error("Error registering user:", error);
-      toast.error("Error registering. Please try again.");
+      if (error.response && error.response.data && error.response.data.errors) {
+        const validationErrors = error.response.data.errors;
+
+        Object.values(validationErrors).forEach((errorMessages) => {
+          errorMessages.forEach((message) => {
+            toast.error(message);
+          });
+        });
+      } else if (error.response.data.message) {
+        const message = error.response.data.message;
+
+        toast.error(message);
+      } else {
+        toast.error("Error registering. Please try again.");
+      }
     }
   };
 

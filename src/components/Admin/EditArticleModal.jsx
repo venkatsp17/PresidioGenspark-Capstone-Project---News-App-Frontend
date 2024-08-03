@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Select from "react-select";
+import { useTheme } from "../../services/ThemeContext";
 
 const EditArticleModal = ({
   show,
@@ -51,7 +52,7 @@ const EditArticleModal = ({
         }))
       );
     } catch (error) {
-      console.error("Error fetching articles:", error);
+      // console.error("Error fetching articles:", error);
     }
   };
 
@@ -76,7 +77,7 @@ const EditArticleModal = ({
         }))
       );
     } catch (error) {
-      console.error("Error fetching articles:", error);
+      // console.error("Error fetching articles:", error);
     }
   };
 
@@ -108,7 +109,7 @@ const EditArticleModal = ({
         ...articleDetails,
         Categories: articleDetails.Categories.map((option) => option.value),
       };
-      console.log(updatedArticleDetails);
+      // console.log(updatedArticleDetails);
       await axios.put(
         `https://localhost:7285/api/Article/editArticleDetails`,
         updatedArticleDetails,
@@ -123,8 +124,21 @@ const EditArticleModal = ({
       toast.success("Update Successful!");
       handleClose();
     } catch (error) {
-      toast.error("Error updating article!");
-      console.error("Error updating article:", error);
+      if (error.response && error.response.data && error.response.data.errors) {
+        const validationErrors = error.response.data.errors;
+
+        Object.values(validationErrors).forEach((errorMessages) => {
+          errorMessages.forEach((message) => {
+            toast.error(message);
+          });
+        });
+      } else if (error.response.data.message) {
+        const message = error.response.data.message;
+
+        toast.error(message);
+      } else {
+        toast.error("Error registering. Please try again.");
+      }
     }
   };
 
@@ -135,14 +149,65 @@ const EditArticleModal = ({
     3: "Rejected",
   };
 
+  const themes = {
+    white: {
+      background: "white",
+      text: "black",
+      border: "#007bff",
+      selected: "#007bff",
+      optionHover: "#e9ecef",
+    },
+    dark: {
+      background: "#333",
+      text: "white",
+      border: "#0056b3",
+      selected: "#0056b3",
+      optionHover: "#444",
+    },
+  };
+
+  const customStyles = (bgtheme, texttheme) => ({
+    option: (provided, state) => ({
+      ...provided,
+      color: texttheme,
+      backgroundColor: state.isSelected
+        ? themes[bgtheme].selected
+        : themes[bgtheme].background,
+      "&:hover": {
+        backgroundColor: themes[bgtheme].optionHover,
+      },
+    }),
+    control: (provided) => ({
+      ...provided,
+      borderColor: themes[bgtheme].border,
+      backgroundColor: themes[bgtheme].background,
+      boxShadow: "none",
+      "&:hover": {
+        borderColor: themes[bgtheme].border,
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+      borderRadius: "0.25rem",
+      border: `1px solid ${themes[bgtheme].border}`,
+      backgroundColor: themes[bgtheme].background,
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: texttheme,
+    }),
+  });
+
+  const { bgtheme, texttheme } = useTheme();
+
   return (
     <Modal show={show} onHide={handleClose} size="lg">
-      <Modal.Header closeButton>
+      <Modal.Header closeButton className={`bg-${bgtheme} text-${texttheme}`}>
         <Modal.Title>
           {mode === "view" ? "View Article" : "Edit Article"}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className={`bg-${bgtheme} text-${texttheme}`}>
         <Form>
           <Row>
             {Object.keys(articleDetails).map((key) => {
@@ -156,6 +221,7 @@ const EditArticleModal = ({
                     </Form.Label>
                     {key === "Content" ? (
                       <Form.Control
+                        className={`bg-${bgtheme} text-${texttheme}`}
                         as="textarea"
                         rows={3}
                         required
@@ -171,6 +237,7 @@ const EditArticleModal = ({
                       />
                     ) : (
                       <Form.Control
+                        className={`bg-${bgtheme} text-${texttheme}`}
                         type="text"
                         name={key}
                         required
@@ -199,11 +266,15 @@ const EditArticleModal = ({
             })}
             {mode === "edit" && (
               <Col md={12}>
-                <Form.Group controlId="Categories">
+                <Form.Group
+                  controlId="Categories"
+                  className={`bg-${bgtheme} text-${texttheme}`}
+                >
                   <Form.Label>
                     <strong>Categories</strong>
                   </Form.Label>
                   <Select
+                    styles={customStyles(bgtheme, texttheme)}
                     isMulti
                     options={categoryOptions}
                     value={articleDetails.Categories}
@@ -215,7 +286,7 @@ const EditArticleModal = ({
           </Row>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer className={`bg-${bgtheme} text-${texttheme}`}>
         {mode !== "view" && (
           <Button variant="primary" onClick={handleSave}>
             Save

@@ -37,7 +37,7 @@ const AdminCategories = () => {
       setCategories(response.data);
     } catch (error) {
       setError(error.message);
-      console.error("Error fetching articles:", error);
+      // console.error("Error fetching articles:", error);
     } finally {
       setLoading(false);
     }
@@ -64,7 +64,7 @@ const AdminCategories = () => {
       setShowDeleteModal(false);
     } catch (error) {
       toast.error("Error deleting category");
-      console.error("Error deleting category:", error);
+      // console.error("Error deleting category:", error);
     }
   };
 
@@ -90,8 +90,21 @@ const AdminCategories = () => {
       fetchCategories();
       setShowAddModal(false);
     } catch (error) {
-      toast.error(error.response.data.message);
-      console.error("Error adding category:", error);
+      if (error.response && error.response.data && error.response.data.errors) {
+        const validationErrors = error.response.data.errors;
+
+        Object.values(validationErrors).forEach((errorMessages) => {
+          errorMessages.forEach((message) => {
+            toast.error(message);
+          });
+        });
+      } else if (error.response.data.message) {
+        const message = error.response.data.message;
+
+        toast.error(message);
+      } else {
+        toast.error("Error registering. Please try again.");
+      }
     }
   };
 
@@ -209,11 +222,13 @@ const AdminCategories = () => {
 
       {/* Delete Confirmation Modal */}
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className={`bg-${bgtheme} text-${texttheme}`}>
           <Modal.Title>Confirm Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this category?</Modal.Body>
-        <Modal.Footer>
+        <Modal.Body className={`bg-${bgtheme} text-${texttheme}`}>
+          Are you sure you want to delete this category?
+        </Modal.Body>
+        <Modal.Footer className={`bg-${bgtheme} text-${texttheme}`}>
           <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
             Cancel
           </Button>
@@ -229,14 +244,17 @@ const AdminCategories = () => {
           setShowAddModal(false);
         }}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Add Category</Modal.Title>
+        <Modal.Header closeButton className={`bg-${bgtheme} text-${texttheme}`}>
+          <Modal.Title className={`bg-${bgtheme} text-${texttheme}`}>
+            Add Category
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className={`bg-${bgtheme} text-${texttheme}`}>
           <Form onSubmit={handleAddCategory}>
             <Form.Group controlId="formCategoryName">
               <Form.Label>Name</Form.Label>
               <Form.Control
+                className={`bg-${bgtheme} text-${texttheme}`}
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -246,6 +264,7 @@ const AdminCategories = () => {
             <Form.Group controlId="formCategoryDescription" className="mt-3">
               <Form.Label>Description</Form.Label>
               <Form.Control
+                className={`bg-${bgtheme} text-${texttheme}`}
                 as="textarea"
                 rows={3}
                 value={description}

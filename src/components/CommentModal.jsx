@@ -115,7 +115,7 @@ const CommentModal = ({
       setComments(data);
     } catch (error) {
       setError(error.message);
-      console.error("Error fetching articles:", error);
+      // console.error("Error fetching articles:", error);
     } finally {
       setLoading(false);
     }
@@ -165,7 +165,7 @@ const CommentModal = ({
       );
       setNewComment("");
     } catch (error) {
-      console.error("There was an error posting the comment!", error);
+      // console.error("There was an error posting the comment!", error);
     }
   };
 
@@ -188,7 +188,12 @@ const CommentModal = ({
   const { bgtheme, texttheme } = useTheme();
 
   return (
-    <Modal show={show} onHide={onHide} size="lg">
+    <Modal
+      show={show}
+      onHide={onHide}
+      size={window.innerWidth > 1200 ? "xl" : "lg"}
+      dialogClassName="modal-dialog"
+    >
       <Modal.Header closeButton className={`bg-${bgtheme} text-${texttheme}`}>
         <Modal.Title></Modal.Title>
       </Modal.Header>
@@ -218,13 +223,13 @@ const CommentModal = ({
               {comments.map((comment) => (
                 <div
                   key={comment.commentID}
-                  className="d-flex mb-3 align-items-center justify-content-start "
+                  className="d-flex mb-3 align-items-center justify-content-start"
                 >
                   <strong>{comment.userName}</strong>
                   <p className="mx-1 my-0">{comment.content}</p>
                   <small
                     className={`text-${
-                      bgtheme == "dark" ? "white-50" : "muted"
+                      bgtheme === "dark" ? "white-50" : "muted"
                     }`}
                     style={{ fontSize: "0.7em" }}
                   >
@@ -242,7 +247,7 @@ const CommentModal = ({
                   onChange={handleCommentChange}
                   placeholder="Add a comment..."
                   className={`bg-${bgtheme} text-${
-                    bgtheme == "dark" ? "white-50" : "muted"
+                    bgtheme === "dark" ? "white-50" : "muted"
                   } border-rounded-1`}
                   style={{ resize: "none" }}
                 />

@@ -51,10 +51,11 @@ const HomePage = () => {
   const [showshare, setShowshare] = useState(false);
   const [articleDataComment, setarticleDataComment] = useState(null);
   const [shareData, setshareData] = useState(null);
-  const [activeTab, setActiveTab] = useState("myfeeds");
+  const [activeTab, setActiveTab] = useState("dailynews");
 
   const handleTabChange = (key) => {
     setActiveTab(key);
+    setCurrentPage(1);
   };
   //Use Effects
   useEffect(() => {
@@ -275,6 +276,10 @@ const HomePage = () => {
     }
   };
 
+  useEffect(() => {
+    setActiveTab("dailynews");
+  }, [logout]);
+
   const fetchTop3Articles = async () => {
     try {
       const response = await axios.get(
@@ -342,16 +347,19 @@ const HomePage = () => {
               size={30}
             />
           </Button>
-          <h2 className={`text-${texttheme} m-0`}>{selectedCategory.name}</h2>
+          <h2 className={`text-${texttheme} m-0`}>
+            {activeTab == "myfeeds" ? "" : selectedCategory.name}
+          </h2>
           <div ref={dropdownRef}>
             <FaUser
               color={`${bgtheme == "dark" ? "white" : "black"}`}
               size={30}
               onClick={toggleDropdown}
+              className="user-icon-animation"
             />
             {showDropdown && (
               <div
-                className={`dropdown-menu dropdown-menu-end show bg-${bgtheme}`}
+                className={`dropdown-menu dropdown-menu-end show bg-${bgtheme} dropdown-animation`}
               >
                 {user ? (
                   <button
@@ -382,7 +390,9 @@ const HomePage = () => {
       </div>
 
       <div
-        className={`h-100 w-100 mt-5 p-3 d-flex flex-column align-items-center bg-${bgtheme} text-${texttheme}`}
+        className={`${
+          articles.length == 0 ? "vh-100" : "h-100"
+        } w-100 mt-5 p-3 d-flex flex-column align-items-center bg-${bgtheme} text-${texttheme}`}
       >
         <LeftMenu
           setShowBoomarks={setShowBoomarks}
@@ -417,7 +427,7 @@ const HomePage = () => {
                       className="col-md-4 col-sm-12 mb-4"
                       onClick={() => handleCommentOPen(article)}
                     >
-                      <div className="card32">
+                      <div className="card32 card-animation">
                         <div className="card32-title1">{article.summary}</div>
                         <img src={article.imgURL} alt="Image" />
                         <div className="card32-summary">{article.title}</div>
@@ -431,7 +441,9 @@ const HomePage = () => {
 
         <Row className="w-100 d-flex justify-content-center">
           {!(error || loading) ? (
-            <Pagination className={`mt-1 pagination-${bgtheme}`}>
+            <Pagination
+              className={`mt-1 pagination-${bgtheme} pagination-animation`}
+            >
               {[...Array(totalPages).keys()].map((number) => (
                 <Pagination.Item
                   key={number}
@@ -450,7 +462,10 @@ const HomePage = () => {
           {loading ? (
             <div className="d-flex justify-content-center align-items-center vh-100 w-100">
               <div className="text-center">
-                <div className="spinner-border text-primary" role="status">
+                <div
+                  className="spinner-border text-primary loading-spinner-animation"
+                  role="status"
+                >
                   <span className="visually-hidden">Loading...</span>
                 </div>
                 <p
@@ -474,7 +489,9 @@ const HomePage = () => {
                     bgtheme == "dark" ? "white-50" : "muted"
                   } mt-3`}
                 >
-                  Sorry, come back later
+                  {articles.length == 0
+                    ? "No results found"
+                    : "Sorry, come back later"}
                 </div>
               </div>
             </div>
@@ -500,7 +517,9 @@ const HomePage = () => {
         </Row>
         <Row className="w-100 d-flex justify-content-center">
           {!(error || loading) ? (
-            <Pagination className={`pagination-${bgtheme}`}>
+            <Pagination
+              className={`pagination-${bgtheme} pagination-animation`}
+            >
               {[...Array(totalPages).keys()].map((number) => (
                 <Pagination.Item
                   key={number}

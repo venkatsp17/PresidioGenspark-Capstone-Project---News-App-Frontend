@@ -53,13 +53,13 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
         response.data;
 
       // Debugging output
-      console.log("API Response Data:", articles.length);
+      // console.log("API Response Data:", articles.length);
 
       setArticles(fetchedArticles);
       setTotalPages(fetchedTotalPages);
     } catch (error) {
       setError(error.message);
-      console.error("Error fetching articles:", error);
+      // console.error("Error fetching articles:", error);
     } finally {
       setLoading(false);
     }
@@ -112,7 +112,7 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
       fetchArticles(currentPage, rowsPerPage);
     } catch (error) {
       setError(error.message);
-      console.error("Error changing article status:", error);
+      // console.error("Error changing article status:", error);
     }
   };
 

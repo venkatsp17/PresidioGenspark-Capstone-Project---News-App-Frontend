@@ -69,7 +69,7 @@ const CustomCard = ({
       }
     } catch (error) {
       toast.error("Article not saved!");
-      console.error("Error fetching articles:", error);
+      // console.error("Error fetching articles:", error);
     } finally {
     }
   }
@@ -94,9 +94,9 @@ const CustomCard = ({
 
   return (
     <Card
-      className={`mb-3 mx-auto max-width-card border border-${texttheme} bg-${bgtheme} ${
+      className={`card-animation mb-3 mx-auto max-width-card bg-${bgtheme} ${
         fromModal ? "card-modal432" : ""
-      }`}
+      } shadow-lg`}
     >
       <Row className="g-0">
         <Col
@@ -148,32 +148,33 @@ const CustomCard = ({
               </a>
             </Card.Text>
             {user ? (
-              <Card.Text className="d-flex w-100 justify-content-between">
-                {" "}
-                <b>
+              <Card.Text className="row d-flex flex-column  flex-md-row  w-100 justify-content-between">
+                <b className="col-12 col-md-4 text-start text-sm-start">
                   <small
                     className={`text-${
-                      bgtheme == "dark" ? "white-50" : "muted"
+                      bgtheme === "dark" ? "white-50" : "muted"
                     } ms-2 mx-1`}
                   >
                     {saveCount} saved this article
                   </small>
                 </b>
-                <b>
+                <b className="col-12 col-md-4 text-start text-sm-center ">
                   <small
                     className={`text-${
-                      bgtheme == "dark" ? "white-50" : "muted"
+                      bgtheme === "dark" ? "white-50" : "muted"
                     } ms-2 mx-1`}
                   >
-                    {commentCount == 0
+                    {commentCount === 0
                       ? "Be first one to comment"
-                      : commentCount == 1
+                      : commentCount === 1
                       ? `${commentCount} comment`
                       : `${commentCount} comments`}
                   </small>
+                </b>
+                <b className="col-12 col-md-4 text-start text-md-end ">
                   <small
                     className={`text-${
-                      bgtheme == "dark" ? "white-50" : "muted"
+                      bgtheme === "dark" ? "white-50" : "muted"
                     } ms-2 mx-1`}
                   >
                     {shareCount + " shared"}

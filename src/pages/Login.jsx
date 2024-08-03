@@ -35,7 +35,7 @@ const Login = () => {
         );
         login(result.data);
         toast.success("Login successful!");
-        console.log(result.data);
+        // console.log(result.data);
         if (result.data.role === 0) {
           navigate("/", { replace: true });
         }
@@ -43,12 +43,12 @@ const Login = () => {
           navigate("/admin", { replace: true });
         }
       } catch (error) {
-        console.error("Error logging in with Google:", error);
+        // console.error("Error logging in with Google:", error);
         toast.error("Error logging in. Please try again.");
       }
     },
     onError: (error) => {
-      console.error("Google Login Error:", error);
+      // console.error("Google Login Error:", error);
       toast.error("Google login failed. Please try again."); // Error toast
     },
   });
@@ -77,8 +77,21 @@ const Login = () => {
         navigate("/admin", { replace: true });
       }
     } catch (error) {
-      console.error("Error logging in:", error);
-      toast.error("Error logging in. Please try again.");
+      if (error.response && error.response.data && error.response.data.errors) {
+        const validationErrors = error.response.data.errors;
+
+        Object.values(validationErrors).forEach((errorMessages) => {
+          errorMessages.forEach((message) => {
+            toast.error(message);
+          });
+        });
+      } else if (error.response.data.message) {
+        const message = error.response.data.message;
+
+        toast.error(message);
+      } else {
+        toast.error("Error registering. Please try again.");
+      }
     }
   };
 
