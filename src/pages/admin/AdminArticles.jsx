@@ -5,7 +5,7 @@ import axios from "axios";
 import EditArticleModal from "../../components/Admin/EditArticleModal.jsx";
 import CategoryDropdown from "../../components/Admin/CategoryDropDown.jsx";
 import { Table as BootstrapTable, Pagination } from "react-bootstrap";
-import { useTheme } from "../../services/ThemeContext.jsx";
+import { useTheme } from "../../services/themecontext.jsx";
 import { apiUrl } from "../../utils/constants.jsx";
 
 const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {

@@ -4,9 +4,9 @@ import Header from "../../components/Admin/Header.jsx";
 import { Routes, Route, useLocation } from "react-router-dom";
 import AdminArticles from "./AdminArticles.jsx";
 import AdminDashboard from "./AdminDashboard.jsx";
-import ProfileModal from "../../components/ProfileModal.jsx";
+import ProfileModal from "../../components/profilemodal.jsx";
 import AdminCategories from "./AdminCategories.jsx";
-import { useTheme } from "../../services/ThemeContext.jsx";
+import { useTheme } from "../../services/themecontext.jsx";
 import "../../styles/admin/admin.css";
 
 const AdminHome = () => {

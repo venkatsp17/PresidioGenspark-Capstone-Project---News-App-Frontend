@@ -4,7 +4,7 @@ import HomePage from "./pages/user/home.jsx";
 import { AuthProvider } from "./services/auth.js";
 import AdminRoute from "./routes/AdminRoute.jsx";
 import TabSwitcher from "./pages/TabSwitcher.jsx";
-import { SavedArticlesProvider } from "./services/SaveArticleContext.jsx";
+import { SavedArticlesProvider } from "./services/savearticlecontext.jsx";
 import AdminHome from "./pages/Admin/admin-home.jsx";
 
 const AppRoutes = () => (
