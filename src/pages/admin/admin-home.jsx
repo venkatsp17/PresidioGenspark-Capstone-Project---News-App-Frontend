@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../../components/Admin/Sidebar.jsx";
-import Header from "../../components/Admin/Header.jsx";
+import Sidebar from "../../components/admin/sidebar.jsx";
+import Header from "../../components/admin/header.jsx";
 import { Routes, Route, useLocation } from "react-router-dom";
-import AdminArticles from "./AdminArticles.jsx";
-import AdminDashboard from "./AdminDashboard.jsx";
 import ProfileModal from "../../components/profilemodal.jsx";
-import AdminCategories from "./AdminCategories.jsx";
+import AdminCategories from "./admin-categories.jsx";
+import AdminArticles from "./admin-articles.jsx";
+import AdminDashboard from "./admin-dashboard.jsx";
 import { useTheme } from "../../services/themecontext.jsx";
 import "../../styles/admin/admin.css";
 

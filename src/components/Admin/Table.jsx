@@ -6,7 +6,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { FaCheck, FaTimes, FaEdit, FaEye } from "react-icons/fa";
-import "../../styles/components/Table.css";
+import "../../styles/components/table.css";
 import { useTheme } from "../../services/themecontext.jsx";
 
 const Table = ({
