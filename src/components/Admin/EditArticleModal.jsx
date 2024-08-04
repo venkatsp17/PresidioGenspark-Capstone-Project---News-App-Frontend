@@ -31,6 +31,10 @@ const EditArticleModal = ({
 
   const [categoryOptions, setCategoryOptions] = useState();
 
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
@@ -53,14 +57,10 @@ const EditArticleModal = ({
     }
   };
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
   const fetchArticleCategories = async () => {
     try {
       const response = await axios.get(
-        `${apiUrl}/Category/getAllAdminCategories`,
+        "https://localhost:7285/api/Category/getAllAdminCategories",
         {
           params: {
             articleid: article.articleID,
@@ -112,7 +112,7 @@ const EditArticleModal = ({
       };
       // console.log(updatedArticleDetails);
       await axios.put(
-        `${apiUrl}/Article/editArticleDetails`,
+        `https://localhost:7285/api/Article/editArticleDetails`,
         updatedArticleDetails,
         {
           headers: {

@@ -13,7 +13,7 @@ const Register = ({ onRegistrationSuccess }) => {
 
     try {
       // Make API request to register the user
-      await axios.post(
+      const result = await axios.post(
         `${apiUrl}/Authentication/UserRegister`,
         {
           name,

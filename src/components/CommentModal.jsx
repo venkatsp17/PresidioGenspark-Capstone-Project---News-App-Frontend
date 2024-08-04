@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Modal, Button, Row, Col, Form } from "react-bootstrap";
-import { useAuth } from "../services/auth.jsx";
-import signalRService from "../services/signalrService.jsx";
+import React, { useState, useEffect, useRef, useDebugValue } from "react";
+import { Modal, Button, Row, Col, Form, Card, Image } from "react-bootstrap";
+import { useAuth } from "../services/auth.js";
+import signalRService from "../services/signalrService.js";
 import axios from "axios";
 import CustomCard from "./CustomCard.jsx";
 import { useTheme } from "../services/ThemeContext.jsx";
 import { apiUrl } from "../utils/constants.jsx";
-
 const CommentModal = ({
   show,
   onHide,
@@ -17,8 +16,9 @@ const CommentModal = ({
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [articleData, setarticleData] = useState(articleDataComment);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
   };
@@ -94,7 +94,8 @@ const CommentModal = ({
   const commentListenerRef = useRef(null);
 
   const fetchComments = async () => {
-    // setError(null);
+    setLoading(true);
+    setError(null);
 
     try {
       const response = await axios.get(`${apiUrl}/Comment/getcommentsByID`, {
@@ -110,8 +111,10 @@ const CommentModal = ({
       const data = response.data;
       setComments(data);
     } catch (error) {
-      // setError(error.message);
+      setError(error.message);
       // console.error("Error fetching articles:", error);
+    } finally {
+      setLoading(false);
     }
   };
 

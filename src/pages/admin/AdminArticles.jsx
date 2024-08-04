@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Table from "../../components/Admin/Table.jsx";
-import { useAuth } from "../../services/auth.jsx";
+import { useAuth } from "../../services/auth.js";
 import axios from "axios";
 import EditArticleModal from "../../components/Admin/EditArticleModal.jsx";
 import CategoryDropdown from "../../components/Admin/CategoryDropDown.jsx";
-import { Pagination } from "react-bootstrap";
+import { Table as BootstrapTable, Pagination } from "react-bootstrap";
 import { useTheme } from "../../services/ThemeContext.jsx";
 import { apiUrl } from "../../utils/constants.jsx";
 
-const AdminArticles = ({ status }) => {
+const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
   const { user } = useAuth();
   const [articles, setArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +27,7 @@ const AdminArticles = ({ status }) => {
 
   useEffect(() => {
     setCurrentPage(1); // Reset to page 1 when status changes
-  }, [status]);
+  }, [status, setCurrentPage]);
 
   const fetchArticles = async (pageNumber, pageSize) => {
     setLoading(true);
@@ -54,7 +54,7 @@ const AdminArticles = ({ status }) => {
       // console.log("API Response Data:", articles.length);
 
       setArticles(fetchedArticles);
-      setTotalPages(parseInt(fetchedTotalPages));
+      setTotalPages(fetchedTotalPages);
     } catch (error) {
       setError(error.message);
       // console.error("Error fetching articles:", error);
@@ -91,7 +91,7 @@ const AdminArticles = ({ status }) => {
   const changeArticleStatus = async (articleId, articleStatus) => {
     setError(null);
     try {
-      await axios.put(
+      const response = await axios.put(
         `${apiUrl}/Article/changeArticleStatus`,
         null, // No body content for PUT with query params
         {

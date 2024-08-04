@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Dropdown } from "react-bootstrap";
-import { useAuth } from "../../services/auth.jsx";
+import { useAuth } from "../../services/auth.js";
 import { apiUrl } from "../../utils/constants.jsx";
 
 const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
@@ -28,7 +28,7 @@ const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
     };
 
     fetchCategories();
-  }, [user]);
+  }, []);
 
   const handleSelect = (category) => {
     setSelectedCategory(category);

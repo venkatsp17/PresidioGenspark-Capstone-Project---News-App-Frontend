@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Offcanvas, ListGroup, Button } from "react-bootstrap";
-import { useAuth } from "../services/auth.jsx";
+import { useAuth } from "../services/auth";
 import axios from "axios";
 import { FaRegBookmark } from "react-icons/fa";
 import { useTheme } from "../services/ThemeContext.jsx";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Container, Row, Col, Table } from "react-bootstrap";
 import "../styles/components/ProfileModal.css"; // Import custom CSS
-import { useAuth } from "../services/auth.jsx";
+import { useAuth } from "../services/auth.js";
 import { Navigate } from "react-router-dom";
 import { useTheme } from "../services/ThemeContext.jsx";
 import axios from "axios";
@@ -10,12 +10,18 @@ import { apiUrl } from "../utils/constants.jsx";
 
 const ProfileModal = ({ show, handleClose }) => {
   const { user } = useAuth();
-  const { bgtheme, setbgTheme, setTextSize, texttheme, settextTheme } =
-    useTheme();
+  const {
+    bgtheme,
+    setbgTheme,
+    textSize,
+    setTextSize,
+    texttheme,
+    settextTheme,
+  } = useTheme();
 
   const toggleTheme = () => {
-    setbgTheme(bgtheme === "dark" ? "white" : "dark");
-    settextTheme(texttheme === "dark" ? "white" : "dark");
+    setbgTheme(bgtheme == "dark" ? "white" : "dark");
+    settextTheme(texttheme == "dark" ? "white" : "dark");
   };
 
   const setDefaultTextSize = () => {
@@ -75,11 +81,11 @@ const ProfileModal = ({ show, handleClose }) => {
 
     fetchCategories();
     fetchpreferences();
-  }, [user]);
+  }, []);
 
   const PostPreferences = async () => {
     try {
-      await axios.post(
+      const response = await axios.post(
         `${apiUrl}/UserPreference/addpreferences`,
         {
           userID: user.userID,

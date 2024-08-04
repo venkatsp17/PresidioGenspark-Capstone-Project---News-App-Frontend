@@ -9,7 +9,7 @@ import {
 import { FaMeta, FaSquareXTwitter, FaSquareWhatsapp } from "react-icons/fa6";
 
 import axios from "axios";
-import { useAuth } from "../../services/auth.jsx";
+import { useAuth } from "../../services/auth.js";
 import { useTheme } from "../../services/ThemeContext.jsx";
 import { apiUrl } from "../../utils/constants.jsx";
 
@@ -31,19 +31,23 @@ const ShareLinkModal = ({
     };
 
     try {
-      await axios.post(`${apiUrl}/Article/articlesharecount`, shareData, {
-        headers: {
-          Authorization: `Bearer ${user ? user.token : ""}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        `${apiUrl}/Article/articlesharecount`,
+        shareData,
+        {
+          headers: {
+            Authorization: `Bearer ${user ? user.token : ""}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       // console.log(response.data);
     } catch (error) {
       // console.error("Error sharing data:", error);
     }
   };
 
-  const { bgtheme } = useTheme();
+  const { bgtheme, texttheme } = useTheme();
 
   return (
     <Modal show={show} onHide={handleClose}>

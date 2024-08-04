@@ -5,13 +5,13 @@ import { FaBars, FaUser } from "react-icons/fa";
 import LeftMenu from "../../components/LeftMenu.jsx";
 import CustomCard from "../../components/CustomCard.jsx";
 import "../../styles/user/Home.css";
-import { useAuth } from "../../services/auth.jsx";
+import { useAuth } from "../../services/auth.js";
 import { useNavigate } from "react-router-dom";
 import ProfileModal from "../../components/ProfileModal.jsx";
 import CommentModal from "../../components/CommentModal.jsx";
 import { jwtDecode } from "jwt-decode";
 import BookMarksModal from "../../components/User/BookMarksModal.jsx";
-import signalRService from "../../services/signalrService.jsx";
+import signalRService from "../../services/signalrService.js";
 import ShareLinkModal from "../../components/User/ShareModal.jsx";
 import "../../styles/components/customcard.css";
 import { useTheme } from "../../services/ThemeContext.jsx";
@@ -27,6 +27,7 @@ const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [showLeftMenu, setShowLeftMenu] = useState(false);
+  const [showRightMenu, setShowRightMenu] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const articlesPerPage = 10;
@@ -69,6 +70,11 @@ const HomePage = () => {
       }
     }
   }, [user, logout]);
+
+  useEffect(() => {
+    fetchArticles(currentPage, activeTab);
+    // console.log(articles);
+  }, [currentPage, selectedCategory, user, activeTab]);
 
   useEffect(() => {
     if (user) {
@@ -262,11 +268,6 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    fetchArticles(currentPage, activeTab);
-    // console.log(articles);
-  }, [currentPage, selectedCategory, user, activeTab]);
-
-  useEffect(() => {
     setActiveTab("dailynews");
   }, [logout]);
 
@@ -325,21 +326,21 @@ const HomePage = () => {
       >
         <div
           className={`w-100 d-flex justify-content-between align-items-center p-3 bg-${
-            bgtheme === "dark" ? "dark" : "primary"
+            bgtheme == "dark" ? "dark" : "primary"
           } text-${texttheme}`}
         >
           <Button variant="default" onClick={() => setShowLeftMenu(true)}>
             <FaBars
-              color={`${bgtheme === "dark" ? "white" : "black"}`}
+              color={`${bgtheme == "dark" ? "white" : "black"}`}
               size={30}
             />
           </Button>
           <h2 className={`text-${texttheme} m-0`}>
-            {activeTab === "myfeeds" ? "" : selectedCategory.name}
+            {activeTab == "myfeeds" ? "" : selectedCategory.name}
           </h2>
           <div ref={dropdownRef}>
             <FaUser
-              color={`${bgtheme === "dark" ? "white" : "black"}`}
+              color={`${bgtheme == "dark" ? "white" : "black"}`}
               size={30}
               onClick={toggleDropdown}
               className="user-icon-animation"
@@ -378,7 +379,7 @@ const HomePage = () => {
 
       <div
         className={`${
-          articles.length === 0 ? "vh-100" : "h-100"
+          articles.length == 0 ? "vh-100" : "h-100"
         } w-100 mt-5 p-3 d-flex flex-column align-items-center bg-${bgtheme} text-${texttheme}`}
       >
         <LeftMenu
@@ -393,7 +394,7 @@ const HomePage = () => {
           <></>
         )}
         <div className="container max-width-card">
-          {user && activeTab === "dailynews" ? (
+          {user && activeTab == "dailynews" ? (
             <h2 className={`text-${bgtheme == "dark" ? "white-50" : "muted"}`}>
               Top #3 Ranked
             </h2>
@@ -401,7 +402,7 @@ const HomePage = () => {
             <></>
           )}
           {user &&
-            activeTab === "dailynews" && ( // Check if user is logged in
+            activeTab == "dailynews" && ( // Check if user is logged in
               <div className="row">
                 {top3articles.map((article) => {
                   return (
@@ -412,7 +413,7 @@ const HomePage = () => {
                     >
                       <div className="card32 card-animation">
                         <div className="card32-title1">{article.summary}</div>
-                        <img src={article.imgURL} />
+                        <img src={article.imgURL} alt="Image" />
                         <div className="card32-summary">{article.title}</div>
                       </div>
                     </div>
@@ -453,7 +454,7 @@ const HomePage = () => {
                 </div>
                 <p
                   className={`text-${
-                    bgtheme === "dark" ? "white-50" : "muted"
+                    bgtheme == "dark" ? "white-50" : "muted"
                   } mt-3`}
                 >
                   Please wait, loading data...
@@ -469,10 +470,10 @@ const HomePage = () => {
                 <div className="fs-1 mb-3">😞</div>
                 <div
                   className={`fs-4 text-${
-                    bgtheme === "dark" ? "white-50" : "muted"
+                    bgtheme == "dark" ? "white-50" : "muted"
                   } mt-3`}
                 >
-                  {articles.length === 0
+                  {articles.length == 0
                     ? "No results found"
                     : "Sorry, come back later"}
                 </div>
