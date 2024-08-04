@@ -24,11 +24,6 @@ jobs:
         run: |
           node -v
           npm -v
-
-      - name: Install dependencies
-        run: |
-          rm -rf node_modules package-lock.json
-          npm install
           
       - name: Build And Deploy
         id: builddeploy
