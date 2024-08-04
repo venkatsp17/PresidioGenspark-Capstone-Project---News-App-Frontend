@@ -31,23 +31,19 @@ const ShareLinkModal = ({
     };
 
     try {
-      const response = await axios.post(
-        `${apiUrl}/Article/articlesharecount`,
-        shareData,
-        {
-          headers: {
-            Authorization: `Bearer ${user ? user.token : ""}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await axios.post(`${apiUrl}/Article/articlesharecount`, shareData, {
+        headers: {
+          Authorization: `Bearer ${user ? user.token : ""}`,
+          "Content-Type": "application/json",
+        },
+      });
       // console.log(response.data);
     } catch (error) {
       // console.error("Error sharing data:", error);
     }
   };
 
-  const { bgtheme, texttheme } = useTheme();
+  const { bgtheme } = useTheme();
 
   return (
     <Modal show={show} onHide={handleClose}>

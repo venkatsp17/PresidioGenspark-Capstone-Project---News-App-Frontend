@@ -10,14 +10,8 @@ import { apiUrl } from "../utils/constants.jsx";
 
 const ProfileModal = ({ show, handleClose }) => {
   const { user } = useAuth();
-  const {
-    bgtheme,
-    setbgTheme,
-    textSize,
-    setTextSize,
-    texttheme,
-    settextTheme,
-  } = useTheme();
+  const { bgtheme, setbgTheme, setTextSize, texttheme, settextTheme } =
+    useTheme();
 
   const toggleTheme = () => {
     setbgTheme(bgtheme == "dark" ? "white" : "dark");
@@ -85,7 +79,7 @@ const ProfileModal = ({ show, handleClose }) => {
 
   const PostPreferences = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `${apiUrl}/UserPreference/addpreferences`,
         {
           userID: user.userID,

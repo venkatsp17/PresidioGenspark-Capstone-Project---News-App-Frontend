@@ -77,7 +77,7 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
             pageno: page,
             pagesize: articlesPerPage,
             userid: user ? parseInt(user.userID) : 0,
-            query: query == "" || query == null ? "null" : query,
+            query: query === "" || query === null ? "null" : query,
           },
           headers: {
             Authorization: `Bearer ${user ? user.token : ""}`,
@@ -222,7 +222,7 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
                       </div>
                       <p
                         className={`text-${
-                          bgtheme == "dark" ? "white-50" : "muted"
+                          bgtheme === "dark" ? "white-50" : "muted"
                         } mt-3`}
                       >
                         Please wait, loading data...
@@ -238,7 +238,7 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
                       {/* <div className="fs-1 mb-3">😞</div> */}
                       <div
                         className={`fs-4 text-${
-                          bgtheme == "dark" ? "white-50" : "muted"
+                          bgtheme === "dark" ? "white-50" : "muted"
                         } mt-3`}
                       >
                         No Articles Saved

@@ -109,3 +109,14 @@ body.dark-mode ::-webkit-scrollbar-thumb {
 .tab-title {
   font-size: 1.25rem;
 }
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+}
+
+.dropdown-menu.show {
+  display: block;
+}

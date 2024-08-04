@@ -61,7 +61,6 @@ const CustomCard = ({
           },
         }
       );
-      const data = response.data;
       toggleSaveArticle(articleData.articleID);
       if (isSaved) {
         toast.success("Article UnSaved!");
@@ -122,7 +121,7 @@ const CustomCard = ({
             </Card.Title>
             <Card.Subtitle
               className={`mb-2 text-${
-                bgtheme == "dark" ? "white-50" : "muted"
+                bgtheme === "dark" ? "white-50" : "muted"
               }`}
               style={{ fontSize: "0.9em" }}
             >
@@ -195,7 +194,7 @@ const CustomCard = ({
                   <FaComment color="blue" size={20} className="me-2" />
                   <span
                     className={`text-${
-                      bgtheme == "dark" ? "white-50" : "muted"
+                      bgtheme === "dark" ? "white-50" : "muted"
                     } ms-2 mx-1`}
                   >
                     Comment
@@ -210,7 +209,7 @@ const CustomCard = ({
                   />
                   <span
                     className={`text-${
-                      bgtheme == "dark" ? "white-50" : "muted"
+                      bgtheme === "dark" ? "white-50" : "muted"
                     } ms-2 mx-1`}
                   >
                     Share
@@ -230,7 +229,7 @@ const CustomCard = ({
                   </Button>
                   <span
                     className={`text-${
-                      bgtheme == "dark" ? "white-50" : "muted"
+                      bgtheme === "dark" ? "white-50" : "muted"
                     } ms-2 mx-1`}
                   >
                     Save
