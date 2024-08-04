@@ -5,7 +5,7 @@ import { AuthProvider } from "./services/auth.js";
 import AdminRoute from "./routes/AdminRoute.jsx";
 import TabSwitcher from "./pages/TabSwitcher.jsx";
 import { SavedArticlesProvider } from "./services/SaveArticleContext.jsx";
-import AdminHome from "./pages/Admin/AdminHome.jsx";
+import AdminHome from "./pages/Admin/admin-home.jsx";
 
 const AppRoutes = () => (
   <AuthProvider>
