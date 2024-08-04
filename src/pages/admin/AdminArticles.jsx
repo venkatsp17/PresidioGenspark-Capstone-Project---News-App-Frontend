@@ -4,11 +4,11 @@ import { useAuth } from "../../services/auth.jsx";
 import axios from "axios";
 import EditArticleModal from "../../components/Admin/EditArticleModal.jsx";
 import CategoryDropdown from "../../components/Admin/CategoryDropDown.jsx";
-import { Table as Pagination } from "react-bootstrap";
+import { Pagination } from "react-bootstrap";
 import { useTheme } from "../../services/ThemeContext.jsx";
 import { apiUrl } from "../../utils/constants.jsx";
 
-const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
+const AdminArticles = ({ status }) => {
   const { user } = useAuth();
   const [articles, setArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,7 +54,7 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
       // console.log("API Response Data:", articles.length);
 
       setArticles(fetchedArticles);
-      setTotalPages(fetchedTotalPages);
+      setTotalPages(parseInt(fetchedTotalPages));
     } catch (error) {
       setError(error.message);
       // console.error("Error fetching articles:", error);
