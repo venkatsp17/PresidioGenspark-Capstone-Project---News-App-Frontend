@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import {
   FaBookmark,
@@ -9,8 +9,8 @@ import {
 import { useAuth } from "../services/auth.js";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useTheme } from "../services/themecontext.jsx";
-import { useSavedArticles } from "../services/savearticlecontext.jsx";
+import { useTheme } from "../services/ThemeContext.jsx";
+import { useSavedArticles } from "../services/SaveArticleContext.jsx";
 import { apiUrl } from "../utils/constants.jsx";
 
 const CustomCard = ({

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Container, Row, Table } from "react-bootstrap";
 import axios from "axios";
 import { useAuth } from "../../services/auth.js";
-import { useTheme } from "../../services/themecontext.jsx";
+import { useTheme } from "../../services/ThemeContext.jsx";
 import { apiUrl } from "../../utils/constants.jsx";
 
 const AdminDashboard = () => {

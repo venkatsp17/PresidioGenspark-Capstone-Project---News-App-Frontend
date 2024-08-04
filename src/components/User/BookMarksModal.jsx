@@ -9,14 +9,14 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import CommentModal from "../commentmodal.jsx";
-import CustomCard from "../customcard.jsx";
+import CommentModal from "../CommentModal.jsx";
+import CustomCard from "../CustomCard.jsx";
 import { Navigate } from "react-router-dom";
 import signalRService from "../../services/signalrService.js";
 import { jwtDecode } from "jwt-decode";
-import ShareLinkModal from "./sharemodal.jsx";
-import { useTheme } from "../../services/themecontext.jsx";
-import { useSavedArticles } from "../../services/savearticlecontext.jsx";
+import ShareLinkModal from "./ShareModal.jsx";
+import { useTheme } from "../../services/ThemeContext.jsx";
+import { useSavedArticles } from "../../services/SaveArticleContext.jsx";
 import { apiUrl } from "../../utils/constants.jsx";
 
 const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {

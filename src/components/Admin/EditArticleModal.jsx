@@ -1,9 +1,9 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Select from "react-select";
-import { useTheme } from "../../services/themecontext.jsx";
+import { useTheme } from "../../services/ThemeContext.jsx";
 import { apiUrl } from "../../utils/constants.jsx";
 
 const EditArticleModal = ({

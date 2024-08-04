@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Offcanvas, ListGroup, Button } from "react-bootstrap";
-import { useAuth } from "../services/auth.js";
+import { useAuth } from "../services/auth";
 import axios from "axios";
 import { FaRegBookmark } from "react-icons/fa";
-import { useTheme } from "../services/themecontext.jsx";
+import { useTheme } from "../services/ThemeContext.jsx";
 import { apiUrl } from "../utils/constants.jsx";
 
 const LeftMenu = ({

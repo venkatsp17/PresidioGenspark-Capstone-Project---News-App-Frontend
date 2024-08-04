@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import { FaHome, FaNewspaper } from "react-icons/fa"; // Example of icons
 

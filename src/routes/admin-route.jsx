@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../services/auth.js";
@@ -26,12 +26,12 @@ const AdminRoute = ({ children }) => {
   if (loading) {
     // You can add a loading spinner or some loading UI here if you prefer
     return (
-      <div className="d-flex justify-content-center align-items-center h-100">
-        <div className="text-center">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
           </div>
-          <p className="mt-3 text-muted">Please wait, loading data...</p>
+          <p class="mt-3 text-muted">Please wait, loading data...</p>
         </div>
       </div>
     );

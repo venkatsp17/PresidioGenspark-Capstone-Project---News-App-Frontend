@@ -1,22 +1,22 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Row, Button, Pagination } from "react-bootstrap";
 import { FaBars, FaUser } from "react-icons/fa";
-import LeftMenu from "../../components/leftmenu.jsx";
-import CustomCard from "../../components/customcard.jsx";
-import "../../styles/user/home.css";
+import LeftMenu from "../../components/LeftMenu.jsx";
+import CustomCard from "../../components/CustomCard.jsx";
+import "../../styles/user/Home.css";
 import { useAuth } from "../../services/auth.js";
 import { useNavigate } from "react-router-dom";
-import ProfileModal from "../../components/profilemodal.jsx";
-import CommentModal from "../../components/commentmodal.jsx";
+import ProfileModal from "../../components/ProfileModal.jsx";
+import CommentModal from "../../components/CommentModal.jsx";
 import { jwtDecode } from "jwt-decode";
-import BookMarksModal from "../../components/user/bookmarksmodal.jsx";
+import BookMarksModal from "../../components/User/BookMarksModal.jsx";
 import signalRService from "../../services/signalrService.js";
-import ShareLinkModal from "../../components/user/sharemodal.jsx";
+import ShareLinkModal from "../../components/User/ShareModal.jsx";
 import "../../styles/components/customcard.css";
-import { useTheme } from "../../services/themecontext.jsx";
-import { useSavedArticles } from "../../services/savearticlecontext.jsx";
-import TabBar from "./tabbar.jsx";
+import { useTheme } from "../../services/ThemeContext.jsx";
+import { useSavedArticles } from "../../services/SaveArticleContext.jsx";
+import TabBar from "./TabBar.jsx";
 import { apiUrl } from "../../utils/constants.jsx";
 
 const HomePage = () => {

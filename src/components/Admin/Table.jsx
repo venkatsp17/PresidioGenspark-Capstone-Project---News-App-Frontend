@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Table as BootstrapTable,
   Pagination,
@@ -6,8 +6,8 @@ import {
   Button,
 } from "react-bootstrap";
 import { FaCheck, FaTimes, FaEdit, FaEye } from "react-icons/fa";
-import "../../styles/components/table.css";
-import { useTheme } from "../../services/themecontext.jsx";
+import "../../styles/components/Table.css";
+import { useTheme } from "../../services/ThemeContext.jsx";
 
 const Table = ({
   data,

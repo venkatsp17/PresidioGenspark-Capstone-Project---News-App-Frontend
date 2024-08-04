@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import Table from "../../components/admin/table.jsx";
+import React, { useState, useEffect } from "react";
+import Table from "../../components/Admin/Table.jsx";
 import { useAuth } from "../../services/auth.js";
 import axios from "axios";
-import EditArticleModal from "../../components/admin/editarticlemodal.jsx";
-import CategoryDropdown from "../../components/admin/categorydropdown.jsx";
+import EditArticleModal from "../../components/Admin/EditArticleModal.jsx";
+import CategoryDropdown from "../../components/Admin/CategoryDropDown.jsx";
 import { Table as BootstrapTable, Pagination } from "react-bootstrap";
-import { useTheme } from "../../services/themecontext.jsx";
+import { useTheme } from "../../services/ThemeContext.jsx";
 import { apiUrl } from "../../utils/constants.jsx";
 
 const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {

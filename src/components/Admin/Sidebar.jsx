@@ -11,7 +11,7 @@ import {
   faTasks,
   faTasksAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import "../../styles/components/sidebar.css";
+import "../../styles/components/Sidebar.css";
 import { useAuth } from "../../services/auth";
 
 const Sidebar = () => {

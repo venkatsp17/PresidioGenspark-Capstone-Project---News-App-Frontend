@@ -1,9 +1,10 @@
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./styles/index.css";
 import App from "./App.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-
+import { ThemeProvider } from "./services/ThemeContext.jsx";
 import "./styles/theme.css";
 
 const originalWarn = console.warn;
@@ -20,4 +21,10 @@ console.warn = function (message, ...optionalParams) {
 };
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+root.render(
+  <React.StrictMode>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>
+);
