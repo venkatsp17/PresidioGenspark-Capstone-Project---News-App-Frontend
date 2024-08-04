@@ -3,12 +3,15 @@ import * as signalR from "@microsoft/signalr";
 class SignalRService {
   constructor() {
     this.connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7285/commentHub", {
-        accessTokenFactory: () => {
-          const storedUser = localStorage.getItem("user");
-          return JSON.parse(atob(storedUser)).token;
-        },
-      })
+      .withUrl(
+        "https://newsapp-ehf4azf8cshmakdj.westus2-01.azurewebsites.net/commentHub",
+        {
+          accessTokenFactory: () => {
+            const storedUser = localStorage.getItem("user");
+            return JSON.parse(atob(storedUser)).token;
+          },
+        }
+      )
       .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Information)
       .build();

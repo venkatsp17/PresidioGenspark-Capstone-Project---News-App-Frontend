@@ -4,6 +4,7 @@ import { useAuth } from "../services/auth.jsx";
 import axios from "axios";
 import { FaRegBookmark } from "react-icons/fa";
 import { useTheme } from "../services/ThemeContext.jsx";
+import { apiUrl } from "../utils/constants.jsx";
 
 const LeftMenu = ({
   show,
@@ -21,7 +22,7 @@ const LeftMenu = ({
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "https://localhost:7285/api/Category/getAllCategories",
+          `${apiUrl}/Category/getAllCategories`,
           {
             headers: {
               "Content-Type": "application/json",

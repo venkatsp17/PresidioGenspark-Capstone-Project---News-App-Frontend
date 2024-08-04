@@ -17,6 +17,7 @@ import { jwtDecode } from "jwt-decode";
 import ShareLinkModal from "./ShareModal.jsx";
 import { useTheme } from "../../services/ThemeContext.jsx";
 import { useSavedArticles } from "../../services/SaveArticleContext.jsx";
+import { apiUrl } from "../../utils/constants.jsx";
 
 const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
   const { user, logout } = useAuth();
@@ -70,7 +71,7 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
 
     try {
       const response = await axios.get(
-        "https://localhost:7285/api/SavedArticle/getallarticlesbyid",
+        `${apiUrl}/SavedArticle/getallarticlesbyid`,
         {
           params: {
             pageno: page,

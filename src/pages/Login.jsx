@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { apiUrl } from "../utils/constants.jsx";
 
 const Login = () => {
   const { login } = useAuth();
@@ -14,50 +15,50 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginFunction = useGoogleLogin({
-    onSuccess: async (response) => {
-      try {
-        // console.log(response);
-        const decoded = jwtDecode(response.credential);
-        // console.log(decoded);
-        // console.log(decoded["email"]);
-        const result = await axios.post(
-          "https://localhost:7285/api/Authentication/login",
-          {
-            oAuthToken: response.credential,
-            email: decoded["email"],
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        login(result.data);
-        toast.success("Login successful!");
-        // console.log(result.data);
-        if (result.data.role === 0) {
-          navigate("/", { replace: true });
-        }
-        if (result.data.role === 1) {
-          navigate("/admin", { replace: true });
-        }
-      } catch (error) {
-        // console.error("Error logging in with Google:", error);
-        toast.error("Error logging in. Please try again.");
-      }
-    },
-    onError: (error) => {
-      // console.error("Google Login Error:", error);
-      toast.error("Google login failed. Please try again."); // Error toast
-    },
-  });
+  // const loginFunction = useGoogleLogin({
+  //   onSuccess: async (response) => {
+  //     try {
+  //       // console.log(response);
+  //       const decoded = jwtDecode(response.credential);
+  //       // console.log(decoded);
+  //       // console.log(decoded["email"]);
+  //       const result = await axios.post(
+  //         `${apiUrl}/Authentication/login`,
+  //         {
+  //           oAuthToken: response.credential,
+  //           email: decoded["email"],
+  //         },
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+  //       login(result.data);
+  //       toast.success("Login successful!");
+  //       // console.log(result.data);
+  //       if (result.data.role === 0) {
+  //         navigate("/", { replace: true });
+  //       }
+  //       if (result.data.role === 1) {
+  //         navigate("/admin", { replace: true });
+  //       }
+  //     } catch (error) {
+  //       // console.error("Error logging in with Google:", error);
+  //       toast.error("Error logging in. Please try again.");
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     // console.error("Google Login Error:", error);
+  //     toast.error("Google login failed. Please try again."); // Error toast
+  //   },
+  // });
 
   const handleEmailLogin = async (e) => {
     e.preventDefault(); // Prevent page refresh on form submit
     try {
       const result = await axios.post(
-        "https://localhost:7285/api/Authentication/UserLogin",
+        `${apiUrl}/Authentication/UserLogin`,
         {
           email,
           password,

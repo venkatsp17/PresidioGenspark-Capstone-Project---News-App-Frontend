@@ -5,6 +5,7 @@ import { useAuth } from "../../services/auth.jsx";
 import "../../styles/components/Table.css";
 import { useTheme } from "../../services/ThemeContext.jsx";
 import { toast } from "react-toastify";
+import { apiUrl } from "../../utils/constants.jsx";
 
 const AdminCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -26,7 +27,7 @@ const AdminCategories = () => {
     setError(null);
     try {
       const response = await axios.get(
-        "https://localhost:7285/api/Category/getAllAdminCategories",
+        `${apiUrl}/Category/getAllAdminCategories`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -50,15 +51,11 @@ const AdminCategories = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await axios.put(
-        `https://localhost:7285/api/Category/removecategory`,
-        null,
-        {
-          params: {
-            categoryid: deleteCategoryId,
-          },
-        }
-      );
+      await axios.put(`${apiUrl}/Category/removecategory`, null, {
+        params: {
+          categoryid: deleteCategoryId,
+        },
+      });
       toast.success("Category Deleted successfully!");
       fetchCategories();
       setShowDeleteModal(false);
@@ -72,7 +69,7 @@ const AdminCategories = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "https://localhost:7285/api/Category/addcategory",
+        `${apiUrl}/Category/addcategory`,
         {
           name: name,
           description: description,

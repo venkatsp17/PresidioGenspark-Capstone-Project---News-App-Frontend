@@ -4,6 +4,7 @@ import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import { useTheme } from "../../services/ThemeContext.jsx";
+import { apiUrl } from "../../utils/constants.jsx";
 
 const EditArticleModal = ({
   show,
@@ -37,7 +38,7 @@ const EditArticleModal = ({
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        "https://localhost:7285/api/Category/getAllAdminCategories",
+        `${apiUrl}/Category/getAllAdminCategories`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -59,7 +60,7 @@ const EditArticleModal = ({
   const fetchArticleCategories = async () => {
     try {
       const response = await axios.get(
-        "https://localhost:7285/api/Category/getAllAdminCategories",
+        `${apiUrl}/Category/getAllAdminCategories`,
         {
           params: {
             articleid: article.articleID,
@@ -111,7 +112,7 @@ const EditArticleModal = ({
       };
       // console.log(updatedArticleDetails);
       await axios.put(
-        `https://localhost:7285/api/Article/editArticleDetails`,
+        `${apiUrl}/Article/editArticleDetails`,
         updatedArticleDetails,
         {
           headers: {

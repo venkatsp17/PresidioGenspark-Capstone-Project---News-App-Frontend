@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 import { useTheme } from "../services/ThemeContext.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { apiUrl } from "../utils/constants.jsx";
 
 const ProfileModal = ({ show, handleClose }) => {
   const { user } = useAuth();
@@ -39,7 +40,7 @@ const ProfileModal = ({ show, handleClose }) => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "https://localhost:7285/api/Category/getAllCategories",
+          `${apiUrl}/Category/getAllCategories`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -55,7 +56,7 @@ const ProfileModal = ({ show, handleClose }) => {
     const fetchpreferences = async () => {
       try {
         const response = await axios.get(
-          "https://localhost:7285/api/UserPreference/getpreferences",
+          `${apiUrl}/UserPreference/getpreferences`,
           {
             params: {
               userid: user.userID,
@@ -85,7 +86,7 @@ const ProfileModal = ({ show, handleClose }) => {
   const PostPreferences = async () => {
     try {
       const response = await axios.post(
-        "https://localhost:7285/api/UserPreference/addpreferences",
+        `${apiUrl}/UserPreference/addpreferences`,
         {
           userID: user.userID,
           preferences: userPreferences,

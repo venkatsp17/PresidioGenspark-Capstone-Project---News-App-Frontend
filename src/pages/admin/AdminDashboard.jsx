@@ -3,6 +3,7 @@ import { Card, Col, Container, Row, Table } from "react-bootstrap";
 import axios from "axios";
 import { useAuth } from "../../services/auth.jsx";
 import { useTheme } from "../../services/ThemeContext.jsx";
+import { apiUrl } from "../../utils/constants.jsx";
 
 const AdminDashboard = () => {
   const [statistics, setStatistics] = useState(null);
@@ -10,15 +11,12 @@ const AdminDashboard = () => {
 
   const fetchDashboard = async () => {
     try {
-      const response = await axios.get(
-        "https://localhost:7285/api/Article/dashboarddata",
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/Article/dashboarddata`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+      });
       setStatistics(response.data);
     } catch (error) {
       // console.error("Error fetching categories:", error);

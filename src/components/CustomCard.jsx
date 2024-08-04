@@ -11,6 +11,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useTheme } from "../services/ThemeContext.jsx";
 import { useSavedArticles } from "../services/SaveArticleContext.jsx";
+import { apiUrl } from "../utils/constants.jsx";
 
 const CustomCard = ({
   articleData,
@@ -47,7 +48,7 @@ const CustomCard = ({
   async function SaveUnSaveAricle(articleData) {
     try {
       const response = await axios.put(
-        "https://localhost:7285/api/SavedArticle/savearticle",
+        `${apiUrl}/SavedArticle/savearticle`,
         null,
         {
           params: {

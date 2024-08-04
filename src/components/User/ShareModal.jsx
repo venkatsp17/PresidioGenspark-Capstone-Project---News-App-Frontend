@@ -11,6 +11,7 @@ import { FaMeta, FaSquareXTwitter, FaSquareWhatsapp } from "react-icons/fa6";
 import axios from "axios";
 import { useAuth } from "../../services/auth.jsx";
 import { useTheme } from "../../services/ThemeContext.jsx";
+import { apiUrl } from "../../utils/constants.jsx";
 
 const ShareLinkModal = ({
   show,
@@ -31,7 +32,7 @@ const ShareLinkModal = ({
 
     try {
       const response = await axios.post(
-        "https://localhost:7285/api/Article/articlesharecount",
+        `${apiUrl}/Article/articlesharecount`,
         shareData,
         {
           headers: {

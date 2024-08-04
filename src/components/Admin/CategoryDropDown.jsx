@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Dropdown } from "react-bootstrap";
 import { useAuth } from "../../services/auth.jsx";
+import { apiUrl } from "../../utils/constants.jsx";
 
 const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
   const { user } = useAuth();
@@ -12,7 +13,7 @@ const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "https://localhost:7285/api/Category/getAllCategories",
+          `${apiUrl}/Category/getAllCategories`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,

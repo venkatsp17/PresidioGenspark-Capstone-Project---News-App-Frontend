@@ -6,6 +6,7 @@ import EditArticleModal from "../../components/Admin/EditArticleModal.jsx";
 import CategoryDropdown from "../../components/Admin/CategoryDropDown.jsx";
 import { Table as BootstrapTable, Pagination } from "react-bootstrap";
 import { useTheme } from "../../services/ThemeContext.jsx";
+import { apiUrl } from "../../utils/constants.jsx";
 
 const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
   const { user } = useAuth();
@@ -32,21 +33,18 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(
-        `https://localhost:7285/api/Article/topstories`,
-        {
-          params: {
-            categoryID: selectedCategory.id,
-            pageno: pageNumber,
-            pagesize: pageSize,
-            status: status,
-          },
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/Article/topstories`, {
+        params: {
+          categoryID: selectedCategory.id,
+          pageno: pageNumber,
+          pagesize: pageSize,
+          status: status,
+        },
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       // Adjust this according to the actual structure of the response
       const { articles: fetchedArticles, totalpages: fetchedTotalPages } =
@@ -94,7 +92,7 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
     setError(null);
     try {
       const response = await axios.put(
-        `https://localhost:7285/api/Article/changeArticleStatus`,
+        `${apiUrl}/Article/changeArticleStatus`,
         null, // No body content for PUT with query params
         {
           params: {

@@ -5,6 +5,7 @@ import signalRService from "../services/signalrService.jsx";
 import axios from "axios";
 import CustomCard from "./CustomCard.jsx";
 import { useTheme } from "../services/ThemeContext.jsx";
+import { apiUrl } from "../utils/constants.jsx";
 
 const CommentModal = ({
   show,
@@ -18,7 +19,6 @@ const CommentModal = ({
   const [articleData, setarticleData] = useState(articleDataComment);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
   };
@@ -98,19 +98,16 @@ const CommentModal = ({
     setError(null);
 
     try {
-      const response = await axios.get(
-        "https://localhost:7285/api/Comment/getcommentsByID",
-        {
-          params: {
-            id: articleData.articleID,
-            type: "ArticleID",
-          },
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/Comment/getcommentsByID`, {
+        params: {
+          id: articleData.articleID,
+          type: "ArticleID",
+        },
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+      });
       const data = response.data;
       setComments(data);
     } catch (error) {
@@ -153,16 +150,12 @@ const CommentModal = ({
     };
 
     try {
-      await axios.post(
-        "https://localhost:7285/api/Comment/postcomment",
-        comment,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await axios.post(`${apiUrl}/Comment/postcomment`, comment, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+      });
       setNewComment("");
     } catch (error) {
       // console.error("There was an error posting the comment!", error);

@@ -17,6 +17,7 @@ import "../../styles/components/customcard.css";
 import { useTheme } from "../../services/ThemeContext.jsx";
 import { useSavedArticles } from "../../services/SaveArticleContext.jsx";
 import TabBar from "./TabBar.jsx";
+import { apiUrl } from "../../utils/constants.jsx";
 
 const HomePage = () => {
   //Use States
@@ -208,34 +209,28 @@ const HomePage = () => {
       let response;
 
       if (fetchType === "myfeeds") {
-        response = await axios.get(
-          "https://localhost:7285/api/Article/userfeeds",
-          {
-            params: {
-              pageno: page,
-              pagesize: articlesPerPage,
-              userid: user ? parseInt(user.userID) : 0,
-            },
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        response = await axios.get(`${apiUrl}/Article/userfeeds`, {
+          params: {
+            pageno: page,
+            pagesize: articlesPerPage,
+            userid: user ? parseInt(user.userID) : 0,
+          },
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+        });
       } else if (fetchType === "dailynews") {
-        response = await axios.get(
-          "https://localhost:7285/api/Article/userpaginatedarticles",
-          {
-            params: {
-              categoryID: selectedCategory.id,
-              pageno: page,
-              pagesize: articlesPerPage,
-            },
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        response = await axios.get(`${apiUrl}/Article/userpaginatedarticles`, {
+          params: {
+            categoryID: selectedCategory.id,
+            pageno: page,
+            pagesize: articlesPerPage,
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       } else {
         throw new Error("Invalid fetchType provided.");
       }
@@ -278,19 +273,16 @@ const HomePage = () => {
 
   const fetchTop3Articles = async () => {
     try {
-      const response = await axios.get(
-        "https://localhost:7285/api/Article/rankedarticles",
-        {
-          params: {
-            categoryID: selectedCategory.id,
-            userid: user ? parseInt(user.userID) : 0,
-          },
-          headers: {
-            Authorization: `Bearer ${user ? user.token : ""}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/Article/rankedarticles`, {
+        params: {
+          categoryID: selectedCategory.id,
+          userid: user ? parseInt(user.userID) : 0,
+        },
+        headers: {
+          Authorization: `Bearer ${user ? user.token : ""}`,
+          "Content-Type": "application/json",
+        },
+      });
       const data = response.data;
       // console.log(data);
       settop3Articles(data);
