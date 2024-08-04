@@ -35,7 +35,7 @@ const CustomCard = ({
     SetSaveCount(articleData.saveCount);
     SetShareCount(articleData.shareCount);
     setIsSaved(getArticleByID(articleData.articleID));
-  }, [articleData, savedArticles]);
+  }, [articleData, savedArticles, getArticleByID]);
 
   const shortenURL = (url) => {
     const maxLength = 30;
@@ -122,7 +122,7 @@ const CustomCard = ({
             </Card.Title>
             <Card.Subtitle
               className={`mb-2 text-${
-                bgtheme == "dark" ? "white-50" : "muted"
+                bgtheme === "dark" ? "white-50" : "muted"
               }`}
               style={{ fontSize: "0.9em" }}
             >
@@ -195,7 +195,7 @@ const CustomCard = ({
                   <FaComment color="blue" size={20} className="me-2" />
                   <span
                     className={`text-${
-                      bgtheme == "dark" ? "white-50" : "muted"
+                      bgtheme === "dark" ? "white-50" : "muted"
                     } ms-2 mx-1`}
                   >
                     Comment
@@ -210,7 +210,7 @@ const CustomCard = ({
                   />
                   <span
                     className={`text-${
-                      bgtheme == "dark" ? "white-50" : "muted"
+                      bgtheme === "dark" ? "white-50" : "muted"
                     } ms-2 mx-1`}
                   >
                     Share
@@ -230,7 +230,7 @@ const CustomCard = ({
                   </Button>
                   <span
                     className={`text-${
-                      bgtheme == "dark" ? "white-50" : "muted"
+                      bgtheme === "dark" ? "white-50" : "muted"
                     } ms-2 mx-1`}
                   >
                     Save

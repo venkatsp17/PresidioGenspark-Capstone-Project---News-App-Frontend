@@ -10,18 +10,12 @@ import { apiUrl } from "../utils/constants.jsx";
 
 const ProfileModal = ({ show, handleClose }) => {
   const { user } = useAuth();
-  const {
-    bgtheme,
-    setbgTheme,
-    textSize,
-    setTextSize,
-    texttheme,
-    settextTheme,
-  } = useTheme();
+  const { bgtheme, setbgTheme, setTextSize, texttheme, settextTheme } =
+    useTheme();
 
   const toggleTheme = () => {
-    setbgTheme(bgtheme == "dark" ? "white" : "dark");
-    settextTheme(texttheme == "dark" ? "white" : "dark");
+    setbgTheme(bgtheme === "dark" ? "white" : "dark");
+    settextTheme(texttheme === "dark" ? "white" : "dark");
   };
 
   const setDefaultTextSize = () => {
@@ -81,11 +75,11 @@ const ProfileModal = ({ show, handleClose }) => {
 
     fetchCategories();
     fetchpreferences();
-  }, []);
+  }, [user]);
 
   const PostPreferences = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `${apiUrl}/UserPreference/addpreferences`,
         {
           userID: user.userID,

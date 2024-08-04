@@ -31,10 +31,6 @@ const EditArticleModal = ({
 
   const [categoryOptions, setCategoryOptions] = useState();
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
@@ -56,6 +52,10 @@ const EditArticleModal = ({
       // console.error("Error fetching articles:", error);
     }
   };
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   const fetchArticleCategories = async () => {
     try {

@@ -28,7 +28,7 @@ const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
     };
 
     fetchCategories();
-  }, []);
+  }, [user]);
 
   const handleSelect = (category) => {
     setSelectedCategory(category);
