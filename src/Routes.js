@@ -5,30 +5,33 @@ import AdminRoute from "./routes/adminroute.jsx";
 import TabSwitcher from "./pages/tabswitcher.jsx";
 import { SavedArticlesProvider } from "./services/savearticlecontext.jsx";
 import AdminHome from "./pages/admin/admin-home.jsx";
+import { ThemeProvider } from "./services/themecontext.jsx";
 
 const AppRoutes = () => (
   <AuthProvider>
-    <Router>
-      <Routes>
-        <Route path="/login" element={<TabSwitcher />} />
-        <Route
-          path="/"
-          element={
-            <SavedArticlesProvider>
-              <HomePage />
-            </SavedArticlesProvider>
-          }
-        />
-        <Route
-          path="/admin/*"
-          element={
-            <AdminRoute>
-              <AdminHome />
-            </AdminRoute>
-          }
-        />
-      </Routes>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<TabSwitcher />} />
+          <Route
+            path="/"
+            element={
+              <SavedArticlesProvider>
+                <HomePage />
+              </SavedArticlesProvider>
+            }
+          />
+          <Route
+            path="/admin/*"
+            element={
+              <AdminRoute>
+                <AdminHome />
+              </AdminRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   </AuthProvider>
 );
 
