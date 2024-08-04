@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useDebugValue } from "react";
 import { Modal, Button, Row, Col, Form, Card, Image } from "react-bootstrap";
-import { useAuth } from "../services/auth.js";
-import signalRService from "../services/signalrService.js";
+import { useAuth } from "../services/auth.jsx";
+import signalRService from "../services/signalrService.jsx";
 import axios from "axios";
 import CustomCard from "./CustomCard.jsx";
 import { useTheme } from "../services/ThemeContext.jsx";

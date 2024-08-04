@@ -9,7 +9,7 @@ import {
 import { FaMeta, FaSquareXTwitter, FaSquareWhatsapp } from "react-icons/fa6";
 
 import axios from "axios";
-import { useAuth } from "../../services/auth.js";
+import { useAuth } from "../../services/auth.jsx";
 import { useTheme } from "../../services/ThemeContext.jsx";
 
 const ShareLinkModal = ({

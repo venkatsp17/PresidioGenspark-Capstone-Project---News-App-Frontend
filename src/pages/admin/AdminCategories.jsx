@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Form, Modal, Table } from "react-bootstrap";
-import { useAuth } from "../../services/auth.js";
+import { useAuth } from "../../services/auth.jsx";
 import "../../styles/components/Table.css";
 import { useTheme } from "../../services/ThemeContext.jsx";
 import { toast } from "react-toastify";

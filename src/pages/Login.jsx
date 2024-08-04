@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
-import { useAuth } from "../services/auth.js";
+import { useAuth } from "../services/auth.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Table from "../../components/Admin/Table.jsx";
-import { useAuth } from "../../services/auth.js";
+import { useAuth } from "../../services/auth.jsx";
 import axios from "axios";
 import EditArticleModal from "../../components/Admin/EditArticleModal.jsx";
 import CategoryDropdown from "../../components/Admin/CategoryDropDown.jsx";

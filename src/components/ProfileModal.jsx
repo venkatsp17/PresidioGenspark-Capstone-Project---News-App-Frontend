@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Container, Row, Col, Table } from "react-bootstrap";
 import "../styles/components/ProfileModal.css"; // Import custom CSS
-import { useAuth } from "../services/auth.js";
+import { useAuth } from "../services/auth.jsx";
 import { Navigate } from "react-router-dom";
 import { useTheme } from "../services/ThemeContext.jsx";
 import axios from "axios";

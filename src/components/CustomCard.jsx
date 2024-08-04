@@ -6,7 +6,7 @@ import {
   FaShareSquare,
   FaRegBookmark,
 } from "react-icons/fa";
-import { useAuth } from "../services/auth.js";
+import { useAuth } from "../services/auth.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useTheme } from "../services/ThemeContext.jsx";

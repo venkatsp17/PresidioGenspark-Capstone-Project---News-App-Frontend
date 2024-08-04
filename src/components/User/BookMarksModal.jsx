@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../services/auth.js";
+import { useAuth } from "../../services/auth.jsx";
 import axios from "axios";
 import {
   Row,
@@ -12,7 +12,7 @@ import {
 import CommentModal from "../CommentModal.jsx";
 import CustomCard from "../CustomCard.jsx";
 import { Navigate } from "react-router-dom";
-import signalRService from "../../services/signalrService.js";
+import signalRService from "../../services/signalrService.jsx";
 import { jwtDecode } from "jwt-decode";
 import ShareLinkModal from "./ShareModal.jsx";
 import { useTheme } from "../../services/ThemeContext.jsx";

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { useAuth } from "../services/auth.js";
+import { useAuth } from "../services/auth.jsx";
 
-const ProtectedRoute = ({ children }) => {
+const AdminRoute = ({ children }) => {
   const { user, loading, logout } = useAuth();
 
   useEffect(() => {
@@ -13,15 +13,18 @@ const ProtectedRoute = ({ children }) => {
         const decodedToken = jwtDecode(token);
         const currentTime = Date.now() / 1000;
         if (decodedToken.exp < currentTime) {
+          // Token has expired
           logout();
         }
       } catch (error) {
+        // Error decoding token, possibly invalid token
         logout();
       }
     }
   }, [user, logout]);
 
   if (loading) {
+    // You can add a loading spinner or some loading UI here if you prefer
     return (
       <div class="d-flex justify-content-center align-items-center h-100">
         <div class="text-center">
@@ -34,7 +37,7 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  return user ? children : <Navigate to="/login" />;
+  return user && user.role === 1 ? children : <Navigate to="/login" />;
 };
 
-export default ProtectedRoute;
+export default AdminRoute;
