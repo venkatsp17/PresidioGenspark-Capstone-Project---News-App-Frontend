@@ -33,7 +33,6 @@ const AdminHome = () => {
         <div
           className={`h-100 container-fluid bg-${bgtheme} text-${texttheme} overflow-auto`}
         >
-          {/* <Routes> */}
           <Route path="" element={<AdminDashboard />} />
           <Route
             path="articles"
@@ -76,7 +75,6 @@ const AdminHome = () => {
             }
           />
           <Route path="categories" element={<AdminCategories />} />
-          {/* </Routes> */}
         </div>
       </div>
       <ProfileModal
