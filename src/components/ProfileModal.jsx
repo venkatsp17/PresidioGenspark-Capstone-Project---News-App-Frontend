@@ -157,7 +157,7 @@ const ProfileModal = ({ show, handleClose }) => {
                         {user.email}
                       </td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                       <th className={`bg-${bgtheme} text-${texttheme}`}>
                         Password
                       </th>
@@ -169,12 +169,12 @@ const ProfileModal = ({ show, handleClose }) => {
                           readOnly
                         />
                       </td>
-                    </tr>
+                    </tr> */}
                   </tbody>
                 </table>
-                <Button variant="outline-primary" className="mt-3">
+                {/* <Button variant="outline-primary" className="mt-3">
                   Change Password
-                </Button>
+                </Button> */}
               </Col>
             </Row>
             <Row>
