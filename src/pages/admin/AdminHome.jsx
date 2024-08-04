@@ -33,50 +33,50 @@ const AdminHome = () => {
         <div
           className={`h-100 container-fluid bg-${bgtheme} text-${texttheme} overflow-auto`}
         >
-          <Routes>
-            <Route path="" element={<AdminDashboard />} />
-            <Route
-              path="articles"
-              element={
-                <AdminArticles
-                  status={"0"}
-                  currentPage1={currentPage}
-                  setCurrentPage1={setCurrentPage}
-                />
-              }
-            />
-            <Route
-              path="articles/edited"
-              element={
-                <AdminArticles
-                  status={"1"}
-                  currentPage1={currentPage}
-                  setCurrentPage1={setCurrentPage}
-                />
-              }
-            />
-            <Route
-              path="articles/approved"
-              element={
-                <AdminArticles
-                  status={"2"}
-                  currentPage1={currentPage}
-                  setCurrentPage1={setCurrentPage}
-                />
-              }
-            />
-            <Route
-              path="articles/rejected"
-              element={
-                <AdminArticles
-                  status={"3"}
-                  currentPage1={currentPage}
-                  setCurrentPage1={setCurrentPage}
-                />
-              }
-            />
-            <Route path="categories" element={<AdminCategories />} />
-          </Routes>
+          {/* <Routes> */}
+          <Route path="" element={<AdminDashboard />} />
+          <Route
+            path="articles"
+            element={
+              <AdminArticles
+                status={"0"}
+                currentPage1={currentPage}
+                setCurrentPage1={setCurrentPage}
+              />
+            }
+          />
+          <Route
+            path="articles/edited"
+            element={
+              <AdminArticles
+                status={"1"}
+                currentPage1={currentPage}
+                setCurrentPage1={setCurrentPage}
+              />
+            }
+          />
+          <Route
+            path="articles/approved"
+            element={
+              <AdminArticles
+                status={"2"}
+                currentPage1={currentPage}
+                setCurrentPage1={setCurrentPage}
+              />
+            }
+          />
+          <Route
+            path="articles/rejected"
+            element={
+              <AdminArticles
+                status={"3"}
+                currentPage1={currentPage}
+                setCurrentPage1={setCurrentPage}
+              />
+            }
+          />
+          <Route path="categories" element={<AdminCategories />} />
+          {/* </Routes> */}
         </div>
       </div>
       <ProfileModal
