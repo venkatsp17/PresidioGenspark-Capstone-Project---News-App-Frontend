@@ -33,7 +33,7 @@ const AdminHome = () => {
         <div
           className={`h-100 container-fluid bg-${bgtheme} text-${texttheme} overflow-auto`}
         >
-          {/* <Routes>
+          <Routes>
             <Route path="" element={<AdminDashboard />} />
             <Route
               path="articles"
@@ -76,13 +76,13 @@ const AdminHome = () => {
               }
             />
             <Route path="categories" element={<AdminCategories />} />
-          </Routes> */}
+          </Routes>
         </div>
       </div>
-      <ProfileModal
+      {/* <ProfileModal
         show={showProfileModalAdmin}
         handleClose={handlecloseProfileModalAdmin}
-      />
+      /> */}
     </div>
   );
 };
