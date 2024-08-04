@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/user/Home.jsx";
+import HomePage from "./pages/user/home.jsx";
 import { AuthProvider } from "./services/auth.js";
 import AdminRoute from "./routes/AdminRoute.jsx";
 import TabSwitcher from "./pages/TabSwitcher.jsx";
