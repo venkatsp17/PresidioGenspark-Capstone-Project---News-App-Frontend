@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes, // Use `Routes` here
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/User/Home.jsx";
 import { AuthProvider } from "./services/auth.js";
 import AdminRoute from "./routes/AdminRoute.js";

@@ -1,7 +1,7 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/Admin/Sidebar.jsx";
 import Header from "../../components/Admin/Header.jsx";
-import { Route, Routes as RouterRoutes, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import AdminArticles from "./AdminArticles.jsx";
 import AdminDashboard from "./AdminDashboard.jsx";
 import ProfileModal from "../../components/ProfileModal.jsx";
@@ -22,7 +22,9 @@ const AdminHome = () => {
   useEffect(() => {
     setCurrentPage(1); // Reset to page 1 when the route changes
   }, [location]);
+
   const { bgtheme, texttheme } = useTheme();
+
   return (
     <div className="d-flex vh-100">
       <Sidebar />
@@ -31,7 +33,7 @@ const AdminHome = () => {
         <div
           className={`h-100 container-fluid bg-${bgtheme} text-${texttheme} overflow-auto`}
         >
-          <RouterRoutes>
+          <Routes>
             <Route path="" element={<AdminDashboard />} />
             <Route
               path="articles"
@@ -74,7 +76,7 @@ const AdminHome = () => {
               }
             />
             <Route path="categories" element={<AdminCategories />} />
-          </RouterRoutes>
+          </Routes>
         </div>
       </div>
       <ProfileModal
