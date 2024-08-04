@@ -4,12 +4,12 @@ import {
   Route,
   Routes as RouterRoutes,
 } from "react-router-dom";
-import HomePage from "../pages/User/Home.jsx";
-import { AuthProvider } from "../services/auth.js";
-import AdminRoute from "./AdminRoute.js";
-import AdminHome from "../pages/Admin/AdminHome.jsx";
-import TabSwitcher from "../pages/TabSwitcher.jsx";
-import { SavedArticlesProvider } from "../services/SaveArticleContext.jsx";
+import HomePage from "./pages/User/Home.jsx";
+import { AuthProvider } from "./services/auth.js";
+import AdminRoute from "./routes/AdminRoute.js";
+import AdminHome from "./pages/Admin/AdminHome.jsx";
+import TabSwitcher from "./pages/TabSwitcher.jsx";
+import { SavedArticlesProvider } from "./services/SaveArticleContext.jsx";
 
 const AppRoutes = () => (
   <AuthProvider>
