@@ -1,4 +1,3 @@
-import React from "react";
 import { Offcanvas, Button } from "react-bootstrap";
 
 const RightMenu = ({ show, handleClose }) => {

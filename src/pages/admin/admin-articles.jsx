@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Table from "../../components/admin/table.jsx";
 import { useAuth } from "../../services/auth.js";
 import axios from "axios";

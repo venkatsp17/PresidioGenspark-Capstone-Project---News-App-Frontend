@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Button, Container, Row, Col, Table } from "react-bootstrap";
 import "../styles/components/profilemodal.css"; // Import custom CSS
 import { useAuth } from "../services/auth.js";
