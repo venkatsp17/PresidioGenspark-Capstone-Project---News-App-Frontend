@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/User/Home.jsx";
 import { AuthProvider } from "./services/auth.js";
 import AdminRoute from "./routes/AdminRoute.jsx";
-import AdminHome from "./pages/Admin/AdminHome.jsx";
 import TabSwitcher from "./pages/TabSwitcher.jsx";
 import { SavedArticlesProvider } from "./services/SaveArticleContext.jsx";
+import AdminHome from "./pages/Admin/AdminHome.jsx";
 
 const AppRoutes = () => (
   <AuthProvider>
