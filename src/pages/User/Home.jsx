@@ -71,11 +71,6 @@ const HomePage = () => {
   }, [user, logout]);
 
   useEffect(() => {
-    fetchArticles(currentPage, activeTab);
-    // console.log(articles);
-  }, [currentPage, selectedCategory, user, activeTab, fetchArticles]);
-
-  useEffect(() => {
     if (user) {
       signalRService.start().then(() => {
         articles.forEach((article) => {
@@ -265,6 +260,11 @@ const HomePage = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchArticles(currentPage, activeTab);
+    // console.log(articles);
+  }, [currentPage, selectedCategory, user, activeTab]);
 
   useEffect(() => {
     setActiveTab("dailynews");

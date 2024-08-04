@@ -134,7 +134,7 @@ const CommentModal = ({
     return () => {
       signalRService.leaveGroup(articleData.articleID);
     };
-  }, [articleData, fetchComments]);
+  }, [articleData]);
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();

@@ -27,7 +27,7 @@ const AdminArticles = ({ status, currentPage1, setCurrentPage1 }) => {
 
   useEffect(() => {
     setCurrentPage(1); // Reset to page 1 when status changes
-  }, [status, setCurrentPage]);
+  }, [status]);
 
   const fetchArticles = async (pageNumber, pageSize) => {
     setLoading(true);

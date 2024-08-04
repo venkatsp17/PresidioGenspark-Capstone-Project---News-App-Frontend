@@ -35,7 +35,7 @@ const CustomCard = ({
     SetSaveCount(articleData.saveCount);
     SetShareCount(articleData.shareCount);
     setIsSaved(getArticleByID(articleData.articleID));
-  }, [articleData, savedArticles, getArticleByID]);
+  }, [articleData, savedArticles]);
 
   const shortenURL = (url) => {
     const maxLength = 30;

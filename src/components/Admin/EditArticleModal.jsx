@@ -55,7 +55,7 @@ const EditArticleModal = ({
 
   useEffect(() => {
     fetchCategories();
-  }, [fetchCategories]);
+  }, []);
 
   const fetchArticleCategories = async () => {
     try {

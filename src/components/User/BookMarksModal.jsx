@@ -114,7 +114,7 @@ const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
 
   useEffect(() => {
     fetchArticles(currentPage);
-  }, [currentPage, user, query, showbookmarks, showComments, fetchArticles]);
+  }, [currentPage, user, query, showbookmarks, showComments]);
 
   useEffect(() => {
     signalRService.start().then(() => {
