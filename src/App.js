@@ -1,8 +1,8 @@
 import React from "react";
-import AppRoutes from "./routes/Routes";
-import "./styles/App.css"; // Add your CSS imports here
+import AppRoutes from "./routes/Routes.js";
+import "./styles/App.css";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import the CSS for toastify
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => (
   <div className="App">

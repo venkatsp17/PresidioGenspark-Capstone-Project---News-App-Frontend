@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Container, Row, Table } from "react-bootstrap";
 import axios from "axios";
-import { useAuth } from "../../services/auth";
-import { useTheme } from "../../services/ThemeContext";
+import { useAuth } from "../../services/auth.js";
+import { useTheme } from "../../services/ThemeContext.jsx";
 
 const AdminDashboard = () => {
   const [statistics, setStatistics] = useState(null);

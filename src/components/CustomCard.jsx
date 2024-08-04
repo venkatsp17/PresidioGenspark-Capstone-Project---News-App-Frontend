@@ -6,11 +6,11 @@ import {
   FaShareSquare,
   FaRegBookmark,
 } from "react-icons/fa";
-import { useAuth } from "../services/auth";
+import { useAuth } from "../services/auth.js";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useTheme } from "../services/ThemeContext";
-import { useSavedArticles } from "../services/SaveArticleContext";
+import { useTheme } from "../services/ThemeContext.jsx";
+import { useSavedArticles } from "../services/SaveArticleContext.jsx";
 
 const CustomCard = ({
   articleData,

@@ -4,7 +4,7 @@ import "./styles/index.css";
 import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { ThemeProvider } from "./services/ThemeContext";
+import { ThemeProvider } from "./services/ThemeContext.jsx";
 import "./styles/theme.css";
 
 const originalWarn = console.warn;

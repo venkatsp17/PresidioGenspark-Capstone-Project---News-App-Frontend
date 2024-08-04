@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
-import { useAuth } from "../services/auth";
+import { useAuth } from "../services/auth.js";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -98,7 +98,7 @@ const Login = () => {
   return (
     <div className="tab-pane fade show active">
       <form onSubmit={handleEmailLogin}>
-        <div className="text-center mb-3">
+        {/* <div className="text-center mb-3">
           <p>Sign in with:</p>
           <button type="button" className="btn btn-link btn-floating mx-1">
             <i className="fab fa-facebook-f"></i>
@@ -116,8 +116,8 @@ const Login = () => {
           <button type="button" className="btn btn-link btn-floating mx-1">
             <i className="fab fa-github"></i>
           </button>
-        </div>
-        <p className="text-center">or:</p>
+        </div> */}
+        {/* <p className="text-center">or:</p> */}
         <div className="form-outline mb-4">
           <label className="form-label" htmlFor="loginName">
             Email

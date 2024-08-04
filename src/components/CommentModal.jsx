@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, useDebugValue } from "react";
 import { Modal, Button, Row, Col, Form, Card, Image } from "react-bootstrap";
-import { useAuth } from "../services/auth";
-import signalRService from "../services/signalrService";
+import { useAuth } from "../services/auth.js";
+import signalRService from "../services/signalrService.js";
 import axios from "axios";
-import CustomCard from "./CustomCard";
-import { useTheme } from "../services/ThemeContext";
+import CustomCard from "./CustomCard.jsx";
+import { useTheme } from "../services/ThemeContext.jsx";
 
 const CommentModal = ({
   show,

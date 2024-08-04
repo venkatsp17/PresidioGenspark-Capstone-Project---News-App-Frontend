@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Select from "react-select";
-import { useTheme } from "../../services/ThemeContext";
+import { useTheme } from "../../services/ThemeContext.jsx";
 
 const EditArticleModal = ({
   show,

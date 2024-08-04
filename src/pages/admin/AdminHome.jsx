@@ -1,12 +1,12 @@
 import { React, useState, useEffect } from "react";
-import Sidebar from "../../components/Admin/Sidebar";
-import Header from "../../components/Admin/Header";
+import Sidebar from "../../components/Admin/Sidebar.jsx";
+import Header from "../../components/Admin/Header.jsx";
 import { Route, Routes as RouterRoutes, useLocation } from "react-router-dom";
-import AdminArticles from "./AdminArticles";
-import AdminDashboard from "./AdminDashboard";
-import ProfileModal from "../../components/ProfileModal";
-import AdminCategories from "./AdminCategories";
-import { useTheme } from "../../services/ThemeContext";
+import AdminArticles from "./AdminArticles.jsx";
+import AdminDashboard from "./AdminDashboard.jsx";
+import ProfileModal from "../../components/ProfileModal.jsx";
+import AdminCategories from "./AdminCategories.jsx";
+import { useTheme } from "../../services/ThemeContext.jsx";
 import "../../styles/admin/admin.css";
 
 const AdminHome = () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/components/Header.css";
-import { useAuth } from "../../services/auth";
+import { useAuth } from "../../services/auth.js";
 
 const Header = ({ handleshowProfileModalAdmin }) => {
   const [showDropdown, setShowDropdown] = useState(false);

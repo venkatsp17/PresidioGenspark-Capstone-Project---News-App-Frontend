@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../services/auth";
+import { useAuth } from "../../services/auth.js";
 import axios from "axios";
 import {
   Row,
@@ -9,14 +9,14 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import CommentModal from "../CommentModal";
-import CustomCard from "../CustomCard";
+import CommentModal from "../CommentModal.jsx";
+import CustomCard from "../CustomCard.jsx";
 import { Navigate } from "react-router-dom";
-import signalRService from "../../services/signalrService";
+import signalRService from "../../services/signalrService.js";
 import { jwtDecode } from "jwt-decode";
-import ShareLinkModal from "./ShareModal";
-import { useTheme } from "../../services/ThemeContext";
-import { useSavedArticles } from "../../services/SaveArticleContext";
+import ShareLinkModal from "./ShareModal.jsx";
+import { useTheme } from "../../services/ThemeContext.jsx";
+import { useSavedArticles } from "../../services/SaveArticleContext.jsx";
 
 const BookMarksModal = ({ showbookmarks, setShowBoomarks }) => {
   const { user, logout } = useAuth();

@@ -2,25 +2,21 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Row, Button, Pagination } from "react-bootstrap";
 import { FaBars, FaUser } from "react-icons/fa";
-import LeftMenu from "../../components/LeftMenu";
-import RightMenu from "../../components/RightMenu";
-import CustomCard from "../../components/CustomCard";
+import LeftMenu from "../../components/LeftMenu.jsx";
+import CustomCard from "../../components/CustomCard.jsx";
 import "../../styles/user/Home.css";
-import { useAuth } from "../../services/auth";
+import { useAuth } from "../../services/auth.js";
 import { useNavigate } from "react-router-dom";
-import ProfileModal from "../../components/ProfileModal";
-import CommentModal from "../../components/CommentModal";
+import ProfileModal from "../../components/ProfileModal.jsx";
+import CommentModal from "../../components/CommentModal.jsx";
 import { jwtDecode } from "jwt-decode";
-import BookMarksModal from "../../components/User/BookMarksModal";
-import signalRService from "../../services/signalrService";
-import ShareLinkModal from "../../components/User/ShareModal";
+import BookMarksModal from "../../components/User/BookMarksModal.jsx";
+import signalRService from "../../services/signalrService.js";
+import ShareLinkModal from "../../components/User/ShareModal.jsx";
 import "../../styles/components/customcard.css";
-import { useTheme } from "../../services/ThemeContext";
-import {
-  SavedArticlesProvider,
-  useSavedArticles,
-} from "../../services/SaveArticleContext";
-import TabBar from "./TabBar";
+import { useTheme } from "../../services/ThemeContext.jsx";
+import { useSavedArticles } from "../../services/SaveArticleContext.jsx";
+import TabBar from "./TabBar.jsx";
 
 const HomePage = () => {
   //Use States
@@ -399,10 +395,6 @@ const HomePage = () => {
           show={showLeftMenu}
           handleClose={() => setShowLeftMenu(false)}
           setSelectedCategory={setSelectedCategory}
-        />
-        <RightMenu
-          show={showRightMenu}
-          handleClose={() => setShowRightMenu(false)}
         />
         {user ? (
           <TabBar activeTab={activeTab} onTabChange={handleTabChange} />

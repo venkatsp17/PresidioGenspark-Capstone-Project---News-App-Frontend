@@ -9,8 +9,8 @@ import {
 import { FaMeta, FaSquareXTwitter, FaSquareWhatsapp } from "react-icons/fa6";
 
 import axios from "axios";
-import { useAuth } from "../../services/auth";
-import { useTheme } from "../../services/ThemeContext";
+import { useAuth } from "../../services/auth.js";
+import { useTheme } from "../../services/ThemeContext.jsx";
 
 const ShareLinkModal = ({
   show,

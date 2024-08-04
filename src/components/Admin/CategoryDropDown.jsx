@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Dropdown } from "react-bootstrap";
-import { useAuth } from "../../services/auth";
+import { useAuth } from "../../services/auth.js";
 
 const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
   const { user } = useAuth();

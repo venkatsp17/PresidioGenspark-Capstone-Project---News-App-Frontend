@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { useAuth } from "../services/auth";
+import { useAuth } from "../services/auth.js";
 
 const AdminRoute = ({ children }) => {
   const { user, loading, logout } = useAuth();
