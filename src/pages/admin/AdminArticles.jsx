@@ -91,7 +91,7 @@ const AdminArticles = ({ status }) => {
   const changeArticleStatus = async (articleId, articleStatus) => {
     setError(null);
     try {
-      const response = await axios.put(
+      await axios.put(
         `${apiUrl}/Article/changeArticleStatus`,
         null, // No body content for PUT with query params
         {

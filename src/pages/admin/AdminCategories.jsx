@@ -111,7 +111,7 @@ const AdminCategories = () => {
     <div className={`container bg-${bgtheme} text-${texttheme}`}>
       <div className={`row bg-${bgtheme} text-${texttheme}`}>
         <div className="col-12 m-0">
-          <h2 className={`text-${bgtheme == "dark" ? "white-50" : "muted"}`}>
+          <h2 className={`text-${bgtheme === "dark" ? "white-50" : "muted"}`}>
             Categories
           </h2>
         </div>
@@ -133,7 +133,7 @@ const AdminCategories = () => {
                 </div>
                 <p
                   className={`text-${
-                    bgtheme == "dark" ? "white-50" : "muted"
+                    bgtheme === "dark" ? "white-50" : "muted"
                   } mt-3`}
                 >
                   Please wait, loading data...
@@ -149,7 +149,7 @@ const AdminCategories = () => {
                 <div className="fs-1 mb-3">😞</div>
                 <div
                   className={`fs-4 text-${
-                    bgtheme == "dark" ? "white-50" : "muted"
+                    bgtheme === "dark" ? "white-50" : "muted"
                   } mt-3`}
                 >
                   Sorry, come back later
@@ -202,8 +202,8 @@ const AdminCategories = () => {
                         variant="danger"
                         onClick={() => handleDeleteClick(category.id)}
                         disabled={
-                          category.type == "CUSTOM_CATEGORY" ||
-                          category.type == "NEWS_CATEGORY"
+                          category.type === "CUSTOM_CATEGORY" ||
+                          category.type === "NEWS_CATEGORY"
                         }
                       >
                         X
