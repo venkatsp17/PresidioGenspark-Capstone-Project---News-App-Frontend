@@ -22,7 +22,11 @@ const AppRoutes = () => (
         />
         <Route
           path="/admin/*"
-          element={<AdminRoute>{<AdminHome />}</AdminRoute>}
+          element={
+            <AdminRoute>
+              <AdminHome />
+            </AdminRoute>
+          }
         />
       </Routes>
     </Router>
